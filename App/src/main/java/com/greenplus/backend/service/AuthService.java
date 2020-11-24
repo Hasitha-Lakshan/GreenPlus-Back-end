@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.greenplus.backend.dto.LoginResponse;
+import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.security.JwtProvider;
 import com.greenplus.backend.dto.LoginRequest;
 import com.greenplus.backend.dto.SignupRequest;
@@ -33,32 +34,54 @@ public class AuthService {
 	@Autowired
 	private JwtProvider jwtProvider;
 
-	public boolean signup(SignupRequest signupRequest) {
+	@Autowired
+	private Response response;
 
-		Optional<User> checkUser = userRepository.findByUsername(signupRequest.getUsername());
+	public Response signup(SignupRequest signupRequest) {
 
-		if (checkUser.isPresent() || signupRequest == null) {
-			return false;
+		if (signupRequest != null) {
+
+			Optional<User> checkUserByUsername = userRepository.findByUsername(signupRequest.getUsername());
+			Optional<User> checkUserByEmail = userRepository.findByEmail(signupRequest.getEmail());
+			Optional<User> checkUserByMobileNumber = userRepository.findByMobileNumber(signupRequest.getMobileNumber());
+
+			if (checkUserByUsername.isPresent() || checkUserByEmail.isPresent()
+					|| checkUserByMobileNumber.isPresent()) {
+				response.setResponseBody("Given username, email or mobile number maybe exist, Registration failed!");
+				response.setResponseStatus(false);
+
+				return response;
+			}
+
+			else {
+
+				User user = new User();
+
+				user.setUsername(signupRequest.getUsername());
+				user.setFirstName(signupRequest.getFirstName());
+				user.setLastName(signupRequest.getLastName());
+				user.setPassword(encodePassword(signupRequest.getPassword()));
+				user.setRole(signupRequest.getRole());
+				user.setEmail(signupRequest.getEmail());
+				user.setMobileNumber(signupRequest.getMobileNumber());
+				user.setAddressLine1(signupRequest.getAddressLine1());
+				user.setAddressLine2(signupRequest.getAddressLine2());
+				user.setAddressLine3(signupRequest.getAddressLine3());
+
+				userRepository.save(user);
+
+				response.setResponseBody("Registration Completed!");
+				response.setResponseStatus(true);
+
+				return response;
+			}
+
 		}
 
 		else {
-
-			User user = new User();
-
-			user.setUsername(signupRequest.getUsername());
-			user.setFirstName(signupRequest.getFirstName());
-			user.setLastName(signupRequest.getLastName());
-			user.setPassword(encodePassword(signupRequest.getPassword()));
-			user.setRole(signupRequest.getRole());
-			user.setEmail(signupRequest.getEmail());
-			user.setMobileNumber(signupRequest.getMobileNumber());
-			user.setAddressLine1(signupRequest.getAddressLine1());
-			user.setAddressLine2(signupRequest.getAddressLine2());
-			user.setAddressLine3(signupRequest.getAddressLine3());
-
-			userRepository.save(user);
-			return true;
+			return null;
 		}
+
 	}
 
 	private String encodePassword(String password) {
@@ -70,7 +93,8 @@ public class AuthService {
 
 		LoginResponse loginResponse = new LoginResponse();
 
-		Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+		Authentication authenticate = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authenticate);
 
 		loginResponse.setAuthenticationToken(jwtProvider.generateToken(authenticate));
@@ -80,9 +104,10 @@ public class AuthService {
 		return loginResponse;
 	}
 
-	private String getUserRole(String username ) {
+	private String getUserRole(String username) {
 
-		User user = userRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("No user found" + username));
+		User user = userRepository.findByUsername(username)
+				.orElseThrow(() -> new UsernameNotFoundException("No user found" + username));
 
 		return user.getRole();
 	}

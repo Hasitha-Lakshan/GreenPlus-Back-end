@@ -25,7 +25,7 @@ public class User {
 	@Column
 	private String lastName;
 	@NotEmpty
-	@Column
+	@Column(columnDefinition = "enum('ADMIN','FARMER','BUYER')")
 	private String role;
 	@NotEmpty
 	@Column

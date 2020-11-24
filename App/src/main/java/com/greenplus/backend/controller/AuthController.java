@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.greenplus.backend.dto.LoginRequest;
 import com.greenplus.backend.dto.LoginResponse;
+import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.SignupRequest;
 import com.greenplus.backend.service.AuthService;
 
@@ -19,14 +20,14 @@ public class AuthController {
 	private AuthService authService;
 
 	@PostMapping("/signup")
-	public boolean signup(@RequestBody SignupRequest signupRequest) {
+	public Response signup(@RequestBody SignupRequest signupRequest) {
 
 		return authService.signup(signupRequest);
 	}
 
 	@PostMapping("/login")
 	public LoginResponse login(@RequestBody LoginRequest loginRequest) {
-		
+
 		return authService.login(loginRequest);
 	}
 }

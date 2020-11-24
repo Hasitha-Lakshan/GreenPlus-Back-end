@@ -18,7 +18,7 @@ import com.greenplus.backend.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-public class Security extends WebSecurityConfigurerAdapter{
+public class Security extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -56,5 +56,5 @@ public class Security extends WebSecurityConfigurerAdapter{
 	PasswordEncoder passwordEncoder() {
 
 		return new BCryptPasswordEncoder();
-	} 
+	}
 }
