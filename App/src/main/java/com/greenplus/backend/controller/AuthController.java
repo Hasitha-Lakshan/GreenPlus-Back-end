@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.greenplus.backend.dto.LoginRequest;
+import com.greenplus.backend.dto.LoginResponse;
 import com.greenplus.backend.dto.SignupRequest;
 import com.greenplus.backend.service.AuthService;
 
@@ -22,4 +24,9 @@ public class AuthController {
 		return authService.signup(signupRequest);
 	}
 
+	@PostMapping("/login")
+	public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+		
+		return authService.login(loginRequest);
+	}
 }
