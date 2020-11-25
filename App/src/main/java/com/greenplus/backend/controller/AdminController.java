@@ -6,9 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.greenplus.backend.dto.Response;
+import com.greenplus.backend.dto.SetAccountStatusRequest;
 import com.greenplus.backend.dto.UserDetailsResponse;
 import com.greenplus.backend.service.AdminService;
 
@@ -41,5 +45,12 @@ public class AdminController {
 	public ResponseEntity<List<UserDetailsResponse>> getAllBuyers() {
 
 		return new ResponseEntity<>(adminService.getAllBuyers(), HttpStatus.OK);
+	}
+
+	@PutMapping("/setaccountstatus")
+	public Response setAccountStatus(@RequestBody SetAccountStatusRequest setAccountStatusRequest) {
+
+		return adminService.setAccountStatus(setAccountStatusRequest);
+
 	}
 }

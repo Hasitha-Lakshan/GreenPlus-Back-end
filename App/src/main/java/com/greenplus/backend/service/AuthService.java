@@ -1,23 +1,20 @@
 package com.greenplus.backend.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.greenplus.backend.dto.LoginRequest;
 import com.greenplus.backend.dto.LoginResponse;
 import com.greenplus.backend.dto.Response;
-import com.greenplus.backend.security.JwtProvider;
-import com.greenplus.backend.dto.LoginRequest;
 import com.greenplus.backend.dto.SignupRequest;
 import com.greenplus.backend.model.User;
 import com.greenplus.backend.repository.UserRepository;
+import com.greenplus.backend.security.JwtProvider;
 
 @Service
 public class AuthService {
@@ -41,12 +38,12 @@ public class AuthService {
 
 		if (signupRequest != null) {
 
-			Optional<User> checkUserByUsername = userRepository.findByUsername(signupRequest.getUsername());
-			Optional<User> checkUserByEmail = userRepository.findByEmail(signupRequest.getEmail());
-			Optional<User> checkUserByMobileNumber = userRepository.findByMobileNumber(signupRequest.getMobileNumber());
+			User checkUserByUsername = userRepository.findByUsername(signupRequest.getUsername());
+			User checkUserByEmail = userRepository.findByEmail(signupRequest.getEmail());
+			User checkUserByMobileNumber = userRepository.findByMobileNumber(signupRequest.getMobileNumber());
 
-			if (checkUserByUsername.isPresent() || checkUserByEmail.isPresent()
-					|| checkUserByMobileNumber.isPresent()) {
+			if (checkUserByUsername != null || checkUserByEmail != null
+					|| checkUserByMobileNumber != null) {
 				response.setResponseBody("Given username, email or mobile number maybe exist, Registration failed!");
 				response.setResponseStatus(false);
 
@@ -106,8 +103,7 @@ public class AuthService {
 
 	private String getUserRole(String username) {
 
-		User user = userRepository.findByUsername(username)
-				.orElseThrow(() -> new UsernameNotFoundException("No user found" + username));
+		User user = userRepository.findByUsername(username);
 
 		return user.getRole();
 	}
