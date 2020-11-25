@@ -16,13 +16,6 @@ public class AdminService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public List<UserDetailsResponse> getAllUsers() {
-
-		List<User> users = userRepository.findAll();
-
-		return users.stream().map(this::mapFromUserToDto).collect(Collectors.toList());
-	}
-
 	private UserDetailsResponse mapFromUserToDto(User user) {
 
 		UserDetailsResponse userDetailsResponse = new UserDetailsResponse();
@@ -42,4 +35,31 @@ public class AdminService {
 		return userDetailsResponse;
 	}
 
+	public List<UserDetailsResponse> getAllUsers() {
+
+		List<User> users = userRepository.findAll();
+
+		return users.stream().map(this::mapFromUserToDto).collect(Collectors.toList());
+	}
+
+	public List<UserDetailsResponse> getAllAdmins() {
+
+		List<User> users = userRepository.findByRole("ADMIN");
+
+		return users.stream().map(this::mapFromUserToDto).collect(Collectors.toList());
+	}
+
+	public List<UserDetailsResponse> getAllFarmers() {
+
+		List<User> users = userRepository.findByRole("FARMER");
+
+		return users.stream().map(this::mapFromUserToDto).collect(Collectors.toList());
+	}
+
+	public List<UserDetailsResponse> getAllBuyers() {
+
+		List<User> users = userRepository.findByRole("BUYER");
+
+		return users.stream().map(this::mapFromUserToDto).collect(Collectors.toList());
+	}
 }

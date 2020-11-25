@@ -25,4 +25,21 @@ public class AdminController {
 		return new ResponseEntity<>(adminService.getAllUsers(), HttpStatus.OK);
 	}
 
+	@GetMapping("/admins")
+	public ResponseEntity<List<UserDetailsResponse>> getAllAdmins() {
+
+		return new ResponseEntity<>(adminService.getAllAdmins(), HttpStatus.OK);
+	}
+
+	@GetMapping("/farmers")
+	public ResponseEntity<List<UserDetailsResponse>> getAllFarmers() {
+
+		return new ResponseEntity<>(adminService.getAllFarmers(), HttpStatus.OK);
+	}
+
+	@GetMapping("/buyers")
+	public ResponseEntity<List<UserDetailsResponse>> getAllBuyers() {
+
+		return new ResponseEntity<>(adminService.getAllBuyers(), HttpStatus.OK);
+	}
 }
