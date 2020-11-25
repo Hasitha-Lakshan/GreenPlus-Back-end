@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.greenplus.backend.dto.ResetPasswordByAdminRequest;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.SetAccountStatusRequest;
 import com.greenplus.backend.dto.UserDetailsResponse;
@@ -51,6 +52,13 @@ public class AdminController {
 	public Response setAccountStatus(@RequestBody SetAccountStatusRequest setAccountStatusRequest) {
 
 		return adminService.setAccountStatus(setAccountStatusRequest);
+
+	}
+	
+	@PutMapping("/resetpassword")
+	public Response resetPassword(@RequestBody ResetPasswordByAdminRequest resetPasswordByAdminRequest) {
+
+		return adminService.resetPassword(resetPasswordByAdminRequest);
 
 	}
 }
