@@ -1,10 +1,15 @@
 package com.greenplus.backend.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -48,6 +53,13 @@ public class User {
 	@NotEmpty
 	@Column
 	private boolean accountStatus;
+
+	//////////////////// Relationships/////////////////////////
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+	private List<Shop> shops;
+
+	//////////////////////////////////////////////////////////
 
 	public int getUserId() {
 		return userId;
@@ -145,12 +157,19 @@ public class User {
 		this.accountStatus = accountStatus;
 	}
 
+	public List<Shop> getShops() {
+		return shops;
+	}
+
+	public void setShops(List<Shop> shops) {
+		this.shops = shops;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", role=" + role + ", password=" + password + ", mobileNumber=" + mobileNumber + ", email="
 				+ email + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", addressLine3="
-				+ addressLine3 + ", accountStatus=" + accountStatus + "]";
+				+ addressLine3 + ", accountStatus=" + accountStatus + ", shops=" + shops + "]";
 	}
-
 }

@@ -42,8 +42,7 @@ public class AuthService {
 			User checkUserByEmail = userRepository.findByEmail(signupRequest.getEmail());
 			User checkUserByMobileNumber = userRepository.findByMobileNumber(signupRequest.getMobileNumber());
 
-			if (checkUserByUsername != null || checkUserByEmail != null
-					|| checkUserByMobileNumber != null) {
+			if (checkUserByUsername != null || checkUserByEmail != null || checkUserByMobileNumber != null) {
 				response.setResponseBody("Given username, email or mobile number maybe exist, Registration failed!");
 				response.setResponseStatus(false);
 
@@ -76,7 +75,10 @@ public class AuthService {
 		}
 
 		else {
-			return null;
+			response.setResponseBody("Registration Failed!");
+			response.setResponseStatus(false);
+
+			return response;
 		}
 
 	}
