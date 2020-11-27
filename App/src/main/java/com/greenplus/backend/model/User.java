@@ -2,7 +2,6 @@ package com.greenplus.backend.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -56,7 +55,7 @@ public class User {
 
 	//////////////////// Relationships/////////////////////////
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<Shop> shops;
 
 	//////////////////////////////////////////////////////////

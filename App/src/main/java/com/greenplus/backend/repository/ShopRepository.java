@@ -15,4 +15,8 @@ public interface ShopRepository extends JpaRepository<Shop, Integer> {
 
 	List<Shop> findByShopStatus(boolean shopStatus);
 
+	Shop findByShopId(int shopId);
+
+	void deleteByShopId(int shopId);
+
 }

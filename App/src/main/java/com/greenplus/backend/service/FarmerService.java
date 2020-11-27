@@ -3,12 +3,15 @@ package com.greenplus.backend.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.ShopCreatingRequest;
 import com.greenplus.backend.dto.ShopDetailsResponse;
+import com.greenplus.backend.dto.ShopUpdateRequest;
 import com.greenplus.backend.model.Shop;
 import com.greenplus.backend.model.User;
 import com.greenplus.backend.repository.ShopRepository;
@@ -104,6 +107,74 @@ public class FarmerService {
 		} else {
 			return null;
 		}
+
+	}
+
+	public ShopDetailsResponse getShopsByShopId(int shopId) {
+
+		Shop shop = shopRepository.findByShopId(shopId);
+
+		if (shop != null) {
+
+			return this.mapFromShopToDto(shop);
+
+		} else {
+			return null;
+		}
+	}
+
+	public Response shopUpdate(int shopId, ShopUpdateRequest shopUpdateRequest) {
+
+		Shop shop = shopRepository.findByShopId(shopId);
+
+		if (shop != null) {
+
+			shop.setTitle(shopUpdateRequest.getTitle());
+			shop.setCategory(shopUpdateRequest.getCategory());
+			shop.setSubCategory(shopUpdateRequest.getSubCategory());
+			shop.setDescription(shopUpdateRequest.getDescription());
+			shop.setQuantity(shopUpdateRequest.getQuantity());
+			shop.setPrice(shopUpdateRequest.getPrice());
+			shop.setLocation(shopUpdateRequest.getLocation());
+			shop.setDeliveryTime(shopUpdateRequest.getDeliveryTime());
+			shop.setShopStatus(shopUpdateRequest.isShopStatus());
+
+			shopRepository.save(shop);
+
+			response.setResponseBody("Shop successfully updated!");
+			response.setResponseStatus(true);
+
+			return response;
+
+		} else {
+
+			response.setResponseBody("The shop does not exsit, Shop update failed!");
+			response.setResponseStatus(false);
+
+			return response;
+		}
+
+	}
+
+	@Transactional
+	public Response shopDelete(int shopId) {
+
+		Shop shop = shopRepository.findByShopId(shopId);
+
+		if (shop != null) {
+
+			shopRepository.deleteByShopId(shopId);
+
+			response.setResponseBody("Shop successfully deleted!");
+			response.setResponseStatus(true);
+
+			return response;
+		}
+
+		response.setResponseBody("The shop does not exsit, Shop delete failed!");
+		response.setResponseStatus(false);
+
+		return response;
 
 	}
 }
