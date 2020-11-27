@@ -39,6 +39,7 @@ public class Security extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/auth/**").permitAll();
+		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/public/**").permitAll();
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/farmer/**").hasRole("FARMER");
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/buyer/**").hasRole("BUYER");
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/**").hasRole("ADMIN");
