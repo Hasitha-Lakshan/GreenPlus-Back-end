@@ -139,7 +139,6 @@ public class AdminService {
 
 		if (user != null) {
 			if (passwordEncoder.matches(password, user.getPassword())) {
-				System.out.println(passwordEncoder.matches(password, user.getPassword()));
 
 				return true;
 

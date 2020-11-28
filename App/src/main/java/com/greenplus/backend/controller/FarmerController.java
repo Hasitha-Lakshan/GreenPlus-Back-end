@@ -14,11 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.greenplus.backend.dto.ResetPasswordByUserRequest;
 import com.greenplus.backend.dto.Response;
+import com.greenplus.backend.dto.SetAccountStatusRequest;
 import com.greenplus.backend.dto.ShopCreatingRequest;
 import com.greenplus.backend.dto.ShopDetailsResponse;
 import com.greenplus.backend.dto.ShopUpdateRequest;
+import com.greenplus.backend.dto.UserDetailsResponse;
+import com.greenplus.backend.service.AdminService;
 import com.greenplus.backend.service.FarmerService;
+import com.greenplus.backend.service.PublicService;
 
 @RestController
 @RequestMapping("/api/farmer")
@@ -26,6 +31,12 @@ public class FarmerController {
 
 	@Autowired
 	private FarmerService farmerService;
+
+	@Autowired
+	AdminService adminService;
+
+	@Autowired
+	PublicService publicService;
 
 	@PostMapping("/shopcreating")
 	public Response shopcreating(@RequestBody ShopCreatingRequest shopCreatingRequest) {
@@ -50,10 +61,30 @@ public class FarmerController {
 
 		return farmerService.shopUpdate(shopId, shopUpdateRequest);
 	}
-	
+
 	@DeleteMapping("/shopdelete/{shopId}")
 	public Response shopDelete(@PathVariable int shopId) {
 
 		return farmerService.shopDelete(shopId);
+	}
+
+	@GetMapping("/{username}")
+	public ResponseEntity<UserDetailsResponse> getFarmerDetails(@PathVariable String username) {
+
+		return new ResponseEntity<>(farmerService.getFarmerDetails(username), HttpStatus.OK);
+	}
+
+	@PutMapping("/setaccountstatus")
+	public Response setAccountStatus(@RequestBody SetAccountStatusRequest setAccountStatusRequest) {
+
+		return adminService.setAccountStatus(setAccountStatusRequest);
+
+	}
+
+	@PutMapping("/resetpassword")
+	public Response resetPassword(@RequestBody ResetPasswordByUserRequest resetPasswordByUserRequest) {
+
+		return publicService.resetPassword(resetPasswordByUserRequest);
+
 	}
 }
