@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.greenplus.backend.dto.ResetPasswordByUserRequest;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.ShopDetailsResponse;
+import com.greenplus.backend.dto.UserDetailsResponse;
+import com.greenplus.backend.dto.UserDetailsUpdateRequest;
 import com.greenplus.backend.model.Shop;
 import com.greenplus.backend.model.User;
 import com.greenplus.backend.repository.ShopRepository;
@@ -26,7 +28,7 @@ public class PublicService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private Response response;
 
@@ -98,6 +100,67 @@ public class PublicService {
 			return false;
 		}
 
+	}
+
+	public UserDetailsResponse getUserDetails(String username) {
+
+		User user = userRepository.findByUsername(username);
+
+		if (user != null && user.isAccountStatus() == true) {
+
+			return this.mapFromUserToDto(user);
+		} else {
+
+			return null;
+		}
+	}
+
+	private UserDetailsResponse mapFromUserToDto(User user) {
+
+		UserDetailsResponse userDetailsResponse = new UserDetailsResponse();
+
+		userDetailsResponse.setUserId(user.getUserId());
+		userDetailsResponse.setFirstName(user.getFirstName());
+		userDetailsResponse.setLastName(user.getLastName());
+		userDetailsResponse.setUsername(user.getUsername());
+		userDetailsResponse.setAccountStatus(user.isAccountStatus());
+		userDetailsResponse.setRole(user.getRole());
+		userDetailsResponse.setMobileNumber(user.getMobileNumber());
+		userDetailsResponse.setEmail(user.getEmail());
+		userDetailsResponse.setAddressLine1(user.getAddressLine1());
+		userDetailsResponse.setAddressLine2(user.getAddressLine2());
+		userDetailsResponse.setAddressLine3(user.getAddressLine3());
+
+		return userDetailsResponse;
+	}
+
+	public Response updateUserDetails(UserDetailsUpdateRequest userDetailsUpdateRequest) {
+
+		if (validateUser(userDetailsUpdateRequest.getUsername(), userDetailsUpdateRequest.getPassword())) {
+
+			User user = userRepository.findByUsername(userDetailsUpdateRequest.getUsername());
+
+			user.setFirstName(userDetailsUpdateRequest.getFirstName());
+			user.setLastName(userDetailsUpdateRequest.getLastName());
+			user.setAddressLine1(userDetailsUpdateRequest.getAddressLine1());
+			user.setAddressLine2(userDetailsUpdateRequest.getAddressLine2());
+			user.setAddressLine3(userDetailsUpdateRequest.getAddressLine3());
+
+			userRepository.save(user);
+
+			response.setResponseBody("User details updated successfully!");
+			response.setResponseStatus(true);
+
+			return response;
+		}
+
+		else {
+
+			response.setResponseBody("User validation failed!");
+			response.setResponseStatus(false);
+
+			return response;
+		}
 	}
 
 }
