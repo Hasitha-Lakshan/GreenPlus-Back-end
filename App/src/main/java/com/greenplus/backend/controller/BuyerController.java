@@ -71,14 +71,13 @@ public class BuyerController {
 		return buyerService.buyerRequestCreating(buyerRequestCreatingRequest);
 	}
 	
-	
-	/*
 	@DeleteMapping("/buyerrequestdelete/{buyerRequestId}")
 	public Response shopDelete(@PathVariable int buyerRequestId) {
 
 		return buyerService.buyerRequestDelete(buyerRequestId);
 	}
 	
+	/*
 	@GetMapping("/buyerrequests")
 	public ResponseEntity<List<ShopDetailsResponse>> getAllBuyerRequests() {
 

@@ -1,5 +1,7 @@
 package com.greenplus.backend.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +75,28 @@ public class BuyerService {
 
 			return response;
 		}
+	}
+
+	@Transactional
+	public Response buyerRequestDelete(int buyerRequestId) {
+
+		BuyerRequest buyerRequest = buyerRequestRepository.findByBuyerRequestId(buyerRequestId);
+
+		if (buyerRequest != null) {
+
+			buyerRequestRepository.deleteByBuyerRequestId(buyerRequestId);
+
+			response.setResponseBody("Buyer request successfully deleted!");
+			response.setResponseStatus(true);
+
+			return response;
+		}
+
+		response.setResponseBody("The Buyer request does not exsit, Buyer request delete failed!");
+		response.setResponseStatus(false);
+
+		return response;
+
 	}
 
 }

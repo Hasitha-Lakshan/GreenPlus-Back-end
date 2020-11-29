@@ -8,4 +8,8 @@ import com.greenplus.backend.model.BuyerRequest;
 @Repository
 public interface BuyerRequestRepository extends JpaRepository<BuyerRequest, Integer> {
 
+	BuyerRequest findByBuyerRequestId(int buyerRequestId);
+
+	void deleteByBuyerRequestId(int buyerRequestId);
+
 }
