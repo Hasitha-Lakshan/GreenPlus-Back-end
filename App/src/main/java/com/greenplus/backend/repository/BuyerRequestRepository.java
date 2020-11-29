@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.greenplus.backend.model.BuyerRequest;
+import com.greenplus.backend.model.User;
 
 @Repository
 public interface BuyerRequestRepository extends JpaRepository<BuyerRequest, Integer> {
@@ -15,5 +16,7 @@ public interface BuyerRequestRepository extends JpaRepository<BuyerRequest, Inte
 	void deleteByBuyerRequestId(int buyerRequestId);
 
 	List<BuyerRequest> findByBuyerRequestStatus(boolean buyerRequestStatus);
+
+	List<BuyerRequest> findByUser(User username);
 
 }

@@ -78,15 +78,13 @@ public class BuyerController {
 		return buyerService.buyerRequestDelete(buyerRequestId);
 	}
 	
-	
-	/*
-	
 	@GetMapping("/buyerrequestsbyuser/{username}")
 	public ResponseEntity<List<BuyerRequestDetailsResponse>> getBuyerRequestByUser(@PathVariable String username) {
 
-		return new ResponseEntity<>(buyerService.getBuyerRequestByUser(username), HttpStatus.OK);
+		return new ResponseEntity<>(buyerService.getBuyerRequestsByUser(username), HttpStatus.OK);
 	}
 	
+	/*
 	@GetMapping("/buyerrequestbybuyerrequestid/{buyerRequestId}")
 	public ResponseEntity<BuyerRequestDetailsResponse> getBuyerRequestByBuyerRequestId(@PathVariable int buyerRequestId) {
 

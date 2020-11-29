@@ -131,4 +131,18 @@ public class BuyerService {
 
 	}
 
+	public List<BuyerRequestDetailsResponse> getBuyerRequestsByUser(String username) {
+
+		User user = userRepository.findByUsername(username);
+
+		if (user != null && user.getRole().equals("BUYER")) {
+
+			List<BuyerRequest> buyerRequests = buyerRequestRepository.findByUser(user);
+
+			return buyerRequests.stream().map(this::mapFromBuyerRequestToDto).collect(Collectors.toList());
+		} else {
+			return null;
+		}
+
+	}
 }
