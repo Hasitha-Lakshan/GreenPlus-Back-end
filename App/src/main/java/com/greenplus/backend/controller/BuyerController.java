@@ -19,7 +19,6 @@ import com.greenplus.backend.dto.BuyerRequestDetailsResponse;
 import com.greenplus.backend.dto.ResetPasswordByUserRequest;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.SetAccountStatusRequest;
-import com.greenplus.backend.dto.ShopDetailsResponse;
 import com.greenplus.backend.dto.UserDetailsResponse;
 import com.greenplus.backend.dto.UserDetailsUpdateRequest;
 import com.greenplus.backend.service.AdminService;
@@ -71,23 +70,23 @@ public class BuyerController {
 
 		return buyerService.buyerRequestCreating(buyerRequestCreatingRequest);
 	}
-	
+
 	@DeleteMapping("/buyerrequestdelete/{buyerRequestId}")
 	public Response shopDelete(@PathVariable int buyerRequestId) {
 
 		return buyerService.buyerRequestDelete(buyerRequestId);
 	}
-	
+
 	@GetMapping("/buyerrequestsbyuser/{username}")
 	public ResponseEntity<List<BuyerRequestDetailsResponse>> getBuyerRequestByUser(@PathVariable String username) {
 
 		return new ResponseEntity<>(buyerService.getBuyerRequestsByUser(username), HttpStatus.OK);
 	}
-	
-	/*
+
 	@GetMapping("/buyerrequestbybuyerrequestid/{buyerRequestId}")
-	public ResponseEntity<BuyerRequestDetailsResponse> getBuyerRequestByBuyerRequestId(@PathVariable int buyerRequestId) {
+	public ResponseEntity<BuyerRequestDetailsResponse> getBuyerRequestByBuyerRequestId(
+			@PathVariable int buyerRequestId) {
 
 		return new ResponseEntity<>(buyerService.getBuyerRequestByBuyerRequestId(buyerRequestId), HttpStatus.OK);
-	}*/
+	}
 }

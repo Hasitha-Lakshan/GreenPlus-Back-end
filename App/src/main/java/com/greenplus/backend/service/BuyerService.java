@@ -145,4 +145,18 @@ public class BuyerService {
 		}
 
 	}
+
+	public BuyerRequestDetailsResponse getBuyerRequestByBuyerRequestId(int buyerRequestId) {
+
+		BuyerRequest buyerRequest = buyerRequestRepository.findByBuyerRequestId(buyerRequestId);
+
+		if (buyerRequest != null) {
+
+			return this.mapFromBuyerRequestToDto(buyerRequest);
+
+		} else {
+			return null;
+		}
+	}
+
 }
