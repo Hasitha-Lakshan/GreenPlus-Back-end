@@ -78,11 +78,7 @@ public class BuyerController {
 		return buyerService.buyerRequestDelete(buyerRequestId);
 	}
 	
-	@GetMapping("/buyerrequests")
-	public ResponseEntity<List<BuyerRequestDetailsResponse>> getAllBuyerRequests() {
-
-		return new ResponseEntity<>(buyerService.getAllBuyerRequests(), HttpStatus.OK);
-	}
+	
 	/*
 	
 	@GetMapping("/buyerrequestsbyuser/{username}")
