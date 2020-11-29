@@ -35,7 +35,15 @@ public class FarmerService {
 
 			User user = userRepository.findByUsername(shopCreatingRequest.getUsername());
 
-			if (user.getRole().equals("FARMER")) {
+			if (user == null) {
+
+				response.setResponseBody("The user not found, Shop creating is failed!");
+				response.setResponseStatus(false);
+
+				return response;
+			}
+
+			else if (user != null && user.getRole().equals("FARMER")) {
 
 				Shop shop = new Shop();
 
