@@ -20,7 +20,7 @@ public class PublicController {
 	PublicService publicService;
 
 	@GetMapping("/shops")
-	public ResponseEntity<List<ShopDetailsResponse>> getAllUsers() {
+	public ResponseEntity<List<ShopDetailsResponse>> getAllShops() {
 
 		return new ResponseEntity<>(publicService.getAllShops(), HttpStatus.OK);
 	}

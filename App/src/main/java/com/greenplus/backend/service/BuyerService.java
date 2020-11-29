@@ -1,11 +1,15 @@
 package com.greenplus.backend.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.greenplus.backend.dto.BuyerRequestCreatingRequest;
+import com.greenplus.backend.dto.BuyerRequestDetailsResponse;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.model.BuyerRequest;
 import com.greenplus.backend.model.User;
@@ -96,6 +100,34 @@ public class BuyerService {
 		response.setResponseStatus(false);
 
 		return response;
+
+	}
+
+	private BuyerRequestDetailsResponse mapFromBuyerRequestToDto(BuyerRequest buyerRequest) {
+
+		BuyerRequestDetailsResponse buyerRequestDetailsResponse = new BuyerRequestDetailsResponse();
+
+		buyerRequestDetailsResponse.setBuyerRequestId(buyerRequest.getBuyerRequestId());
+		buyerRequestDetailsResponse.setTitle(buyerRequest.getTitle());
+		buyerRequestDetailsResponse.setCategory(buyerRequest.getCategory());
+		buyerRequestDetailsResponse.setSubCategory(buyerRequest.getSubCategory());
+		buyerRequestDetailsResponse.setDescription(buyerRequest.getDescription());
+		buyerRequestDetailsResponse.setQuantity(buyerRequest.getQuantity());
+		buyerRequestDetailsResponse.setPrice(buyerRequest.getPrice());
+		buyerRequestDetailsResponse.setLocation(buyerRequest.getLocation());
+		buyerRequestDetailsResponse.setCreatedDate(buyerRequest.getCreatedDate());
+		buyerRequestDetailsResponse.setCreatedTime(buyerRequest.getCreatedTime());
+		buyerRequestDetailsResponse.setDeliveryTime(buyerRequest.getDeliveryTime());
+		buyerRequestDetailsResponse.setBuyerRequestStatus(buyerRequest.isBuyerRequestStatus());
+
+		return buyerRequestDetailsResponse;
+	}
+
+	public List<BuyerRequestDetailsResponse> getAllBuyerRequests() {
+
+		List<BuyerRequest> buyerRequests = buyerRequestRepository.findByBuyerRequestStatus(true);
+
+		return buyerRequests.stream().map(this::mapFromBuyerRequestToDto).collect(Collectors.toList());
 
 	}
 
