@@ -96,7 +96,7 @@ public class AuthService {
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authenticate);
 
-		loginResponse.setAuthenticationToken(jwtProvider.generateToken(authenticate));
+		loginResponse.setAuthenticationtoken(jwtProvider.generateToken(authenticate));
 		loginResponse.setUsername(loginRequest.getUsername());
 		loginResponse.setRole(this.getUserRole(loginRequest.getUsername()));
 

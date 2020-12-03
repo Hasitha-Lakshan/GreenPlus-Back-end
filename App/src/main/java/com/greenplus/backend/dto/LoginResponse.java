@@ -7,16 +7,16 @@ import lombok.Data;
 @AllArgsConstructor
 public class LoginResponse {
 
-	private String authenticationToken;
+	private String authenticationtoken;
 	private String username;
 	private String role;
 
-	public String getAuthenticationToken() {
-		return authenticationToken;
+	public String getAuthenticationtoken() {
+		return authenticationtoken;
 	}
 
-	public void setAuthenticationToken(String authenticationToken) {
-		this.authenticationToken = authenticationToken;
+	public void setAuthenticationtoken(String authenticationtoken) {
+		this.authenticationtoken = authenticationtoken;
 	}
 
 	public String getUsername() {
