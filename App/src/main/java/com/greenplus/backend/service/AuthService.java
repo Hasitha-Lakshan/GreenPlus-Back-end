@@ -64,6 +64,14 @@ public class AuthService {
 				user.setAddressLine2(signupRequest.getAddressLine2());
 				user.setAddressLine3(signupRequest.getAddressLine3());
 
+				if (signupRequest.getRole().equals("ADMIN")) {
+					user.setAccountStatus(false);
+				}
+
+				else {
+					user.setAccountStatus(true);
+				}
+
 				userRepository.save(user);
 
 				response.setResponseBody("Registration Completed!");
