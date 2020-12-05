@@ -72,7 +72,6 @@ public class AuthService {
 				}
 
 				if (!signupRequest.getPassword().equals(signupRequest.getConfirmPassword())) {
-					user.setPassword(encodePassword(signupRequest.getPassword()));
 
 					response.setResponseBody("Password and Confirm Password does not match, Registration failed!");
 					response.setResponseStatus(false);
@@ -80,7 +79,7 @@ public class AuthService {
 					return response;
 
 				} else {
-
+					user.setPassword(encodePassword(signupRequest.getPassword()));
 					userRepository.save(user);
 
 					response.setResponseBody("Registration Completed!");
