@@ -7,6 +7,7 @@ public class SignupRequest {
 	private String lastName;
 	private String role;
 	private String password;
+	private String confirmPassword;
 	private int mobileNumber;
 	private String email;
 	private String addressLine1;
@@ -55,6 +56,14 @@ public class SignupRequest {
 
 	public int getMobileNumber() {
 		return mobileNumber;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	public void setMobileNumber(int mobileNumber) {

@@ -56,7 +56,6 @@ public class AuthService {
 				user.setUsername(signupRequest.getUsername());
 				user.setFirstName(signupRequest.getFirstName());
 				user.setLastName(signupRequest.getLastName());
-				user.setPassword(encodePassword(signupRequest.getPassword()));
 				user.setRole(signupRequest.getRole());
 				user.setEmail(signupRequest.getEmail());
 				user.setMobileNumber(signupRequest.getMobileNumber());
@@ -72,14 +71,24 @@ public class AuthService {
 					user.setAccountStatus(true);
 				}
 
-				userRepository.save(user);
+				if (!signupRequest.getPassword().equals(signupRequest.getConfirmPassword())) {
+					user.setPassword(encodePassword(signupRequest.getPassword()));
 
-				response.setResponseBody("Registration Completed!");
-				response.setResponseStatus(true);
+					response.setResponseBody("Password and Confirm Password does not match, Registration failed!");
+					response.setResponseStatus(false);
 
-				return response;
+					return response;
+
+				} else {
+
+					userRepository.save(user);
+
+					response.setResponseBody("Registration Completed!");
+					response.setResponseStatus(true);
+
+					return response;
+				}
 			}
-
 		}
 
 		else {
