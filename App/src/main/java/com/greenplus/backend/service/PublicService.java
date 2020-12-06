@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.greenplus.backend.dto.ResetPasswordByUserRequest;
 import com.greenplus.backend.dto.Response;
-import com.greenplus.backend.dto.ShopDetailsResponse;
+import com.greenplus.backend.dto.ShopDetailsHomeResponse;
 import com.greenplus.backend.dto.UserDetailsResponse;
 import com.greenplus.backend.dto.UserDetailsUpdateRequest;
 import com.greenplus.backend.model.Shop;
@@ -32,32 +32,25 @@ public class PublicService {
 	@Autowired
 	private Response response;
 
-	public List<ShopDetailsResponse> getAllShops() {
+	public List<ShopDetailsHomeResponse> getAllShops() {
 
 		List<Shop> shops = shopRepository.findByShopStatus(true);
 
-		return shops.stream().map(this::mapFromShopToDto).collect(Collectors.toList());
+		return shops.stream().map(this::mapFromShopHomeToDto).collect(Collectors.toList());
 
 	}
 
-	private ShopDetailsResponse mapFromShopToDto(Shop shop) {
+	private ShopDetailsHomeResponse mapFromShopHomeToDto(Shop shop) {
 
-		ShopDetailsResponse shopDetailsResponse = new ShopDetailsResponse();
+		ShopDetailsHomeResponse shopDetailsHomeResponse = new ShopDetailsHomeResponse();
 
-		shopDetailsResponse.setShopId(shop.getShopId());
-		shopDetailsResponse.setTitle(shop.getTitle());
-		shopDetailsResponse.setCategory(shop.getCategory());
-		shopDetailsResponse.setSubCategory(shop.getSubCategory());
-		shopDetailsResponse.setDescription(shop.getDescription());
-		shopDetailsResponse.setQuantity(shop.getQuantity());
-		shopDetailsResponse.setPrice(shop.getPrice());
-		shopDetailsResponse.setLocation(shop.getLocation());
-		shopDetailsResponse.setCreatedDate(shop.getCreatedDate());
-		shopDetailsResponse.setCreatedTime(shop.getCreatedTime());
-		shopDetailsResponse.setDeliveryTime(shop.getDeliveryTime());
-		shopDetailsResponse.setShopStatus(shop.isShopStatus());
+		shopDetailsHomeResponse.setShopId(shop.getShopId());
+		shopDetailsHomeResponse.setTitle(shop.getTitle());
+		shopDetailsHomeResponse.setPrice(shop.getPrice());
+		shopDetailsHomeResponse.setLocation(shop.getLocation());
+		shopDetailsHomeResponse.setCreatedDate(shop.getCreatedDate());
 
-		return shopDetailsResponse;
+		return shopDetailsHomeResponse;
 	}
 
 	public Response resetPassword(ResetPasswordByUserRequest resetPasswordByUserRequest) {

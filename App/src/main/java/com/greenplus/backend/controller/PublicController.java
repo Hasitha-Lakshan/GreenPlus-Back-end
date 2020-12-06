@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.greenplus.backend.dto.ShopDetailsHomeResponse;
 import com.greenplus.backend.dto.ShopDetailsResponse;
 import com.greenplus.backend.service.FarmerService;
 import com.greenplus.backend.service.PublicService;
@@ -25,7 +26,7 @@ public class PublicController {
 	private FarmerService farmerService;
 
 	@GetMapping("/shops")
-	public ResponseEntity<List<ShopDetailsResponse>> getAllShops() {
+	public ResponseEntity<List<ShopDetailsHomeResponse>> getAllShops() {
 
 		return new ResponseEntity<>(publicService.getAllShops(), HttpStatus.OK);
 	}
