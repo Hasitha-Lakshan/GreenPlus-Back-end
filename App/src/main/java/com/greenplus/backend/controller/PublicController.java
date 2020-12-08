@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.greenplus.backend.dto.ShopDetailsHomeResponse;
-import com.greenplus.backend.dto.ShopDetailsResponse;
-import com.greenplus.backend.service.FarmerService;
+import com.greenplus.backend.dto.ShopCardDetailsResponse;
+import com.greenplus.backend.dto.ShopDetailsPublicResponse;
 import com.greenplus.backend.service.PublicService;
 
 @RestController
@@ -21,25 +20,22 @@ public class PublicController {
 
 	@Autowired
 	PublicService publicService;
-	
-	@Autowired
-	private FarmerService farmerService;
 
 	@GetMapping("/shops")
-	public ResponseEntity<List<ShopDetailsHomeResponse>> getAllShops() {
+	public ResponseEntity<List<ShopCardDetailsResponse>> getAllShops() {
 
 		return new ResponseEntity<>(publicService.getAllShops(), HttpStatus.OK);
 	}
-	
-	@GetMapping("/shopsbyuser/{username}")
-	public ResponseEntity<List<ShopDetailsResponse>> getShopsByUser(@PathVariable String username) {
 
-		return new ResponseEntity<>(farmerService.getShopsByUser(username), HttpStatus.OK);
+	@GetMapping("/shopsbyuser/{username}")
+	public ResponseEntity<List<ShopCardDetailsResponse>> getShopsByUser(@PathVariable String username) {
+
+		return new ResponseEntity<>(publicService.getShopsByUser(username), HttpStatus.OK);
 	}
 
-	@GetMapping("/shopsbyshopid/{shopId}")
-	public ResponseEntity<ShopDetailsResponse> getShopsByUser(@PathVariable int shopId) {
+	@GetMapping("/shopbyshopid/{shopId}")
+	public ResponseEntity<ShopDetailsPublicResponse> getShopsByUser(@PathVariable int shopId) {
 
-		return new ResponseEntity<>(farmerService.getShopsByShopId(shopId), HttpStatus.OK);
+		return new ResponseEntity<>(publicService.getShopsByShopId(shopId), HttpStatus.OK);
 	}
 }

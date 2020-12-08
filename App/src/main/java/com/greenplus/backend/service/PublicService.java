@@ -4,14 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.greenplus.backend.dto.ResetPasswordByUserRequest;
-import com.greenplus.backend.dto.Response;
-import com.greenplus.backend.dto.ShopDetailsHomeResponse;
+import com.greenplus.backend.dto.ShopCardDetailsResponse;
+import com.greenplus.backend.dto.ShopDetailsPublicResponse;
 import com.greenplus.backend.dto.UserDetailsResponse;
-import com.greenplus.backend.dto.UserDetailsUpdateRequest;
 import com.greenplus.backend.model.Shop;
 import com.greenplus.backend.model.User;
 import com.greenplus.backend.repository.ShopRepository;
@@ -26,73 +23,72 @@ public class PublicService {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	/////// Functions for Unauthorized Users //////////////////////////
 
-	@Autowired
-	private Response response;
-
-	public List<ShopDetailsHomeResponse> getAllShops() {
+	public List<ShopCardDetailsResponse> getAllShops() {
 
 		List<Shop> shops = shopRepository.findByShopStatus(true);
 
-		return shops.stream().map(this::mapFromShopHomeToDto).collect(Collectors.toList());
+		return shops.stream().map(this::mapFromShopCardToDto).collect(Collectors.toList());
 
 	}
 
-	private ShopDetailsHomeResponse mapFromShopHomeToDto(Shop shop) {
+	private ShopCardDetailsResponse mapFromShopCardToDto(Shop shop) {
 
-		ShopDetailsHomeResponse shopDetailsHomeResponse = new ShopDetailsHomeResponse();
+		ShopCardDetailsResponse shopCardDetailsResponse = new ShopCardDetailsResponse();
 
-		shopDetailsHomeResponse.setShopId(shop.getShopId());
-		shopDetailsHomeResponse.setTitle(shop.getTitle());
-		shopDetailsHomeResponse.setPrice(shop.getPrice());
-		shopDetailsHomeResponse.setLocation(shop.getLocation());
-		shopDetailsHomeResponse.setCreatedDate(shop.getCreatedDate());
+		shopCardDetailsResponse.setShopId(shop.getShopId());
+		shopCardDetailsResponse.setTitle(shop.getTitle());
+		shopCardDetailsResponse.setPrice(shop.getPrice());
+		shopCardDetailsResponse.setLocation(shop.getLocation());
+		shopCardDetailsResponse.setCreatedDate(shop.getCreatedDate());
 
-		return shopDetailsHomeResponse;
+		return shopCardDetailsResponse;
 	}
 
-	public Response resetPassword(ResetPasswordByUserRequest resetPasswordByUserRequest) {
+	public ShopDetailsPublicResponse getShopsByShopId(int shopId) {
 
-		if (validateUser(resetPasswordByUserRequest.getUserUsername(), resetPasswordByUserRequest.getOldPassword())) {
+		Shop shop = shopRepository.findByShopId(shopId);
 
-			User user = userRepository.findByUsername(resetPasswordByUserRequest.getUserUsername());
-
-			user.setPassword(passwordEncoder.encode(resetPasswordByUserRequest.getUserNewPassword()));
-			userRepository.save(user);
-
-			response.setResponseBody("Password changed sucessfully!");
-			response.setResponseStatus(true);
-
-			return response;
-
+		if (shop != null) {
+			return this.mapFromShopDetailsToDto(shop);
 		} else {
-
-			response.setResponseBody("User validation failed!");
-			response.setResponseStatus(false);
-
-			return response;
+			return null;
 		}
-
 	}
 
-	private boolean validateUser(String username, String password) {
+	private ShopDetailsPublicResponse mapFromShopDetailsToDto(Shop shop) {
+
+		ShopDetailsPublicResponse shopDetailsPublicResponse = new ShopDetailsPublicResponse();
+
+		shopDetailsPublicResponse.setTitle(shop.getTitle());
+		shopDetailsPublicResponse.setCategory(shop.getCategory());
+		shopDetailsPublicResponse.setSubCategory(shop.getSubCategory());
+		shopDetailsPublicResponse.setQuantity(shop.getQuantity());
+		shopDetailsPublicResponse.setPrice(shop.getPrice());
+		shopDetailsPublicResponse.setDescription(shop.getDescription());
+		shopDetailsPublicResponse.setLocation(shop.getLocation());
+		shopDetailsPublicResponse.setDeliveryTime(shop.getDeliveryTime());
+		shopDetailsPublicResponse.setCreatedDate(shop.getCreatedDate());
+		shopDetailsPublicResponse.setCreatedTime(shop.getCreatedTime());
+		shopDetailsPublicResponse.setUsername(shop.getUser().getUsername());
+
+		return shopDetailsPublicResponse;
+	}
+
+	public List<ShopCardDetailsResponse> getShopsByUser(String username) {
 
 		User user = userRepository.findByUsername(username);
 
 		if (user != null) {
-			if (passwordEncoder.matches(password, user.getPassword())) {
 
-				return true;
+			List<Shop> shops = shopRepository.findByUser(user);
 
-			} else {
-				return false;
-			}
+			return shops.stream().map(this::mapFromShopCardToDto).collect(Collectors.toList());
+
 		} else {
-			return false;
+			return null;
 		}
-
 	}
 
 	public UserDetailsResponse getUserDetails(String username) {
@@ -125,35 +121,6 @@ public class PublicService {
 		userDetailsResponse.setAddressLine3(user.getAddressLine3());
 
 		return userDetailsResponse;
-	}
-
-	public Response updateUserDetails(UserDetailsUpdateRequest userDetailsUpdateRequest) {
-
-		if (validateUser(userDetailsUpdateRequest.getUsername(), userDetailsUpdateRequest.getPassword())) {
-
-			User user = userRepository.findByUsername(userDetailsUpdateRequest.getUsername());
-
-			user.setFirstName(userDetailsUpdateRequest.getFirstName());
-			user.setLastName(userDetailsUpdateRequest.getLastName());
-			user.setAddressLine1(userDetailsUpdateRequest.getAddressLine1());
-			user.setAddressLine2(userDetailsUpdateRequest.getAddressLine2());
-			user.setAddressLine3(userDetailsUpdateRequest.getAddressLine3());
-
-			userRepository.save(user);
-
-			response.setResponseBody("User details updated successfully!");
-			response.setResponseStatus(true);
-
-			return response;
-		}
-
-		else {
-
-			response.setResponseBody("User validation failed!");
-			response.setResponseStatus(false);
-
-			return response;
-		}
 	}
 
 }

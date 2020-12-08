@@ -3,30 +3,19 @@ package com.greenplus.backend.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import javax.validation.constraints.NotEmpty;
+public class ShopDetailsPublicResponse {
 
-public class ShopDetailsResponse {
-
-	private int shopId;
 	private String title;
-	private String description;
 	private String category;
 	private String subCategory;
 	private int quantity;
 	private float price;
+	private String description;
 	private String location;
 	private LocalDate createdDate;
 	private LocalTime createdTime;
 	private LocalTime deliveryTime;
-	private boolean shopStatus;
-
-	public int getShopId() {
-		return shopId;
-	}
-
-	public void setShopId(int shopId) {
-		this.shopId = shopId;
-	}
+	private String username;
 
 	public String getTitle() {
 		return title;
@@ -104,16 +93,16 @@ public class ShopDetailsResponse {
 		return deliveryTime;
 	}
 
-	public void setDeliveryTime(@NotEmpty LocalTime localTime) {
-		this.deliveryTime = localTime;
+	public void setDeliveryTime(LocalTime deliveryTime) {
+		this.deliveryTime = deliveryTime;
 	}
 
-	public boolean isShopStatus() {
-		return shopStatus;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setShopStatus(boolean shopStatus) {
-		this.shopStatus = shopStatus;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

@@ -2,7 +2,7 @@ package com.greenplus.backend.dto;
 
 import java.time.LocalDate;
 
-public class ShopDetailsHomeResponse {
+public class ShopCardDetailsResponse {
 
 	private int shopId;
 	private String title;

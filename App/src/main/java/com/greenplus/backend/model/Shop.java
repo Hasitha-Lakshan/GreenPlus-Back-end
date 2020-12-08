@@ -26,7 +26,7 @@ public class Shop {
 	@Column
 	private String title;
 	@NotEmpty
-	@Column
+	@Column(length = 700)
 	private String description;
 	@NotEmpty
 	@Column
@@ -54,7 +54,7 @@ public class Shop {
 	private boolean shopStatus;
 	@NotEmpty
 	@Column
-	private LocalDate deliveryTime;
+	private LocalTime deliveryTime;
 
 	//////////////////// Relationships/////////////////////////
 
@@ -141,7 +141,7 @@ public class Shop {
 		return createdTime;
 	}
 
-	public void setCreatedTime(LocalTime createdTime) {
+	public void setCreatedTime(@NotEmpty LocalTime createdTime) {
 		this.createdTime = createdTime;
 	}
 
@@ -153,11 +153,11 @@ public class Shop {
 		this.shopStatus = shopStatus;
 	}
 
-	public LocalDate getDeliveryTime() {
+	public @NotEmpty LocalTime getDeliveryTime() {
 		return deliveryTime;
 	}
 
-	public void setDeliveryTime(LocalDate deliveryTime) {
+	public void setDeliveryTime(@NotEmpty LocalTime deliveryTime) {
 		this.deliveryTime = deliveryTime;
 	}
 

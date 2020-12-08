@@ -27,6 +27,7 @@ import com.greenplus.backend.service.AdminService;
 import com.greenplus.backend.service.BuyerService;
 import com.greenplus.backend.service.FarmerService;
 import com.greenplus.backend.service.PublicService;
+import com.greenplus.backend.service.UserManagementService;
 
 @RestController
 @RequestMapping("/api/farmer")
@@ -43,6 +44,9 @@ public class FarmerController {
 
 	@Autowired
 	BuyerService buyerService;
+	
+	@Autowired
+	UserManagementService userManagementService;
 
 	@PostMapping("/shopcreating")
 	public Response shopcreating(@RequestBody ShopCreatingRequest shopCreatingRequest) {
@@ -90,14 +94,14 @@ public class FarmerController {
 	@PutMapping("/resetpassword")
 	public Response resetPassword(@RequestBody ResetPasswordByUserRequest resetPasswordByUserRequest) {
 
-		return publicService.resetPassword(resetPasswordByUserRequest);
+		return userManagementService.resetPassword(resetPasswordByUserRequest);
 
 	}
 
 	@PutMapping("/updateuserdetails")
 	public Response updateUserDetails(@RequestBody UserDetailsUpdateRequest userDetailsUpdateRequest) {
 
-		return publicService.updateUserDetails(userDetailsUpdateRequest);
+		return userManagementService.updateUserDetails(userDetailsUpdateRequest);
 
 	}
 

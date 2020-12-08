@@ -1,6 +1,8 @@
 package com.greenplus.backend.dto;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
+
+import javax.validation.constraints.NotEmpty;
 
 public class ShopUpdateRequest {
 
@@ -11,7 +13,7 @@ public class ShopUpdateRequest {
 	private int quantity;
 	private float price;
 	private String location;
-	private LocalDate deliveryTime;
+	private LocalTime deliveryTime;
 	private boolean shopStatus;
 
 	public String getTitle() {
@@ -70,11 +72,11 @@ public class ShopUpdateRequest {
 		this.location = location;
 	}
 
-	public LocalDate getDeliveryTime() {
+	public @NotEmpty LocalTime getDeliveryTime() {
 		return deliveryTime;
 	}
 
-	public void setDeliveryTime(LocalDate deliveryTime) {
+	public void setDeliveryTime(LocalTime deliveryTime) {
 		this.deliveryTime = deliveryTime;
 	}
 

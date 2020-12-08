@@ -24,6 +24,7 @@ import com.greenplus.backend.dto.UserDetailsUpdateRequest;
 import com.greenplus.backend.service.AdminService;
 import com.greenplus.backend.service.BuyerService;
 import com.greenplus.backend.service.PublicService;
+import com.greenplus.backend.service.UserManagementService;
 
 @RestController
 @RequestMapping("/api/buyer")
@@ -37,6 +38,9 @@ public class BuyerController {
 
 	@Autowired
 	BuyerService buyerService;
+	
+	@Autowired
+	UserManagementService userManagementService;
 
 	@GetMapping("/{username}")
 	public ResponseEntity<UserDetailsResponse> getFarmerDetails(@PathVariable String username) {
@@ -54,14 +58,14 @@ public class BuyerController {
 	@PutMapping("/resetpassword")
 	public Response resetPassword(@RequestBody ResetPasswordByUserRequest resetPasswordByUserRequest) {
 
-		return publicService.resetPassword(resetPasswordByUserRequest);
+		return userManagementService.resetPassword(resetPasswordByUserRequest);
 
 	}
 
 	@PutMapping("/updateuserdetails")
 	public Response updateUserDetails(@RequestBody UserDetailsUpdateRequest userDetailsUpdateRequest) {
 
-		return publicService.updateUserDetails(userDetailsUpdateRequest);
+		return userManagementService.updateUserDetails(userDetailsUpdateRequest);
 
 	}
 

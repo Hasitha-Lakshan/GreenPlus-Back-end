@@ -14,7 +14,7 @@ public class ShopCreatingRequest {
 	private String location;
 	private LocalDate createdDate;
 	private LocalTime createdTime;
-	private LocalDate deliveryTime;
+	private LocalTime deliveryTime;
 	private String username;
 
 	public String getTitle() {
@@ -89,11 +89,11 @@ public class ShopCreatingRequest {
 		this.createdTime = createdTime;
 	}
 
-	public LocalDate getDeliveryTime() {
+	public LocalTime getDeliveryTime() {
 		return deliveryTime;
 	}
 
-	public void setDeliveryTime(LocalDate deliveryTime) {
+	public void setDeliveryTime(LocalTime deliveryTime) {
 		this.deliveryTime = deliveryTime;
 	}
 
