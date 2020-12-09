@@ -45,7 +45,7 @@ public class BuyerController {
 	@GetMapping("/{username}")
 	public ResponseEntity<UserDetailsResponse> getFarmerDetails(@PathVariable String username) {
 
-		return new ResponseEntity<>(publicService.getUserDetails(username), HttpStatus.OK);
+		return new ResponseEntity<>(userManagementService.getUserDetails(username), HttpStatus.OK);
 	}
 
 	@PutMapping("/setaccountstatus")

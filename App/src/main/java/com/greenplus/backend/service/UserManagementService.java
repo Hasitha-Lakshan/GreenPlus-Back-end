@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.greenplus.backend.dto.ResetPasswordByUserRequest;
 import com.greenplus.backend.dto.Response;
+import com.greenplus.backend.dto.UserDetailsResponse;
 import com.greenplus.backend.dto.UserDetailsUpdateRequest;
 import com.greenplus.backend.model.User;
 import com.greenplus.backend.repository.UserRepository;
@@ -21,6 +22,38 @@ public class UserManagementService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	public UserDetailsResponse getUserDetails(String username) {
+
+		User user = userRepository.findByUsername(username);
+
+		if (user != null && user.isAccountStatus() == true) {
+
+			return this.mapFromUserToDto(user);
+		} else {
+
+			return null;
+		}
+	}
+
+	private UserDetailsResponse mapFromUserToDto(User user) {
+
+		UserDetailsResponse userDetailsResponse = new UserDetailsResponse();
+
+		userDetailsResponse.setUserId(user.getUserId());
+		userDetailsResponse.setFirstName(user.getFirstName());
+		userDetailsResponse.setLastName(user.getLastName());
+		userDetailsResponse.setUsername(user.getUsername());
+		userDetailsResponse.setAccountStatus(user.isAccountStatus());
+		userDetailsResponse.setRole(user.getRole());
+		userDetailsResponse.setMobileNumber(user.getMobileNumber());
+		userDetailsResponse.setEmail(user.getEmail());
+		userDetailsResponse.setAddressLine1(user.getAddressLine1());
+		userDetailsResponse.setAddressLine2(user.getAddressLine2());
+		userDetailsResponse.setAddressLine3(user.getAddressLine3());
+
+		return userDetailsResponse;
+	}
 
 	public Response resetPassword(ResetPasswordByUserRequest resetPasswordByUserRequest) {
 

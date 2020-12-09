@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.greenplus.backend.dto.ShopCardDetailsResponse;
 import com.greenplus.backend.dto.ShopDetailsPublicResponse;
+import com.greenplus.backend.dto.UserDetailsPublicResponse;
 import com.greenplus.backend.service.PublicService;
 
 @RestController
@@ -37,5 +38,11 @@ public class PublicController {
 	public ResponseEntity<ShopDetailsPublicResponse> getShopsByUser(@PathVariable int shopId) {
 
 		return new ResponseEntity<>(publicService.getShopsByShopId(shopId), HttpStatus.OK);
+	}
+
+	@GetMapping("/user/{username}")
+	public ResponseEntity<UserDetailsPublicResponse> getUserDetailsPublic(@PathVariable String username) {
+
+		return new ResponseEntity<>(publicService.getUserDetailsPublic(username), HttpStatus.OK);
 	}
 }
