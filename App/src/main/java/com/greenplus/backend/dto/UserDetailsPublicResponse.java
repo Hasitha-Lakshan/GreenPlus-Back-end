@@ -2,6 +2,7 @@ package com.greenplus.backend.dto;
 
 public class UserDetailsPublicResponse {
 
+	private int userId;
 	private String firstName;
 	private String lastName;
 	private String username;
@@ -11,6 +12,14 @@ public class UserDetailsPublicResponse {
 	private String addressLine2;
 	private String addressLine3;
 	private String role;
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
 	public String getFirstName() {
 		return firstName;

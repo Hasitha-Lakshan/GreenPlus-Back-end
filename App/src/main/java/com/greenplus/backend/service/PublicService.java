@@ -108,6 +108,7 @@ public class PublicService {
 
 		UserDetailsPublicResponse userDetailsPublicResponse = new UserDetailsPublicResponse();
 
+		userDetailsPublicResponse.setUserId(user.getUserId());
 		userDetailsPublicResponse.setFirstName(user.getFirstName());
 		userDetailsPublicResponse.setLastName(user.getLastName());
 		userDetailsPublicResponse.setUsername(user.getUsername());
