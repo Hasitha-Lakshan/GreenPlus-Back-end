@@ -29,11 +29,11 @@ public class PublicService {
 
 		List<Shop> shops = shopRepository.findByShopStatus(true);
 
-		return shops.stream().map(this::mapFromShopCardToDto).collect(Collectors.toList());
+		return shops.stream().map(this::mapFromShopToShopCardDetailsResponseDto).collect(Collectors.toList());
 
 	}
 
-	private ShopCardDetailsResponse mapFromShopCardToDto(Shop shop) {
+	private ShopCardDetailsResponse mapFromShopToShopCardDetailsResponseDto(Shop shop) {
 
 		ShopCardDetailsResponse shopCardDetailsResponse = new ShopCardDetailsResponse();
 
@@ -51,13 +51,13 @@ public class PublicService {
 		Shop shop = shopRepository.findByShopId(shopId);
 
 		if (shop != null) {
-			return this.mapFromShopDetailsToDto(shop);
+			return this.mapFromShopToShopDetailsPublicResponseDto(shop);
 		} else {
 			return null;
 		}
 	}
 
-	private ShopDetailsPublicResponse mapFromShopDetailsToDto(Shop shop) {
+	private ShopDetailsPublicResponse mapFromShopToShopDetailsPublicResponseDto(Shop shop) {
 
 		ShopDetailsPublicResponse shopDetailsPublicResponse = new ShopDetailsPublicResponse();
 
@@ -84,7 +84,7 @@ public class PublicService {
 
 			List<Shop> shops = shopRepository.findByUser(user);
 
-			return shops.stream().map(this::mapFromShopCardToDto).collect(Collectors.toList());
+			return shops.stream().map(this::mapFromShopToShopCardDetailsResponseDto).collect(Collectors.toList());
 
 		} else {
 			return null;
@@ -97,14 +97,14 @@ public class PublicService {
 
 		if (user != null && user.isAccountStatus() == true) {
 
-			return this.mapFromUserDetailsPublicToDto(user);
+			return this.mapFromUserToUserDetailsPublicResponseDto(user);
 		} else {
 
 			return null;
 		}
 	}
 
-	private UserDetailsPublicResponse mapFromUserDetailsPublicToDto(User user) {
+	private UserDetailsPublicResponse mapFromUserToUserDetailsPublicResponseDto(User user) {
 
 		UserDetailsPublicResponse userDetailsPublicResponse = new UserDetailsPublicResponse();
 

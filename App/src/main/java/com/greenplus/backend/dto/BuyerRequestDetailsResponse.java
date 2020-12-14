@@ -15,7 +15,7 @@ public class BuyerRequestDetailsResponse {
 	private String location;
 	private LocalDate createdDate;
 	private LocalTime createdTime;
-	private LocalDate deliveryTime;
+	private LocalTime deliveryTime;
 	private boolean buyerRequestStatus;
 
 	public int getBuyerRequestId() {
@@ -98,11 +98,11 @@ public class BuyerRequestDetailsResponse {
 		this.createdTime = createdTime;
 	}
 
-	public LocalDate getDeliveryTime() {
+	public LocalTime getDeliveryTime() {
 		return deliveryTime;
 	}
 
-	public void setDeliveryTime(LocalDate deliveryTime) {
+	public void setDeliveryTime(LocalTime deliveryTime) {
 		this.deliveryTime = deliveryTime;
 	}
 

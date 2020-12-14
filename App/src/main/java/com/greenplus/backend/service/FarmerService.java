@@ -8,12 +8,16 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.greenplus.backend.dto.BuyerRequestDetailsPublicResponse;
+import com.greenplus.backend.dto.BuyerRequestPublicResponse;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.ShopCreatingRequest;
 import com.greenplus.backend.dto.ShopDetailsResponse;
 import com.greenplus.backend.dto.ShopUpdateRequest;
+import com.greenplus.backend.model.BuyerRequest;
 import com.greenplus.backend.model.Shop;
 import com.greenplus.backend.model.User;
+import com.greenplus.backend.repository.BuyerRequestRepository;
 import com.greenplus.backend.repository.ShopRepository;
 import com.greenplus.backend.repository.UserRepository;
 
@@ -28,6 +32,9 @@ public class FarmerService {
 
 	@Autowired
 	private ShopRepository shopRepository;
+
+	@Autowired
+	private BuyerRequestRepository buyerRequestRepository;
 
 	public Response shopCreating(ShopCreatingRequest shopCreatingRequest) {
 
@@ -83,7 +90,7 @@ public class FarmerService {
 
 	}
 
-	private ShopDetailsResponse mapFromShopToDto(Shop shop) {
+	private ShopDetailsResponse mapFromShopToShopDetailsResponseDto(Shop shop) {
 
 		ShopDetailsResponse shopDetailsResponse = new ShopDetailsResponse();
 
@@ -103,28 +110,13 @@ public class FarmerService {
 		return shopDetailsResponse;
 	}
 
-	public List<ShopDetailsResponse> getShopsByUser(String username) {
-
-		User user = userRepository.findByUsername(username);
-
-		if (user != null && user.getRole().equals("FARMER")) {
-
-			List<Shop> shops = shopRepository.findByUser(user);
-
-			return shops.stream().map(this::mapFromShopToDto).collect(Collectors.toList());
-		} else {
-			return null;
-		}
-
-	}
-
 	public ShopDetailsResponse getShopsByShopId(int shopId) {
 
 		Shop shop = shopRepository.findByShopId(shopId);
 
 		if (shop != null) {
 
-			return this.mapFromShopToDto(shop);
+			return this.mapFromShopToShopDetailsResponseDto(shop);
 
 		} else {
 			return null;
@@ -184,6 +176,61 @@ public class FarmerService {
 
 		return response;
 
+	}
+
+	private BuyerRequestPublicResponse mapFromBuyerRequestToBuyerRequestPublicResponseDto(BuyerRequest buyerRequest) {
+
+		BuyerRequestPublicResponse buyerRequestPublicResponse = new BuyerRequestPublicResponse();
+
+		buyerRequestPublicResponse.setBuyerRequestId(buyerRequest.getBuyerRequestId());
+		buyerRequestPublicResponse.setTitle(buyerRequest.getTitle());
+		buyerRequestPublicResponse.setPrice(buyerRequest.getPrice());
+		buyerRequestPublicResponse.setLocation(buyerRequest.getLocation());
+		buyerRequestPublicResponse.setCreatedDate(buyerRequest.getCreatedDate());
+
+		return buyerRequestPublicResponse;
+	}
+
+	public List<BuyerRequestPublicResponse> getAllBuyerRequestsPublic() {
+
+		List<BuyerRequest> buyerRequests = buyerRequestRepository.findByBuyerRequestStatus(true);
+
+		return buyerRequests.stream().map(this::mapFromBuyerRequestToBuyerRequestPublicResponseDto)
+				.collect(Collectors.toList());
+
+	}
+
+	private BuyerRequestDetailsPublicResponse mapFromBuyerRequestToBuyerRequestDetailsPublicResponseDto(
+			BuyerRequest buyerRequest) {
+
+		BuyerRequestDetailsPublicResponse buyerRequestDetailsPublicResponse = new BuyerRequestDetailsPublicResponse();
+
+		buyerRequestDetailsPublicResponse.setBuyerRequestId(buyerRequest.getBuyerRequestId());
+		buyerRequestDetailsPublicResponse.setTitle(buyerRequest.getTitle());
+		buyerRequestDetailsPublicResponse.setCategory(buyerRequest.getCategory());
+		buyerRequestDetailsPublicResponse.setSubCategory(buyerRequest.getSubCategory());
+		buyerRequestDetailsPublicResponse.setDescription(buyerRequest.getDescription());
+		buyerRequestDetailsPublicResponse.setQuantity(buyerRequest.getQuantity());
+		buyerRequestDetailsPublicResponse.setPrice(buyerRequest.getPrice());
+		buyerRequestDetailsPublicResponse.setLocation(buyerRequest.getLocation());
+		buyerRequestDetailsPublicResponse.setCreatedDate(buyerRequest.getCreatedDate());
+		buyerRequestDetailsPublicResponse.setCreatedTime(buyerRequest.getCreatedTime());
+		buyerRequestDetailsPublicResponse.setDeliveryTime(buyerRequest.getDeliveryTime());
+
+		return buyerRequestDetailsPublicResponse;
+	}
+
+	public BuyerRequestDetailsPublicResponse getBuyerRequestByBuyerRequestId(int buyerRequestId) {
+
+		BuyerRequest buyerRequest = buyerRequestRepository.findByBuyerRequestId(buyerRequestId);
+
+		if (buyerRequest != null) {
+
+			return this.mapFromBuyerRequestToBuyerRequestDetailsPublicResponseDto(buyerRequest);
+
+		} else {
+			return null;
+		}
 	}
 
 }

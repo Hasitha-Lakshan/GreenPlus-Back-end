@@ -25,7 +25,7 @@ public class BuyerRequest {
 	@Column
 	private String title;
 	@NotEmpty
-	@Column
+	@Column(length = 700)
 	private String description;
 	@NotEmpty
 	@Column
@@ -53,7 +53,7 @@ public class BuyerRequest {
 	private boolean buyerRequestStatus;
 	@NotEmpty
 	@Column
-	private LocalDate deliveryTime;
+	private LocalTime deliveryTime;
 
 	//////////////////// Relationships/////////////////////////
 
@@ -152,12 +152,12 @@ public class BuyerRequest {
 		this.buyerRequestStatus = buyerRequestStatus;
 	}
 
-	public LocalDate getDeliveryTime() {
+	public @NotEmpty LocalTime getDeliveryTime() {
 		return deliveryTime;
 	}
 
-	public void setDeliveryTime(LocalDate deliveryTime) {
-		this.deliveryTime = deliveryTime;
+	public void setDeliveryTime(LocalTime localTime) {
+		this.deliveryTime = localTime;
 	}
 
 	public User getUser() {

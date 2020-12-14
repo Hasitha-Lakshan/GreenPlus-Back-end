@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.greenplus.backend.dto.BuyerRequestDetailsResponse;
+import com.greenplus.backend.dto.BuyerRequestDetailsPublicResponse;
+import com.greenplus.backend.dto.BuyerRequestPublicResponse;
 import com.greenplus.backend.dto.ResetPasswordByUserRequest;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.SetAccountStatusRequest;
@@ -24,9 +25,7 @@ import com.greenplus.backend.dto.ShopUpdateRequest;
 import com.greenplus.backend.dto.UserDetailsResponse;
 import com.greenplus.backend.dto.UserDetailsUpdateRequest;
 import com.greenplus.backend.service.AdminService;
-import com.greenplus.backend.service.BuyerService;
 import com.greenplus.backend.service.FarmerService;
-import com.greenplus.backend.service.PublicService;
 import com.greenplus.backend.service.UserManagementService;
 
 @RestController
@@ -37,27 +36,15 @@ public class FarmerController {
 	private FarmerService farmerService;
 
 	@Autowired
-	AdminService adminService;
+	private AdminService adminService;
 
 	@Autowired
-	PublicService publicService;
-
-	@Autowired
-	BuyerService buyerService;
-	
-	@Autowired
-	UserManagementService userManagementService;
+	private UserManagementService userManagementService;
 
 	@PostMapping("/shopcreating")
 	public Response shopcreating(@RequestBody ShopCreatingRequest shopCreatingRequest) {
 
 		return farmerService.shopCreating(shopCreatingRequest);
-	}
-
-	@GetMapping("/shopsbyuser/{username}")
-	public ResponseEntity<List<ShopDetailsResponse>> getShopsByUser(@PathVariable String username) {
-
-		return new ResponseEntity<>(farmerService.getShopsByUser(username), HttpStatus.OK);
 	}
 
 	@GetMapping("/shopsbyshopid/{shopId}")
@@ -78,36 +65,40 @@ public class FarmerController {
 		return farmerService.shopDelete(shopId);
 	}
 
+	@GetMapping("/buyerrequestspublic")
+	public ResponseEntity<List<BuyerRequestPublicResponse>> getAllBuyerRequests() {
+
+		return new ResponseEntity<>(farmerService.getAllBuyerRequestsPublic(), HttpStatus.OK);
+	}
+
+	@GetMapping("/buyerrequestbybuyerrequestid/{buyerRequestId}")
+	public ResponseEntity<BuyerRequestDetailsPublicResponse> getBuyerRequestByBuyerRequestId(
+			@PathVariable int buyerRequestId) {
+
+		return new ResponseEntity<>(farmerService.getBuyerRequestByBuyerRequestId(buyerRequestId), HttpStatus.OK);
+	}
+
 	@GetMapping("/{username}")
 	public ResponseEntity<UserDetailsResponse> getFarmerDetails(@PathVariable String username) {
 
 		return new ResponseEntity<>(userManagementService.getUserDetails(username), HttpStatus.OK);
 	}
 
-	@PutMapping("/setaccountstatus")
-	public Response setAccountStatus(@RequestBody SetAccountStatusRequest setAccountStatusRequest) {
-
-		return adminService.setAccountStatus(setAccountStatusRequest);
-
-	}
-
 	@PutMapping("/resetpassword")
 	public Response resetPassword(@RequestBody ResetPasswordByUserRequest resetPasswordByUserRequest) {
 
 		return userManagementService.resetPassword(resetPasswordByUserRequest);
-
 	}
 
 	@PutMapping("/updateuserdetails")
 	public Response updateUserDetails(@RequestBody UserDetailsUpdateRequest userDetailsUpdateRequest) {
 
 		return userManagementService.updateUserDetails(userDetailsUpdateRequest);
-
 	}
 
-	@GetMapping("/buyerrequests")
-	public ResponseEntity<List<BuyerRequestDetailsResponse>> getAllBuyerRequests() {
+	@PutMapping("/setaccountstatus")
+	public Response setAccountStatus(@RequestBody SetAccountStatusRequest setAccountStatusRequest) {
 
-		return new ResponseEntity<>(buyerService.getAllBuyerRequests(), HttpStatus.OK);
+		return adminService.setAccountStatus(setAccountStatusRequest);
 	}
 }

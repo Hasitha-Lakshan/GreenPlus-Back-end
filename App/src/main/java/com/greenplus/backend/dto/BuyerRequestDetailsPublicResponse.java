@@ -3,8 +3,9 @@ package com.greenplus.backend.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class BuyerRequestCreatingRequest {
+public class BuyerRequestDetailsPublicResponse {
 
+	private int buyerRequestId;
 	private String title;
 	private String description;
 	private String category;
@@ -15,7 +16,14 @@ public class BuyerRequestCreatingRequest {
 	private LocalDate createdDate;
 	private LocalTime createdTime;
 	private LocalTime deliveryTime;
-	private String username;
+
+	public int getBuyerRequestId() {
+		return buyerRequestId;
+	}
+
+	public void setBuyerRequestId(int buyerRequestId) {
+		this.buyerRequestId = buyerRequestId;
+	}
 
 	public String getTitle() {
 		return title;
@@ -95,14 +103,6 @@ public class BuyerRequestCreatingRequest {
 
 	public void setDeliveryTime(LocalTime deliveryTime) {
 		this.deliveryTime = deliveryTime;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 }
