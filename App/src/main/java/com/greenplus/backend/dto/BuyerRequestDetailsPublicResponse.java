@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 public class BuyerRequestDetailsPublicResponse {
 
-	private int buyerRequestId;
+	private String username;
 	private String title;
 	private String description;
 	private String category;
@@ -17,12 +17,12 @@ public class BuyerRequestDetailsPublicResponse {
 	private LocalTime createdTime;
 	private LocalTime deliveryTime;
 
-	public int getBuyerRequestId() {
-		return buyerRequestId;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setBuyerRequestId(int buyerRequestId) {
-		this.buyerRequestId = buyerRequestId;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getTitle() {

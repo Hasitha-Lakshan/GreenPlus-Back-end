@@ -25,7 +25,7 @@ public class BuyerRequest {
 	@Column
 	private String title;
 	@NotEmpty
-	@Column(length = 700)
+	@Column(length = 350)
 	private String description;
 	@NotEmpty
 	@Column

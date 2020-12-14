@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.greenplus.backend.dto.BuyerRequestDetailsPublicResponse;
-import com.greenplus.backend.dto.BuyerRequestPublicResponse;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.ShopCreatingRequest;
 import com.greenplus.backend.dto.ShopDetailsResponse;
@@ -178,34 +177,12 @@ public class FarmerService {
 
 	}
 
-	private BuyerRequestPublicResponse mapFromBuyerRequestToBuyerRequestPublicResponseDto(BuyerRequest buyerRequest) {
-
-		BuyerRequestPublicResponse buyerRequestPublicResponse = new BuyerRequestPublicResponse();
-
-		buyerRequestPublicResponse.setBuyerRequestId(buyerRequest.getBuyerRequestId());
-		buyerRequestPublicResponse.setTitle(buyerRequest.getTitle());
-		buyerRequestPublicResponse.setPrice(buyerRequest.getPrice());
-		buyerRequestPublicResponse.setLocation(buyerRequest.getLocation());
-		buyerRequestPublicResponse.setCreatedDate(buyerRequest.getCreatedDate());
-
-		return buyerRequestPublicResponse;
-	}
-
-	public List<BuyerRequestPublicResponse> getAllBuyerRequestsPublic() {
-
-		List<BuyerRequest> buyerRequests = buyerRequestRepository.findByBuyerRequestStatus(true);
-
-		return buyerRequests.stream().map(this::mapFromBuyerRequestToBuyerRequestPublicResponseDto)
-				.collect(Collectors.toList());
-
-	}
-
 	private BuyerRequestDetailsPublicResponse mapFromBuyerRequestToBuyerRequestDetailsPublicResponseDto(
 			BuyerRequest buyerRequest) {
 
 		BuyerRequestDetailsPublicResponse buyerRequestDetailsPublicResponse = new BuyerRequestDetailsPublicResponse();
 
-		buyerRequestDetailsPublicResponse.setBuyerRequestId(buyerRequest.getBuyerRequestId());
+		buyerRequestDetailsPublicResponse.setUsername(buyerRequest.getUser().getUsername());
 		buyerRequestDetailsPublicResponse.setTitle(buyerRequest.getTitle());
 		buyerRequestDetailsPublicResponse.setCategory(buyerRequest.getCategory());
 		buyerRequestDetailsPublicResponse.setSubCategory(buyerRequest.getSubCategory());
@@ -220,17 +197,12 @@ public class FarmerService {
 		return buyerRequestDetailsPublicResponse;
 	}
 
-	public BuyerRequestDetailsPublicResponse getBuyerRequestByBuyerRequestId(int buyerRequestId) {
+	public List<BuyerRequestDetailsPublicResponse> getAllBuyerRequests() {
 
-		BuyerRequest buyerRequest = buyerRequestRepository.findByBuyerRequestId(buyerRequestId);
+		List<BuyerRequest> buyerRequests = buyerRequestRepository.findByBuyerRequestStatus(true);
 
-		if (buyerRequest != null) {
-
-			return this.mapFromBuyerRequestToBuyerRequestDetailsPublicResponseDto(buyerRequest);
-
-		} else {
-			return null;
-		}
+		return buyerRequests.stream().map(this::mapFromBuyerRequestToBuyerRequestDetailsPublicResponseDto)
+				.collect(Collectors.toList());
 	}
 
 }
