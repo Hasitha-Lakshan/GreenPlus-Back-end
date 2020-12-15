@@ -3,6 +3,7 @@ package com.greenplus.backend.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -38,13 +39,12 @@ public class Security extends WebSecurityConfigurerAdapter {
 
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 
+		httpSecurity.csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll();
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/auth/**").permitAll();
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/public/**").permitAll();
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/admin/**").hasRole("ADMIN");
-		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/farmer/**")
-				.access("hasRole('FARMER') or hasRole('ADMIN')");
-		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/buyer/**")
-				.access("hasRole('BUYER') or hasRole('ADMIN')");
+		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/farmer/**").access("hasRole('FARMER') or hasRole('ADMIN')");
+		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/buyer/**").access("hasRole('BUYER') or hasRole('ADMIN')");
 
 		httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
