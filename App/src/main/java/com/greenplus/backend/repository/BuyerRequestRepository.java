@@ -18,5 +18,7 @@ public interface BuyerRequestRepository extends JpaRepository<BuyerRequest, Inte
 	List<BuyerRequest> findByBuyerRequestStatus(boolean buyerRequestStatus);
 
 	List<BuyerRequest> findByUser(User username);
+	
+	List<BuyerRequest> findByUserAndBuyerRequestStatus(User user, boolean buyerRequestStatus);
 
 }

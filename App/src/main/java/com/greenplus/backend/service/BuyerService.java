@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.greenplus.backend.dto.BuyerRequestCreatingRequest;
+import com.greenplus.backend.dto.BuyerRequestDetailsPublicResponse;
 import com.greenplus.backend.dto.BuyerRequestDetailsResponse;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.model.BuyerRequest;
@@ -123,15 +124,7 @@ public class BuyerService {
 		return buyerRequestDetailsResponse;
 	}
 
-	public List<BuyerRequestDetailsResponse> getAllBuyerRequests() {
-
-		List<BuyerRequest> buyerRequests = buyerRequestRepository.findByBuyerRequestStatus(true);
-
-		return buyerRequests.stream().map(this::mapFromBuyerRequestToDto).collect(Collectors.toList());
-
-	}
-
-	public List<BuyerRequestDetailsResponse> getBuyerRequestsByUser(String username) {
+	/*public List<BuyerRequestDetailsResponse> getBuyerRequestsByUser(String username) {
 
 		User user = userRepository.findByUsername(username);
 
@@ -140,6 +133,43 @@ public class BuyerService {
 			List<BuyerRequest> buyerRequests = buyerRequestRepository.findByUser(user);
 
 			return buyerRequests.stream().map(this::mapFromBuyerRequestToDto).collect(Collectors.toList());
+		} else {
+			return null;
+		}
+
+	}*/
+
+	private BuyerRequestDetailsPublicResponse mapFromBuyerRequestToBuyerRequestDetailsPublicResponseDto(
+			BuyerRequest buyerRequest) {
+
+		BuyerRequestDetailsPublicResponse buyerRequestDetailsPublicResponse = new BuyerRequestDetailsPublicResponse();
+
+		buyerRequestDetailsPublicResponse.setBuyerRequestId(buyerRequest.getBuyerRequestId());
+		buyerRequestDetailsPublicResponse.setUsername(buyerRequest.getUser().getUsername());
+		buyerRequestDetailsPublicResponse.setTitle(buyerRequest.getTitle());
+		buyerRequestDetailsPublicResponse.setCategory(buyerRequest.getCategory());
+		buyerRequestDetailsPublicResponse.setSubCategory(buyerRequest.getSubCategory());
+		buyerRequestDetailsPublicResponse.setDescription(buyerRequest.getDescription());
+		buyerRequestDetailsPublicResponse.setQuantity(buyerRequest.getQuantity());
+		buyerRequestDetailsPublicResponse.setPrice(buyerRequest.getPrice());
+		buyerRequestDetailsPublicResponse.setLocation(buyerRequest.getLocation());
+		buyerRequestDetailsPublicResponse.setCreatedDate(buyerRequest.getCreatedDate());
+		buyerRequestDetailsPublicResponse.setCreatedTime(buyerRequest.getCreatedTime());
+		buyerRequestDetailsPublicResponse.setDeliveryTime(buyerRequest.getDeliveryTime());
+
+		return buyerRequestDetailsPublicResponse;
+	}
+
+	public List<BuyerRequestDetailsPublicResponse> getActiveBuyerRequestsByUser(String username) {
+
+		User user = userRepository.findByUsername(username);
+
+		if (user != null && user.getRole().equals("BUYER")) {
+
+			List<BuyerRequest> buyerRequests = buyerRequestRepository.findByUserAndBuyerRequestStatus(user, true);
+
+			return buyerRequests.stream().map(this::mapFromBuyerRequestToBuyerRequestDetailsPublicResponseDto)
+					.collect(Collectors.toList());
 		} else {
 			return null;
 		}
