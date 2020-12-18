@@ -31,7 +31,7 @@ public class PublicController {
 	@GetMapping("/shopsbyuser/{username}")
 	public ResponseEntity<List<ShopCardDetailsResponse>> getShopsByUser(@PathVariable String username) {
 
-		return new ResponseEntity<>(publicService.getShopsByUser(username), HttpStatus.OK);
+		return new ResponseEntity<>(publicService.getActiveShopsByUser(username), HttpStatus.OK);
 	}
 
 	@GetMapping("/shopbyshopid/{shopId}")

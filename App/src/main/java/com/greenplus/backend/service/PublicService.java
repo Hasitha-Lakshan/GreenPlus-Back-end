@@ -76,13 +76,13 @@ public class PublicService {
 		return shopDetailsPublicResponse;
 	}
 
-	public List<ShopCardDetailsResponse> getShopsByUser(String username) {
+	public List<ShopCardDetailsResponse> getActiveShopsByUser(String username) {
 
 		User user = userRepository.findByUsername(username);
 
 		if (user != null) {
 
-			List<Shop> shops = shopRepository.findByUser(user);
+			List<Shop> shops = shopRepository.findByUserAndShopStatus(user, true);
 
 			return shops.stream().map(this::mapFromShopToShopCardDetailsResponseDto).collect(Collectors.toList());
 

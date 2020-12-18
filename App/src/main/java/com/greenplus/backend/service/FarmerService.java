@@ -182,6 +182,7 @@ public class FarmerService {
 
 		BuyerRequestDetailsPublicResponse buyerRequestDetailsPublicResponse = new BuyerRequestDetailsPublicResponse();
 
+		buyerRequestDetailsPublicResponse.setBuyerRequestId(buyerRequest.getBuyerRequestId());
 		buyerRequestDetailsPublicResponse.setUsername(buyerRequest.getUser().getUsername());
 		buyerRequestDetailsPublicResponse.setTitle(buyerRequest.getTitle());
 		buyerRequestDetailsPublicResponse.setCategory(buyerRequest.getCategory());
