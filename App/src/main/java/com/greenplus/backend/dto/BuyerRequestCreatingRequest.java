@@ -1,7 +1,8 @@
 package com.greenplus.backend.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class BuyerRequestCreatingRequest {
 
@@ -9,12 +10,13 @@ public class BuyerRequestCreatingRequest {
 	private String description;
 	private String category;
 	private String subCategory;
+	private String unit;
 	private int quantity;
 	private float price;
 	private String location;
-	private LocalDate createdDate;
-	private LocalTime createdTime;
-	private LocalTime deliveryTime;
+	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
+	private Date createdDate;
+	private int expectDays;
 	private String username;
 
 	public String getTitle() {
@@ -49,6 +51,14 @@ public class BuyerRequestCreatingRequest {
 		this.subCategory = subCategory;
 	}
 
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
 	public int getQuantity() {
 		return quantity;
 	}
@@ -73,28 +83,20 @@ public class BuyerRequestCreatingRequest {
 		this.location = location;
 	}
 
-	public LocalDate getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public LocalTime getCreatedTime() {
-		return createdTime;
+	public int getExpectDays() {
+		return expectDays;
 	}
 
-	public void setCreatedTime(LocalTime createdTime) {
-		this.createdTime = createdTime;
-	}
-
-	public LocalTime getDeliveryTime() {
-		return deliveryTime;
-	}
-
-	public void setDeliveryTime(LocalTime deliveryTime) {
-		this.deliveryTime = deliveryTime;
+	public void setExpectDays(int expectDays) {
+		this.expectDays = expectDays;
 	}
 
 	public String getUsername() {

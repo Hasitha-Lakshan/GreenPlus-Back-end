@@ -1,7 +1,6 @@
 package com.greenplus.backend.model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,13 +31,10 @@ public class Order {
 	private float price;
 	@NotEmpty
 	@Column
-	private LocalDate createdDate;
+	private Date createdDate;
 	@NotEmpty
 	@Column
-	private LocalTime createdTime;
-	@NotEmpty
-	@Column
-	private LocalTime duration;
+	private Date dueDate;
 	@NotEmpty
 	@Column
 	private boolean orderStatus;

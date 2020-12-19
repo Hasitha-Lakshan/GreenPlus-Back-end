@@ -1,14 +1,15 @@
 package com.greenplus.backend.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class BuyerRequestDashboardResponse {
-	
+
 	private int buyerRequestId;
 	private String title;
-	private LocalDate createdDate;
-	private LocalTime createdTime;
+	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
+	private Date createdDate;
 	private boolean buyerRequestStatus;
 
 	public int getBuyerRequestId() {
@@ -27,20 +28,12 @@ public class BuyerRequestDashboardResponse {
 		this.title = title;
 	}
 
-	public LocalDate getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
-	}
-
-	public LocalTime getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(LocalTime createdTime) {
-		this.createdTime = createdTime;
 	}
 
 	public boolean isBuyerRequestStatus() {

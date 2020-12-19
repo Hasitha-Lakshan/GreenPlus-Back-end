@@ -52,12 +52,12 @@ public class BuyerService {
 				buyerRequest.setDescription(buyerRequestCreatingRequest.getDescription());
 				buyerRequest.setCategory(buyerRequestCreatingRequest.getCategory());
 				buyerRequest.setSubCategory(buyerRequestCreatingRequest.getSubCategory());
+				buyerRequest.setUnit(buyerRequestCreatingRequest.getUnit());
 				buyerRequest.setQuantity(buyerRequestCreatingRequest.getQuantity());
 				buyerRequest.setPrice(buyerRequestCreatingRequest.getPrice());
 				buyerRequest.setLocation(buyerRequestCreatingRequest.getLocation());
 				buyerRequest.setCreatedDate(buyerRequestCreatingRequest.getCreatedDate());
-				buyerRequest.setCreatedTime(buyerRequestCreatingRequest.getCreatedTime());
-				buyerRequest.setDeliveryTime(buyerRequestCreatingRequest.getDeliveryTime());
+				buyerRequest.setExpectDays(buyerRequestCreatingRequest.getExpectDays());
 				buyerRequest.setBuyerRequestStatus(true);
 				buyerRequest.setUser(user);
 
@@ -114,12 +114,12 @@ public class BuyerService {
 		buyerRequestDetailsResponse.setCategory(buyerRequest.getCategory());
 		buyerRequestDetailsResponse.setSubCategory(buyerRequest.getSubCategory());
 		buyerRequestDetailsResponse.setDescription(buyerRequest.getDescription());
+		buyerRequestDetailsResponse.setUnit(buyerRequest.getUnit());
 		buyerRequestDetailsResponse.setQuantity(buyerRequest.getQuantity());
 		buyerRequestDetailsResponse.setPrice(buyerRequest.getPrice());
 		buyerRequestDetailsResponse.setLocation(buyerRequest.getLocation());
 		buyerRequestDetailsResponse.setCreatedDate(buyerRequest.getCreatedDate());
-		buyerRequestDetailsResponse.setCreatedTime(buyerRequest.getCreatedTime());
-		buyerRequestDetailsResponse.setDeliveryTime(buyerRequest.getDeliveryTime());
+		buyerRequestDetailsResponse.setExpectDays(buyerRequest.getExpectDays());
 		buyerRequestDetailsResponse.setBuyerRequestStatus(buyerRequest.isBuyerRequestStatus());
 
 		return buyerRequestDetailsResponse;
@@ -136,12 +136,12 @@ public class BuyerService {
 		buyerRequestDetailsPublicResponse.setCategory(buyerRequest.getCategory());
 		buyerRequestDetailsPublicResponse.setSubCategory(buyerRequest.getSubCategory());
 		buyerRequestDetailsPublicResponse.setDescription(buyerRequest.getDescription());
+		buyerRequestDetailsPublicResponse.setUnit(buyerRequest.getUnit());
 		buyerRequestDetailsPublicResponse.setQuantity(buyerRequest.getQuantity());
 		buyerRequestDetailsPublicResponse.setPrice(buyerRequest.getPrice());
 		buyerRequestDetailsPublicResponse.setLocation(buyerRequest.getLocation());
 		buyerRequestDetailsPublicResponse.setCreatedDate(buyerRequest.getCreatedDate());
-		buyerRequestDetailsPublicResponse.setCreatedTime(buyerRequest.getCreatedTime());
-		buyerRequestDetailsPublicResponse.setDeliveryTime(buyerRequest.getDeliveryTime());
+		buyerRequestDetailsPublicResponse.setExpectDays(buyerRequest.getExpectDays());
 
 		return buyerRequestDetailsPublicResponse;
 	}
@@ -183,7 +183,6 @@ public class BuyerService {
 		buyerRequestDashboardResponse.setBuyerRequestId(buyerRequest.getBuyerRequestId());
 		buyerRequestDashboardResponse.setTitle(buyerRequest.getTitle());
 		buyerRequestDashboardResponse.setCreatedDate(buyerRequest.getCreatedDate());
-		buyerRequestDashboardResponse.setCreatedTime(buyerRequest.getCreatedTime());
 		buyerRequestDashboardResponse.setBuyerRequestStatus(buyerRequest.isBuyerRequestStatus());
 
 		return buyerRequestDashboardResponse;

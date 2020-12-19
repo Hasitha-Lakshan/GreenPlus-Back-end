@@ -187,12 +187,12 @@ public class FarmerService {
 		buyerRequestDetailsPublicResponse.setCategory(buyerRequest.getCategory());
 		buyerRequestDetailsPublicResponse.setSubCategory(buyerRequest.getSubCategory());
 		buyerRequestDetailsPublicResponse.setDescription(buyerRequest.getDescription());
+		buyerRequestDetailsPublicResponse.setUnit(buyerRequest.getUnit());
 		buyerRequestDetailsPublicResponse.setQuantity(buyerRequest.getQuantity());
 		buyerRequestDetailsPublicResponse.setPrice(buyerRequest.getPrice());
 		buyerRequestDetailsPublicResponse.setLocation(buyerRequest.getLocation());
 		buyerRequestDetailsPublicResponse.setCreatedDate(buyerRequest.getCreatedDate());
-		buyerRequestDetailsPublicResponse.setCreatedTime(buyerRequest.getCreatedTime());
-		buyerRequestDetailsPublicResponse.setDeliveryTime(buyerRequest.getDeliveryTime());
+		buyerRequestDetailsPublicResponse.setExpectDays(buyerRequest.getExpectDays());
 
 		return buyerRequestDetailsPublicResponse;
 	}

@@ -1,7 +1,6 @@
 package com.greenplus.backend.model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,6 +34,9 @@ public class BuyerRequest {
 	private String subCategory;
 	@NotEmpty
 	@Column
+	private String unit;
+	@NotEmpty
+	@Column
 	private int quantity;
 	@NotEmpty
 	@Column
@@ -44,16 +46,13 @@ public class BuyerRequest {
 	private String location;
 	@NotEmpty
 	@Column
-	private LocalDate createdDate;
-	@NotEmpty
-	@Column
-	private LocalTime createdTime;
+	private Date createdDate;
 	@NotEmpty
 	@Column
 	private boolean buyerRequestStatus;
 	@NotEmpty
 	@Column
-	private LocalTime deliveryTime;
+	private int expectDays;
 
 	//////////////////// Relationships/////////////////////////
 
@@ -104,6 +103,14 @@ public class BuyerRequest {
 		this.subCategory = subCategory;
 	}
 
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
 	public int getQuantity() {
 		return quantity;
 	}
@@ -128,20 +135,12 @@ public class BuyerRequest {
 		this.location = location;
 	}
 
-	public LocalDate getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
-	}
-
-	public LocalTime getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(LocalTime createdTime) {
-		this.createdTime = createdTime;
 	}
 
 	public boolean isBuyerRequestStatus() {
@@ -152,12 +151,12 @@ public class BuyerRequest {
 		this.buyerRequestStatus = buyerRequestStatus;
 	}
 
-	public @NotEmpty LocalTime getDeliveryTime() {
-		return deliveryTime;
+	public int getExpectDays() {
+		return expectDays;
 	}
 
-	public void setDeliveryTime(LocalTime localTime) {
-		this.deliveryTime = localTime;
+	public void setExpectDays(int expectDays) {
+		this.expectDays = expectDays;
 	}
 
 	public User getUser() {
@@ -171,10 +170,9 @@ public class BuyerRequest {
 	@Override
 	public String toString() {
 		return "BuyerRequest [buyerRequestId=" + buyerRequestId + ", title=" + title + ", description=" + description
-				+ ", category=" + category + ", subCategory=" + subCategory + ", quantity=" + quantity + ", price="
-				+ price + ", location=" + location + ", createdDate=" + createdDate + ", createdTime=" + createdTime
-				+ ", buyerRequestStatus=" + buyerRequestStatus + ", deliveryTime=" + deliveryTime + ", user=" + user
-				+ "]";
+				+ ", category=" + category + ", subCategory=" + subCategory + ", unit=" + unit + ", quantity="
+				+ quantity + ", price=" + price + ", location=" + location + ", createdDate=" + createdDate
+				+ ", buyerRequestStatus=" + buyerRequestStatus + ", expectDays=" + expectDays + ", user=" + user + "]";
 	}
 
 }
