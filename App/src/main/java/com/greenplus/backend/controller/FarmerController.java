@@ -19,6 +19,7 @@ import com.greenplus.backend.dto.ResetPasswordByUserRequest;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.SetAccountStatusRequest;
 import com.greenplus.backend.dto.ShopCreatingRequest;
+import com.greenplus.backend.dto.ShopDashboardResponse;
 import com.greenplus.backend.dto.ShopDetailsResponse;
 import com.greenplus.backend.dto.ShopUpdateRequest;
 import com.greenplus.backend.dto.UserDetailsResponse;
@@ -50,6 +51,12 @@ public class FarmerController {
 	public ResponseEntity<ShopDetailsResponse> getShopsByUser(@PathVariable int shopId) {
 
 		return new ResponseEntity<>(farmerService.getShopsByShopId(shopId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/shopsbyuser/{username}")
+	public ResponseEntity<List<ShopDashboardResponse>> getAllAShopsByUser(@PathVariable String username) {
+
+		return new ResponseEntity<>(farmerService.getAllAShopsByUser(username), HttpStatus.OK);
 	}
 
 	@PutMapping("/shopupdate/{shopId}")

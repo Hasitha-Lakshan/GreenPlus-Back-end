@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.greenplus.backend.dto.BuyerRequestDetailsPublicResponse;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.ShopCreatingRequest;
+import com.greenplus.backend.dto.ShopDashboardResponse;
 import com.greenplus.backend.dto.ShopDetailsResponse;
 import com.greenplus.backend.dto.ShopUpdateRequest;
 import com.greenplus.backend.model.BuyerRequest;
@@ -206,4 +207,31 @@ public class FarmerService {
 				.collect(Collectors.toList());
 	}
 
+	private ShopDashboardResponse mapFromShopToShopDashboardResponseDto(Shop shop) {
+
+		ShopDashboardResponse shopDashboardResponse = new ShopDashboardResponse();
+
+		shopDashboardResponse.setShopId(shop.getShopId());
+		shopDashboardResponse.setTitle(shop.getTitle());
+		shopDashboardResponse.setCreatedDate(shop.getCreatedDate());
+		shopDashboardResponse.setCreatedTime(shop.getCreatedTime());
+		shopDashboardResponse.setShopStatus(shop.isShopStatus());
+
+		return shopDashboardResponse;
+	}
+
+	public List<ShopDashboardResponse> getAllAShopsByUser(String username) {
+
+		User user = userRepository.findByUsername(username);
+
+		if (user != null && user.getRole().equals("FARMER")) {
+
+			List<Shop> shops = shopRepository.findByUser(user);
+
+			return shops.stream().map(this::mapFromShopToShopDashboardResponseDto).collect(Collectors.toList());
+		} else {
+			return null;
+		}
+
+	}
 }

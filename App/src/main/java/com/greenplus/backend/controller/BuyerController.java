@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.greenplus.backend.dto.BuyerRequestCreatingRequest;
+import com.greenplus.backend.dto.BuyerRequestDashboardResponse;
 import com.greenplus.backend.dto.BuyerRequestDetailsPublicResponse;
 import com.greenplus.backend.dto.BuyerRequestDetailsResponse;
 import com.greenplus.backend.dto.ResetPasswordByUserRequest;
@@ -87,6 +88,12 @@ public class BuyerController {
 			@PathVariable String username) {
 
 		return new ResponseEntity<>(buyerService.getActiveBuyerRequestsByUser(username), HttpStatus.OK);
+	}
+
+	@GetMapping("/buyerrequestsbyuser/{username}")
+	public ResponseEntity<List<BuyerRequestDashboardResponse>> getAllBuyerRequestByUser(@PathVariable String username) {
+
+		return new ResponseEntity<>(buyerService.getAllBuyerRequestByUser(username), HttpStatus.OK);
 	}
 
 	@GetMapping("/buyerrequestbybuyerrequestid/{buyerRequestId}")

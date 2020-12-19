@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.greenplus.backend.dto.BuyerRequestCreatingRequest;
+import com.greenplus.backend.dto.BuyerRequestDashboardResponse;
 import com.greenplus.backend.dto.BuyerRequestDetailsPublicResponse;
 import com.greenplus.backend.dto.BuyerRequestDetailsResponse;
 import com.greenplus.backend.dto.Response;
@@ -104,7 +105,7 @@ public class BuyerService {
 
 	}
 
-	private BuyerRequestDetailsResponse mapFromBuyerRequestToDto(BuyerRequest buyerRequest) {
+	private BuyerRequestDetailsResponse mapFromBuyerRequestToBuyerRequestDetailsResponseDto(BuyerRequest buyerRequest) {
 
 		BuyerRequestDetailsResponse buyerRequestDetailsResponse = new BuyerRequestDetailsResponse();
 
@@ -123,21 +124,6 @@ public class BuyerService {
 
 		return buyerRequestDetailsResponse;
 	}
-
-	/*public List<BuyerRequestDetailsResponse> getBuyerRequestsByUser(String username) {
-
-		User user = userRepository.findByUsername(username);
-
-		if (user != null && user.getRole().equals("BUYER")) {
-
-			List<BuyerRequest> buyerRequests = buyerRequestRepository.findByUser(user);
-
-			return buyerRequests.stream().map(this::mapFromBuyerRequestToDto).collect(Collectors.toList());
-		} else {
-			return null;
-		}
-
-	}*/
 
 	private BuyerRequestDetailsPublicResponse mapFromBuyerRequestToBuyerRequestDetailsPublicResponseDto(
 			BuyerRequest buyerRequest) {
@@ -182,8 +168,37 @@ public class BuyerService {
 
 		if (buyerRequest != null) {
 
-			return this.mapFromBuyerRequestToDto(buyerRequest);
+			return this.mapFromBuyerRequestToBuyerRequestDetailsResponseDto(buyerRequest);
 
+		} else {
+			return null;
+		}
+	}
+
+	private BuyerRequestDashboardResponse mapFromBuyerRequestToBuyerRequestDashboardResponseDto(
+			BuyerRequest buyerRequest) {
+
+		BuyerRequestDashboardResponse buyerRequestDashboardResponse = new BuyerRequestDashboardResponse();
+
+		buyerRequestDashboardResponse.setBuyerRequestId(buyerRequest.getBuyerRequestId());
+		buyerRequestDashboardResponse.setTitle(buyerRequest.getTitle());
+		buyerRequestDashboardResponse.setCreatedDate(buyerRequest.getCreatedDate());
+		buyerRequestDashboardResponse.setCreatedTime(buyerRequest.getCreatedTime());
+		buyerRequestDashboardResponse.setBuyerRequestStatus(buyerRequest.isBuyerRequestStatus());
+
+		return buyerRequestDashboardResponse;
+	}
+
+	public List<BuyerRequestDashboardResponse> getAllBuyerRequestByUser(String username) {
+
+		User user = userRepository.findByUsername(username);
+
+		if (user != null && user.getRole().equals("BUYER")) {
+
+			List<BuyerRequest> buyerRequests = buyerRequestRepository.findByUser(user);
+
+			return buyerRequests.stream().map(this::mapFromBuyerRequestToBuyerRequestDashboardResponseDto)
+					.collect(Collectors.toList());
 		} else {
 			return null;
 		}
