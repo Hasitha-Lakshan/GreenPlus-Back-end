@@ -1,19 +1,15 @@
 package com.greenplus.backend.dto;
 
-import java.time.LocalTime;
-
-import javax.validation.constraints.NotEmpty;
-
 public class ShopUpdateRequest {
 
 	private String title;
 	private String category;
 	private String subCategory;
 	private String description;
-	private int quantity;
-	private float price;
+	private String unit;
+	private float priceOfOneUnit;
 	private String location;
-	private LocalTime deliveryTime;
+	private int deliveryDays;
 	private boolean shopStatus;
 
 	public String getTitle() {
@@ -22,14 +18,6 @@ public class ShopUpdateRequest {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public String getCategory() {
@@ -48,20 +36,28 @@ public class ShopUpdateRequest {
 		this.subCategory = subCategory;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public float getPrice() {
-		return price;
+	public String getUnit() {
+		return unit;
 	}
 
-	public void setPrice(float price) {
-		this.price = price;
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public float getPriceOfOneUnit() {
+		return priceOfOneUnit;
+	}
+
+	public void setPriceOfOneUnit(float priceOfOneUnit) {
+		this.priceOfOneUnit = priceOfOneUnit;
 	}
 
 	public String getLocation() {
@@ -72,12 +68,12 @@ public class ShopUpdateRequest {
 		this.location = location;
 	}
 
-	public @NotEmpty LocalTime getDeliveryTime() {
-		return deliveryTime;
+	public int getDeliveryDays() {
+		return deliveryDays;
 	}
 
-	public void setDeliveryTime(LocalTime deliveryTime) {
-		this.deliveryTime = deliveryTime;
+	public void setDeliveryDays(int deliveryDays) {
+		this.deliveryDays = deliveryDays;
 	}
 
 	public boolean isShopStatus() {

@@ -1,7 +1,6 @@
 package com.greenplus.backend.model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,25 +35,22 @@ public class Shop {
 	private String subCategory;
 	@NotEmpty
 	@Column
-	private int quantity;
+	private String unit;
 	@NotEmpty
 	@Column
-	private float price;
+	private float priceOfOneUnit;
 	@NotEmpty
 	@Column
 	private String location;
 	@NotEmpty
 	@Column
-	private LocalDate createdDate;
-	@NotEmpty
-	@Column
-	private LocalTime createdTime;
+	private Date createdDate;
 	@NotEmpty
 	@Column
 	private boolean shopStatus;
 	@NotEmpty
 	@Column
-	private LocalTime deliveryTime;
+	private int deliveryDays;
 
 	//////////////////// Relationships/////////////////////////
 
@@ -105,20 +101,20 @@ public class Shop {
 		this.subCategory = subCategory;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public String getUnit() {
+		return unit;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 
-	public float getPrice() {
-		return price;
+	public float getPriceOfOneUnit() {
+		return priceOfOneUnit;
 	}
 
-	public void setPrice(float price) {
-		this.price = price;
+	public void setPriceOfOneUnit(float priceOfOneUnit) {
+		this.priceOfOneUnit = priceOfOneUnit;
 	}
 
 	public String getLocation() {
@@ -129,20 +125,12 @@ public class Shop {
 		this.location = location;
 	}
 
-	public LocalDate getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
-	}
-
-	public LocalTime getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(@NotEmpty LocalTime createdTime) {
-		this.createdTime = createdTime;
 	}
 
 	public boolean isShopStatus() {
@@ -153,12 +141,12 @@ public class Shop {
 		this.shopStatus = shopStatus;
 	}
 
-	public @NotEmpty LocalTime getDeliveryTime() {
-		return deliveryTime;
+	public int getDeliveryDays() {
+		return deliveryDays;
 	}
 
-	public void setDeliveryTime(@NotEmpty LocalTime deliveryTime) {
-		this.deliveryTime = deliveryTime;
+	public void setDeliveryDays(int deliveryDays) {
+		this.deliveryDays = deliveryDays;
 	}
 
 	public User getUser() {
@@ -172,8 +160,9 @@ public class Shop {
 	@Override
 	public String toString() {
 		return "Shop [shopId=" + shopId + ", title=" + title + ", description=" + description + ", category=" + category
-				+ ", subCategory=" + subCategory + ", quantity=" + quantity + ", price=" + price + ", location="
-				+ location + ", createdDate=" + createdDate + ", createdTime=" + createdTime + ", shopStatus="
-				+ shopStatus + ", deliveryTime=" + deliveryTime + ", user=" + user + "]";
+				+ ", subCategory=" + subCategory + ", unit=" + unit + ", priceOfOneUnit=" + priceOfOneUnit
+				+ ", location=" + location + ", createdDate=" + createdDate + ", shopStatus=" + shopStatus
+				+ ", deliveryDays=" + deliveryDays + ", user=" + user + "]";
 	}
+
 }

@@ -58,12 +58,11 @@ public class FarmerService {
 				shop.setCategory(shopCreatingRequest.getCategory());
 				shop.setSubCategory(shopCreatingRequest.getSubCategory());
 				shop.setDescription(shopCreatingRequest.getDescription());
-				shop.setQuantity(shopCreatingRequest.getQuantity());
-				shop.setPrice(shopCreatingRequest.getPrice());
+				shop.setUnit(shopCreatingRequest.getUnit());
+				shop.setPriceOfOneUnit(shopCreatingRequest.getPriceOfOneUnit());
 				shop.setLocation(shopCreatingRequest.getLocation());
 				shop.setCreatedDate(shopCreatingRequest.getCreatedDate());
-				shop.setCreatedTime(shopCreatingRequest.getCreatedTime());
-				shop.setDeliveryTime(shopCreatingRequest.getDeliveryTime());
+				shop.setDeliveryDays(shopCreatingRequest.getDeliveryDays());
 				shop.setShopStatus(true);
 				shop.setUser(user);
 
@@ -99,12 +98,11 @@ public class FarmerService {
 		shopDetailsResponse.setCategory(shop.getCategory());
 		shopDetailsResponse.setSubCategory(shop.getSubCategory());
 		shopDetailsResponse.setDescription(shop.getDescription());
-		shopDetailsResponse.setQuantity(shop.getQuantity());
-		shopDetailsResponse.setPrice(shop.getPrice());
+		shopDetailsResponse.setUnit(shop.getUnit());
+		shopDetailsResponse.setPriceOfOneUnit(shop.getPriceOfOneUnit());
 		shopDetailsResponse.setLocation(shop.getLocation());
 		shopDetailsResponse.setCreatedDate(shop.getCreatedDate());
-		shopDetailsResponse.setCreatedTime(shop.getCreatedTime());
-		shopDetailsResponse.setDeliveryTime(shop.getDeliveryTime());
+		shopDetailsResponse.setDeliveryDays(shop.getDeliveryDays());
 		shopDetailsResponse.setShopStatus(shop.isShopStatus());
 
 		return shopDetailsResponse;
@@ -133,10 +131,10 @@ public class FarmerService {
 			shop.setCategory(shopUpdateRequest.getCategory());
 			shop.setSubCategory(shopUpdateRequest.getSubCategory());
 			shop.setDescription(shopUpdateRequest.getDescription());
-			shop.setQuantity(shopUpdateRequest.getQuantity());
-			shop.setPrice(shopUpdateRequest.getPrice());
+			shop.setUnit(shopUpdateRequest.getUnit());
+			shop.setPriceOfOneUnit(shopUpdateRequest.getPriceOfOneUnit());
 			shop.setLocation(shopUpdateRequest.getLocation());
-			shop.setDeliveryTime(shopUpdateRequest.getDeliveryTime());
+			shop.setDeliveryDays(shopUpdateRequest.getDeliveryDays());
 			shop.setShopStatus(shopUpdateRequest.isShopStatus());
 
 			shopRepository.save(shop);
@@ -214,7 +212,6 @@ public class FarmerService {
 		shopDashboardResponse.setShopId(shop.getShopId());
 		shopDashboardResponse.setTitle(shop.getTitle());
 		shopDashboardResponse.setCreatedDate(shop.getCreatedDate());
-		shopDashboardResponse.setCreatedTime(shop.getCreatedTime());
 		shopDashboardResponse.setShopStatus(shop.isShopStatus());
 
 		return shopDashboardResponse;

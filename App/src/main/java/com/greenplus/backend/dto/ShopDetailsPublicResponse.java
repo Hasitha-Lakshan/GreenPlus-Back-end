@@ -1,20 +1,21 @@
 package com.greenplus.backend.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ShopDetailsPublicResponse {
 
 	private String title;
 	private String category;
 	private String subCategory;
-	private int quantity;
-	private float price;
+	private String unit;
+	private float priceOfOneUnit;
 	private String description;
 	private String location;
-	private LocalDate createdDate;
-	private LocalTime createdTime;
-	private LocalTime deliveryTime;
+	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
+	private Date createdDate;
+	private int deliveryDays;
 	private String username;
 
 	public String getTitle() {
@@ -23,14 +24,6 @@ public class ShopDetailsPublicResponse {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public String getCategory() {
@@ -49,20 +42,28 @@ public class ShopDetailsPublicResponse {
 		this.subCategory = subCategory;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public String getUnit() {
+		return unit;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 
-	public float getPrice() {
-		return price;
+	public float getPriceOfOneUnit() {
+		return priceOfOneUnit;
 	}
 
-	public void setPrice(float price) {
-		this.price = price;
+	public void setPriceOfOneUnit(float priceOfOneUnit) {
+		this.priceOfOneUnit = priceOfOneUnit;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getLocation() {
@@ -73,28 +74,20 @@ public class ShopDetailsPublicResponse {
 		this.location = location;
 	}
 
-	public LocalDate getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public LocalTime getCreatedTime() {
-		return createdTime;
+	public int getDeliveryDays() {
+		return deliveryDays;
 	}
 
-	public void setCreatedTime(LocalTime createdTime) {
-		this.createdTime = createdTime;
-	}
-
-	public LocalTime getDeliveryTime() {
-		return deliveryTime;
-	}
-
-	public void setDeliveryTime(LocalTime deliveryTime) {
-		this.deliveryTime = deliveryTime;
+	public void setDeliveryDays(int deliveryDays) {
+		this.deliveryDays = deliveryDays;
 	}
 
 	public String getUsername() {

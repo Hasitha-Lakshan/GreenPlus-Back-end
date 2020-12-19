@@ -1,9 +1,8 @@
 package com.greenplus.backend.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
 
-import javax.validation.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ShopDetailsResponse {
 
@@ -12,12 +11,12 @@ public class ShopDetailsResponse {
 	private String description;
 	private String category;
 	private String subCategory;
-	private int quantity;
-	private float price;
+	private String unit;
+	private float priceOfOneUnit;
 	private String location;
-	private LocalDate createdDate;
-	private LocalTime createdTime;
-	private LocalTime deliveryTime;
+	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
+	private Date createdDate;
+	private int deliveryDays;
 	private boolean shopStatus;
 
 	public int getShopId() {
@@ -60,20 +59,20 @@ public class ShopDetailsResponse {
 		this.subCategory = subCategory;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public String getUnit() {
+		return unit;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 
-	public float getPrice() {
-		return price;
+	public float getPriceOfOneUnit() {
+		return priceOfOneUnit;
 	}
 
-	public void setPrice(float price) {
-		this.price = price;
+	public void setPriceOfOneUnit(float priceOfOneUnit) {
+		this.priceOfOneUnit = priceOfOneUnit;
 	}
 
 	public String getLocation() {
@@ -84,28 +83,20 @@ public class ShopDetailsResponse {
 		this.location = location;
 	}
 
-	public LocalDate getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public LocalTime getCreatedTime() {
-		return createdTime;
+	public int getDeliveryDays() {
+		return deliveryDays;
 	}
 
-	public void setCreatedTime(LocalTime createdTime) {
-		this.createdTime = createdTime;
-	}
-
-	public LocalTime getDeliveryTime() {
-		return deliveryTime;
-	}
-
-	public void setDeliveryTime(@NotEmpty LocalTime localTime) {
-		this.deliveryTime = localTime;
+	public void setDeliveryDays(int deliveryDays) {
+		this.deliveryDays = deliveryDays;
 	}
 
 	public boolean isShopStatus() {

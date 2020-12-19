@@ -1,14 +1,18 @@
 package com.greenplus.backend.dto;
 
-import java.time.LocalDate;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ShopCardDetailsResponse {
 
 	private int shopId;
 	private String title;
-	private float price;
+	private String unit;
+	private float priceOfOneUnit;
 	private String location;
-	private LocalDate createdDate;
+	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
+	private Date createdDate;
 
 	public int getShopId() {
 		return shopId;
@@ -26,12 +30,20 @@ public class ShopCardDetailsResponse {
 		this.title = title;
 	}
 
-	public float getPrice() {
-		return price;
+	public String getUnit() {
+		return unit;
 	}
 
-	public void setPrice(float price) {
-		this.price = price;
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public float getPriceOfOneUnit() {
+		return priceOfOneUnit;
+	}
+
+	public void setPriceOfOneUnit(float priceOfOneUnit) {
+		this.priceOfOneUnit = priceOfOneUnit;
 	}
 
 	public String getLocation() {
@@ -42,11 +54,11 @@ public class ShopCardDetailsResponse {
 		this.location = location;
 	}
 
-	public LocalDate getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 

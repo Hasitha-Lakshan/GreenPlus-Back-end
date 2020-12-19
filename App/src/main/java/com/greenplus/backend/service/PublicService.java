@@ -39,7 +39,7 @@ public class PublicService {
 
 		shopCardDetailsResponse.setShopId(shop.getShopId());
 		shopCardDetailsResponse.setTitle(shop.getTitle());
-		shopCardDetailsResponse.setPrice(shop.getPrice());
+		shopCardDetailsResponse.setPriceOfOneUnit(shop.getPriceOfOneUnit());
 		shopCardDetailsResponse.setLocation(shop.getLocation());
 		shopCardDetailsResponse.setCreatedDate(shop.getCreatedDate());
 
@@ -64,13 +64,12 @@ public class PublicService {
 		shopDetailsPublicResponse.setTitle(shop.getTitle());
 		shopDetailsPublicResponse.setCategory(shop.getCategory());
 		shopDetailsPublicResponse.setSubCategory(shop.getSubCategory());
-		shopDetailsPublicResponse.setQuantity(shop.getQuantity());
-		shopDetailsPublicResponse.setPrice(shop.getPrice());
+		shopDetailsPublicResponse.setUnit(shop.getUnit());
+		shopDetailsPublicResponse.setPriceOfOneUnit(shop.getPriceOfOneUnit());
 		shopDetailsPublicResponse.setDescription(shop.getDescription());
 		shopDetailsPublicResponse.setLocation(shop.getLocation());
-		shopDetailsPublicResponse.setDeliveryTime(shop.getDeliveryTime());
+		shopDetailsPublicResponse.setDeliveryDays(shop.getDeliveryDays());
 		shopDetailsPublicResponse.setCreatedDate(shop.getCreatedDate());
-		shopDetailsPublicResponse.setCreatedTime(shop.getCreatedTime());
 		shopDetailsPublicResponse.setUsername(shop.getUser().getUsername());
 
 		return shopDetailsPublicResponse;
