@@ -39,6 +39,7 @@ public class PublicService {
 
 		shopCardDetailsResponse.setShopId(shop.getShopId());
 		shopCardDetailsResponse.setTitle(shop.getTitle());
+		shopCardDetailsResponse.setUnit(shop.getUnit());
 		shopCardDetailsResponse.setPriceOfOneUnit(shop.getPriceOfOneUnit());
 		shopCardDetailsResponse.setLocation(shop.getLocation());
 		shopCardDetailsResponse.setCreatedDate(shop.getCreatedDate());
