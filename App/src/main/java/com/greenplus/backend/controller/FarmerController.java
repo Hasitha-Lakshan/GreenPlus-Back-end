@@ -48,7 +48,7 @@ public class FarmerController {
 	}
 
 	@GetMapping("/shopsbyshopid/{shopId}")
-	public ResponseEntity<ShopDetailsResponse> getShopsByUser(@PathVariable int shopId) {
+	public ResponseEntity<ShopDetailsResponse> getShopsByShopId(@PathVariable int shopId) {
 
 		return new ResponseEntity<>(farmerService.getShopsByShopId(shopId), HttpStatus.OK);
 	}

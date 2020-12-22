@@ -18,6 +18,7 @@ import com.greenplus.backend.dto.BuyerRequestCreatingRequest;
 import com.greenplus.backend.dto.BuyerRequestDashboardResponse;
 import com.greenplus.backend.dto.BuyerRequestDetailsPublicResponse;
 import com.greenplus.backend.dto.BuyerRequestDetailsResponse;
+import com.greenplus.backend.dto.BuyerRequestUpdateRequest;
 import com.greenplus.backend.dto.ResetPasswordByUserRequest;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.SetAccountStatusRequest;
@@ -88,6 +89,13 @@ public class BuyerController {
 			@PathVariable String username) {
 
 		return new ResponseEntity<>(buyerService.getActiveBuyerRequestsByUser(username), HttpStatus.OK);
+	}
+
+	@PutMapping("/buyerrequestupdate/{buyerRequestId}")
+	public Response buyerRequestUpdate(@PathVariable int buyerRequestId,
+			@RequestBody BuyerRequestUpdateRequest buyerRequestUpdateRequest) {
+
+		return buyerService.buyerRequestUpdate(buyerRequestId, buyerRequestUpdateRequest);
 	}
 
 	@GetMapping("/buyerrequestsbyuser/{username}")

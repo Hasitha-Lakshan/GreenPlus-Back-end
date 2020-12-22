@@ -12,6 +12,7 @@ import com.greenplus.backend.dto.BuyerRequestCreatingRequest;
 import com.greenplus.backend.dto.BuyerRequestDashboardResponse;
 import com.greenplus.backend.dto.BuyerRequestDetailsPublicResponse;
 import com.greenplus.backend.dto.BuyerRequestDetailsResponse;
+import com.greenplus.backend.dto.BuyerRequestUpdateRequest;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.model.BuyerRequest;
 import com.greenplus.backend.model.User;
@@ -200,6 +201,39 @@ public class BuyerService {
 					.collect(Collectors.toList());
 		} else {
 			return null;
+		}
+	}
+
+	public Response buyerRequestUpdate(int buyerRequestId, BuyerRequestUpdateRequest buyerRequestUpdateRequest) {
+
+		BuyerRequest buyerRequest = buyerRequestRepository.findByBuyerRequestId(buyerRequestId);
+
+		if (buyerRequest != null) {
+
+			buyerRequest.setTitle(buyerRequestUpdateRequest.getTitle());
+			buyerRequest.setCategory(buyerRequestUpdateRequest.getCategory());
+			buyerRequest.setSubCategory(buyerRequestUpdateRequest.getSubCategory());
+			buyerRequest.setDescription(buyerRequestUpdateRequest.getDescription());
+			buyerRequest.setUnit(buyerRequestUpdateRequest.getUnit());
+			buyerRequest.setQuantity(buyerRequestUpdateRequest.getQuantity());
+			buyerRequest.setPrice(buyerRequestUpdateRequest.getPrice());
+			buyerRequest.setLocation(buyerRequestUpdateRequest.getLocation());
+			buyerRequest.setExpectDays(buyerRequestUpdateRequest.getExpectDays());
+			buyerRequest.setBuyerRequestStatus(buyerRequestUpdateRequest.isBuyerRequestStatus());
+
+			buyerRequestRepository.save(buyerRequest);
+
+			response.setResponseBody("Buyer Request successfully updated!");
+			response.setResponseStatus(true);
+
+			return response;
+
+		} else {
+
+			response.setResponseBody("The Buyer Request does not exsit, Buyer Request update failed!");
+			response.setResponseStatus(false);
+
+			return response;
 		}
 	}
 
