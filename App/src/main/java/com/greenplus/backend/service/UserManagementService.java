@@ -1,5 +1,7 @@
 package com.greenplus.backend.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -8,7 +10,11 @@ import com.greenplus.backend.dto.ResetPasswordByUserRequest;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.UserDetailsResponse;
 import com.greenplus.backend.dto.UserDetailsUpdateRequest;
+import com.greenplus.backend.model.BuyerRequest;
+import com.greenplus.backend.model.Shop;
 import com.greenplus.backend.model.User;
+import com.greenplus.backend.repository.BuyerRequestRepository;
+import com.greenplus.backend.repository.ShopRepository;
 import com.greenplus.backend.repository.UserRepository;
 
 @Service
@@ -22,6 +28,12 @@ public class UserManagementService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private ShopRepository shopRepository;
+
+	@Autowired
+	private BuyerRequestRepository buyerRequestRepository;
 
 	public UserDetailsResponse getUserDetails(String username) {
 
@@ -145,6 +157,26 @@ public class UserManagementService {
 
 			user.setAccountStatus(false);
 			userRepository.save(user);
+
+			if (user.getRole().equals("FARMER")) {
+
+				List<Shop> shops = shopRepository.findByShopStatus(true);
+
+				for (Shop shop : shops) {
+					shop.setShopStatus(false);
+					shopRepository.save(shop);
+				}
+			}
+
+			if (user.getRole().equals("BUYER")) {
+
+				List<BuyerRequest> buyerRequests = buyerRequestRepository.findByBuyerRequestStatus(true);
+
+				for (BuyerRequest buyerRequest : buyerRequests) {
+					buyerRequest.setBuyerRequestStatus(false);
+					buyerRequestRepository.save(buyerRequest);
+				}
+			}
 
 			response.setResponseBody("Account Successfully Deactivated!");
 			response.setResponseStatus(true);

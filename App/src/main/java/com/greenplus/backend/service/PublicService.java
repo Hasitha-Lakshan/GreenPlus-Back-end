@@ -51,7 +51,7 @@ public class PublicService {
 
 		Shop shop = shopRepository.findByShopId(shopId);
 
-		if (shop != null) {
+		if (shop != null && (shop.isShopStatus()==true)) {
 			return this.mapFromShopToShopDetailsPublicResponseDto(shop);
 		} else {
 			return null;
