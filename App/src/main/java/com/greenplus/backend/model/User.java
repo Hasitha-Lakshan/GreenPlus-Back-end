@@ -35,7 +35,7 @@ public class User {
 	@Column
 	private String password;
 	@NotEmpty
-	@Column(length=10, unique = true)
+	@Column(length = 10, unique = true)
 	private int mobileNumber;
 	@NotEmpty
 	@Column(unique = true)

@@ -108,6 +108,8 @@ public class AuthService {
 
 		LoginResponse loginResponse = new LoginResponse();
 
+		this.reActivateUserAccount(loginRequest.getUsername());
+
 		Authentication authenticate = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authenticate);
@@ -124,5 +126,16 @@ public class AuthService {
 		User user = userRepository.findByUsername(username);
 
 		return user.getRole();
+	}
+
+	private void reActivateUserAccount(String username) {
+
+		User user = userRepository.findByUsername(username);
+
+		if (user.getRole().equals("FARMER") || user.getRole().equals("BUYER") && (user.isAccountStatus() == false)) {
+			user.setAccountStatus(true);
+			userRepository.save(user);
+		}
+
 	}
 }

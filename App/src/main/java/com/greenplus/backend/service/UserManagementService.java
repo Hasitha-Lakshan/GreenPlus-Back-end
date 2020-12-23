@@ -55,19 +55,30 @@ public class UserManagementService {
 		return userDetailsResponse;
 	}
 
-	public Response resetPassword(ResetPasswordByUserRequest resetPasswordByUserRequest) {
+	public Response resetPassword(String username, ResetPasswordByUserRequest resetPasswordByUserRequest) {
 
-		if (validateUser(resetPasswordByUserRequest.getUserUsername(), resetPasswordByUserRequest.getOldPassword())) {
+		if (validateUser(username, resetPasswordByUserRequest.getOldPassword())) {
 
-			User user = userRepository.findByUsername(resetPasswordByUserRequest.getUserUsername());
+			if (resetPasswordByUserRequest.getUserNewPassword() == resetPasswordByUserRequest
+					.getUserNewconfirmPassword()) {
 
-			user.setPassword(passwordEncoder.encode(resetPasswordByUserRequest.getUserNewPassword()));
-			userRepository.save(user);
+				User user = userRepository.findByUsername(username);
 
-			response.setResponseBody("Password changed sucessfully!");
-			response.setResponseStatus(true);
+				user.setPassword(passwordEncoder.encode(resetPasswordByUserRequest.getUserNewPassword()));
+				userRepository.save(user);
 
-			return response;
+				response.setResponseBody("Password changed sucessfully!");
+				response.setResponseStatus(true);
+
+				return response;
+			} else {
+
+				response.setResponseBody(
+						"New Password and New Confirm Password did not match, Password changed failed!");
+				response.setResponseStatus(false);
+
+				return response;
+			}
 
 		} else {
 
@@ -79,12 +90,12 @@ public class UserManagementService {
 
 	}
 
-	private boolean validateUser(String username, String password) {
+	private boolean validateUser(String username, String oldPassword) {
 
 		User user = userRepository.findByUsername(username);
 
 		if (user != null) {
-			if (passwordEncoder.matches(password, user.getPassword())) {
+			if (passwordEncoder.matches(oldPassword, user.getPassword())) {
 
 				return true;
 

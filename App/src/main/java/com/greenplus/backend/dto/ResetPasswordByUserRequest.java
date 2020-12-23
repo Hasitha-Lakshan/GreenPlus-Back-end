@@ -2,17 +2,9 @@ package com.greenplus.backend.dto;
 
 public class ResetPasswordByUserRequest {
 
-	private String userUsername;
 	private String oldPassword;
 	private String userNewPassword;
-
-	public String getUserUsername() {
-		return userUsername;
-	}
-
-	public void setUserUsername(String userUsername) {
-		this.userUsername = userUsername;
-	}
+	private String userNewconfirmPassword;
 
 	public String getOldPassword() {
 		return oldPassword;
@@ -28,6 +20,14 @@ public class ResetPasswordByUserRequest {
 
 	public void setUserNewPassword(String userNewPassword) {
 		this.userNewPassword = userNewPassword;
+	}
+
+	public String getUserNewconfirmPassword() {
+		return userNewconfirmPassword;
+	}
+
+	public void setUserNewconfirmPassword(String userNewconfirmPassword) {
+		this.userNewconfirmPassword = userNewconfirmPassword;
 	}
 
 }

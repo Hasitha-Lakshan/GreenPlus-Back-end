@@ -15,18 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.greenplus.backend.dto.BuyerRequestDetailsPublicResponse;
-import com.greenplus.backend.dto.ResetPasswordByUserRequest;
 import com.greenplus.backend.dto.Response;
-import com.greenplus.backend.dto.SetAccountStatusRequest;
 import com.greenplus.backend.dto.ShopCreatingRequest;
 import com.greenplus.backend.dto.ShopDashboardResponse;
 import com.greenplus.backend.dto.ShopDetailsResponse;
 import com.greenplus.backend.dto.ShopUpdateRequest;
-import com.greenplus.backend.dto.UserDetailsResponse;
-import com.greenplus.backend.dto.UserDetailsUpdateRequest;
-import com.greenplus.backend.service.AdminService;
 import com.greenplus.backend.service.FarmerService;
-import com.greenplus.backend.service.UserManagementService;
 
 @RestController
 @RequestMapping("/api/farmer")
@@ -34,12 +28,6 @@ public class FarmerController {
 
 	@Autowired
 	private FarmerService farmerService;
-
-	@Autowired
-	private AdminService adminService;
-
-	@Autowired
-	private UserManagementService userManagementService;
 
 	@PostMapping("/shopcreating")
 	public Response shopcreating(@RequestBody ShopCreatingRequest shopCreatingRequest) {
@@ -52,7 +40,7 @@ public class FarmerController {
 
 		return new ResponseEntity<>(farmerService.getShopsByShopId(shopId), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/shopsbyuser/{username}")
 	public ResponseEntity<List<ShopDashboardResponse>> getAllAShopsByUser(@PathVariable String username) {
 
@@ -77,27 +65,4 @@ public class FarmerController {
 		return new ResponseEntity<>(farmerService.getAllBuyerRequests(), HttpStatus.OK);
 	}
 
-	@GetMapping("/{username}")
-	public ResponseEntity<UserDetailsResponse> getFarmerDetails(@PathVariable String username) {
-
-		return new ResponseEntity<>(userManagementService.getUserDetails(username), HttpStatus.OK);
-	}
-
-	@PutMapping("/resetpassword")
-	public Response resetPassword(@RequestBody ResetPasswordByUserRequest resetPasswordByUserRequest) {
-
-		return userManagementService.resetPassword(resetPasswordByUserRequest);
-	}
-
-	@PutMapping("/updateuserdetails")
-	public Response updateUserDetails(@RequestBody UserDetailsUpdateRequest userDetailsUpdateRequest) {
-
-		return userManagementService.updateUserDetails(userDetailsUpdateRequest);
-	}
-
-	@PutMapping("/setaccountstatus")
-	public Response setAccountStatus(@RequestBody SetAccountStatusRequest setAccountStatusRequest) {
-
-		return adminService.setAccountStatus(setAccountStatusRequest);
-	}
 }
