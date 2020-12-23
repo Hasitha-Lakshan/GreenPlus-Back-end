@@ -71,8 +71,8 @@ public class UserManagementService {
 
 		if (validateUser(username, resetPasswordByUserRequest.getOldPassword())) {
 
-			if (resetPasswordByUserRequest.getUserNewPassword() == resetPasswordByUserRequest
-					.getUserNewconfirmPassword()) {
+			if (resetPasswordByUserRequest.getUserNewPassword()
+					.equals(resetPasswordByUserRequest.getUserNewconfirmPassword())) {
 
 				User user = userRepository.findByUsername(username);
 
