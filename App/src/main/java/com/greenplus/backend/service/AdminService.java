@@ -73,31 +73,6 @@ public class AdminService {
 		return users.stream().map(this::mapFromUserToDto).collect(Collectors.toList());
 	}
 
-	public Response setAccountStatus(SetAccountStatusRequest setAccountStatusRequest) {
-
-		User user = userRepository.findByUsername(setAccountStatusRequest.getUsername());
-
-		if (user != null) {
-
-			user.setAccountStatus(setAccountStatusRequest.isAccountStatus());
-			userRepository.save(user);
-
-			response.setResponseBody("Account Status Successfully Changed!");
-			response.setResponseStatus(true);
-
-			return response;
-
-		} else {
-
-			response.setResponseBody("Account Status not Changed!, username:" + setAccountStatusRequest.getUsername()
-					+ " doest not exist");
-			response.setResponseStatus(false);
-
-			return response;
-		}
-
-	}
-
 	public Response resetPassword(ResetPasswordByAdminRequest resetPasswordByAdminRequest) {
 
 		if (validateUser(resetPasswordByAdminRequest.getAdminUsername(),
@@ -147,6 +122,31 @@ public class AdminService {
 			}
 		} else {
 			return false;
+		}
+
+	}
+
+	public Response setAccountStatus(SetAccountStatusRequest setAccountStatusRequest) {
+
+		User user = userRepository.findByUsername(setAccountStatusRequest.getUsername());
+
+		if (user != null) {
+
+			user.setAccountStatus(setAccountStatusRequest.isAccountStatus());
+			userRepository.save(user);
+
+			response.setResponseBody("Account Status Successfully Changed!");
+			response.setResponseStatus(true);
+
+			return response;
+
+		} else {
+
+			response.setResponseBody("Account Status not Changed!, username:" + setAccountStatusRequest.getUsername()
+					+ " doest not exist");
+			response.setResponseStatus(false);
+
+			return response;
 		}
 
 	}

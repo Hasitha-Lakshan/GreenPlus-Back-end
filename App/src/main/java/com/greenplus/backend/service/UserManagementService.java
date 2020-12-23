@@ -136,4 +136,28 @@ public class UserManagementService {
 			return response;
 		}
 	}
+
+	public Response deactivateAccount(String username) {
+
+		User user = userRepository.findByUsername(username);
+
+		if (user != null) {
+
+			user.setAccountStatus(false);
+			userRepository.save(user);
+
+			response.setResponseBody("Account Successfully Deactivated!");
+			response.setResponseStatus(true);
+
+			return response;
+
+		} else {
+
+			response.setResponseBody("Account Deactivate Failed!, username:" + username + " doest not exist");
+			response.setResponseStatus(false);
+
+			return response;
+		}
+
+	}
 }

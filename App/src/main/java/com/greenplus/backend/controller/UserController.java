@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.greenplus.backend.dto.ResetPasswordByUserRequest;
 import com.greenplus.backend.dto.Response;
-import com.greenplus.backend.dto.SetAccountStatusRequest;
 import com.greenplus.backend.dto.UserDetailsResponse;
 import com.greenplus.backend.dto.UserDetailsUpdateRequest;
-import com.greenplus.backend.service.AdminService;
 import com.greenplus.backend.service.UserManagementService;
 
 @RestController
@@ -24,9 +22,6 @@ public class UserController {
 
 	@Autowired
 	UserManagementService userManagementService;
-
-	@Autowired
-	AdminService adminService;
 
 	@GetMapping("/{username}")
 	public ResponseEntity<UserDetailsResponse> getUserDetails(@PathVariable String username) {
@@ -47,10 +42,10 @@ public class UserController {
 		return userManagementService.updateUserDetails(userDetailsUpdateRequest);
 	}
 
-	@PutMapping("/setaccountstatus")
-	public Response setAccountStatus(@RequestBody SetAccountStatusRequest setAccountStatusRequest) {
+	@PutMapping("/deactivateaccount/{username}")
+	public Response deactivateAccount(@PathVariable String username) {
 
-		return adminService.setAccountStatus(setAccountStatusRequest);
+		return userManagementService.deactivateAccount(username);
 	}
 
 }
