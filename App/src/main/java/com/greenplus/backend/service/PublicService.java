@@ -6,11 +6,14 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.greenplus.backend.dto.ProfilePictureResponse;
 import com.greenplus.backend.dto.ShopCardDetailsResponse;
 import com.greenplus.backend.dto.ShopDetailsPublicResponse;
 import com.greenplus.backend.dto.UserDetailsPublicResponse;
+import com.greenplus.backend.model.ProfilePicture;
 import com.greenplus.backend.model.Shop;
 import com.greenplus.backend.model.User;
+import com.greenplus.backend.repository.ProfilePictureRepository;
 import com.greenplus.backend.repository.ShopRepository;
 import com.greenplus.backend.repository.UserRepository;
 
@@ -22,6 +25,9 @@ public class PublicService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private ProfilePictureRepository profilePictureRepository;
 
 	/////// Functions for Unauthorized Users //////////////////////////
 
@@ -51,7 +57,7 @@ public class PublicService {
 
 		Shop shop = shopRepository.findByShopId(shopId);
 
-		if (shop != null && (shop.isShopStatus()==true)) {
+		if (shop != null && (shop.isShopStatus() == true)) {
 			return this.mapFromShopToShopDetailsPublicResponseDto(shop);
 		} else {
 			return null;
@@ -120,6 +126,33 @@ public class PublicService {
 		userDetailsPublicResponse.setAddressLine3(user.getAddressLine3());
 
 		return userDetailsPublicResponse;
+	}
+
+	public ProfilePictureResponse getProfilePicture(String username) {
+
+		User user = userRepository.findByUsername(username);
+
+		if (user != null) {
+
+			ProfilePicture profilePicture = profilePictureRepository.findByUser(user);
+
+			if (profilePicture != null) {
+
+				ProfilePictureResponse profilePictureResponse = new ProfilePictureResponse();
+
+				profilePictureResponse.setName(profilePicture.getName());
+				profilePictureResponse.setType(profilePicture.getType());
+				profilePictureResponse.setPictureBytes(profilePicture.getPictureBytes());
+
+				return profilePictureResponse;
+
+			} else {
+				return null;
+			}
+
+		} else {
+			return null;
+		}
 	}
 
 }

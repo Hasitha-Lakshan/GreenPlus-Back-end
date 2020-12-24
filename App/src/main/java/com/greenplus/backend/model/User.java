@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -60,6 +61,9 @@ public class User {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<BuyerRequest> buyerRquests;
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+	private ProfilePicture profilePicture;
 
 	//////////////////////////////////////////////////////////
 
@@ -175,13 +179,21 @@ public class User {
 		this.buyerRquests = buyerRquests;
 	}
 
+	public ProfilePicture getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(ProfilePicture profilePicture) {
+		this.profilePicture = profilePicture;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", role=" + role + ", password=" + password + ", mobileNumber=" + mobileNumber + ", email="
 				+ email + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", addressLine3="
 				+ addressLine3 + ", accountStatus=" + accountStatus + ", shops=" + shops + ", buyerRquests="
-				+ buyerRquests + "]";
+				+ buyerRquests + ", profilePicture=" + profilePicture + "]";
 	}
 
 }

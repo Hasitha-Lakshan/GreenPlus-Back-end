@@ -21,6 +21,7 @@ public class BuyerRequest {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int buyerRequestId;
+	@NotEmpty
 	@Column
 	private String title;
 	@NotEmpty

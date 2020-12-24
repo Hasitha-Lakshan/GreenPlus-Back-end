@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.greenplus.backend.dto.ProfilePictureResponse;
 import com.greenplus.backend.dto.ShopCardDetailsResponse;
 import com.greenplus.backend.dto.ShopDetailsPublicResponse;
 import com.greenplus.backend.dto.UserDetailsPublicResponse;
@@ -44,5 +45,11 @@ public class PublicController {
 	public ResponseEntity<UserDetailsPublicResponse> getUserDetailsPublic(@PathVariable String username) {
 
 		return new ResponseEntity<>(publicService.getUserDetailsPublic(username), HttpStatus.OK);
+	}
+
+	@GetMapping("/user/profilepicture/{username}")
+	public ResponseEntity<ProfilePictureResponse> getProfilePicture(@PathVariable String username) {
+
+		return new ResponseEntity<>(publicService.getProfilePicture(username), HttpStatus.OK);
 	}
 }
