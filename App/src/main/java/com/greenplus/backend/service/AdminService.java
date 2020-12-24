@@ -30,11 +30,11 @@ public class AdminService {
 
 		UserDetailsResponse userDetailsResponse = new UserDetailsResponse();
 
-		userDetailsResponse.setUserId(user.getUserId());
+		//userDetailsResponse.setUserId(user.getUserId());
 		userDetailsResponse.setFirstName(user.getFirstName());
 		userDetailsResponse.setLastName(user.getLastName());
 		userDetailsResponse.setUsername(user.getUsername());
-		userDetailsResponse.setAccountStatus(user.isAccountStatus());
+		//userDetailsResponse.setAccountStatus(user.isAccountStatus());
 		userDetailsResponse.setRole(user.getRole());
 		userDetailsResponse.setMobileNumber(user.getMobileNumber());
 		userDetailsResponse.setEmail(user.getEmail());

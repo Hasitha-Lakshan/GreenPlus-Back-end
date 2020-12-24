@@ -36,10 +36,11 @@ public class UserController {
 		return userManagementService.resetPassword(username, resetPasswordByUserRequest);
 	}
 
-	@PutMapping("/updateuserdetails")
-	public Response updateUserDetails(@RequestBody UserDetailsUpdateRequest userDetailsUpdateRequest) {
+	@PutMapping("/updateuserdetails/{username}")
+	public Response updateUserDetails(@PathVariable String username,
+			@RequestBody UserDetailsUpdateRequest userDetailsUpdateRequest) {
 
-		return userManagementService.updateUserDetails(userDetailsUpdateRequest);
+		return userManagementService.updateUserDetails(username, userDetailsUpdateRequest);
 	}
 
 	@PutMapping("/deactivateaccount/{username}")

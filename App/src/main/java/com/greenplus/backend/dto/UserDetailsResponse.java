@@ -2,25 +2,15 @@ package com.greenplus.backend.dto;
 
 public class UserDetailsResponse {
 
-	private int userId;
 	private String firstName;
 	private String lastName;
 	private String username;
-	private boolean accountStatus;
 	private String role;
 	private int mobileNumber;
 	private String email;
 	private String addressLine1;
 	private String addressLine2;
 	private String addressLine3;
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
 
 	public String getFirstName() {
 		return firstName;
@@ -44,14 +34,6 @@ public class UserDetailsResponse {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public boolean isAccountStatus() {
-		return accountStatus;
-	}
-
-	public void setAccountStatus(boolean accountStatus) {
-		this.accountStatus = accountStatus;
 	}
 
 	public String getRole() {

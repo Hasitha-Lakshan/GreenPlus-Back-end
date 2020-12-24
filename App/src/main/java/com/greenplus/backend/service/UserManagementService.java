@@ -1,6 +1,7 @@
 package com.greenplus.backend.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,11 +53,9 @@ public class UserManagementService {
 
 		UserDetailsResponse userDetailsResponse = new UserDetailsResponse();
 
-		userDetailsResponse.setUserId(user.getUserId());
 		userDetailsResponse.setFirstName(user.getFirstName());
 		userDetailsResponse.setLastName(user.getLastName());
 		userDetailsResponse.setUsername(user.getUsername());
-		userDetailsResponse.setAccountStatus(user.isAccountStatus());
 		userDetailsResponse.setRole(user.getRole());
 		userDetailsResponse.setMobileNumber(user.getMobileNumber());
 		userDetailsResponse.setEmail(user.getEmail());
@@ -106,7 +105,7 @@ public class UserManagementService {
 
 		User user = userRepository.findByUsername(username);
 
-		if (user != null) {
+		if (user != null && oldPassword != null) {
 			if (passwordEncoder.matches(oldPassword, user.getPassword())) {
 
 				return true;
@@ -120,29 +119,45 @@ public class UserManagementService {
 
 	}
 
-	public Response updateUserDetails(UserDetailsUpdateRequest userDetailsUpdateRequest) {
+	public Response updateUserDetails(String username, UserDetailsUpdateRequest userDetailsUpdateRequest) {
 
-		if (validateUser(userDetailsUpdateRequest.getUsername(), userDetailsUpdateRequest.getPassword())) {
+		if (validateUser(username, userDetailsUpdateRequest.getPassword())) {
 
-			User user = userRepository.findByUsername(userDetailsUpdateRequest.getUsername());
+			User user = userRepository.findByUsername(username);
+			User userByMobileNumber = userRepository.findByMobileNumber(userDetailsUpdateRequest.getMobileNumber());
+			Optional<User> optiobalUserByMobileNumber = userRepository
+					.findBymobileNumber(userDetailsUpdateRequest.getMobileNumber());
 
-			user.setFirstName(userDetailsUpdateRequest.getFirstName());
-			user.setLastName(userDetailsUpdateRequest.getLastName());
-			user.setAddressLine1(userDetailsUpdateRequest.getAddressLine1());
-			user.setAddressLine2(userDetailsUpdateRequest.getAddressLine2());
-			user.setAddressLine3(userDetailsUpdateRequest.getAddressLine3());
+			if (user.getUsername().equals(userByMobileNumber.getUsername()) || (optiobalUserByMobileNumber.isEmpty())) {
 
-			userRepository.save(user);
+				user.setFirstName(userDetailsUpdateRequest.getFirstName());
+				user.setLastName(userDetailsUpdateRequest.getLastName());
+				user.setMobileNumber(userDetailsUpdateRequest.getMobileNumber());
+				user.setAddressLine1(userDetailsUpdateRequest.getAddressLine1());
+				user.setAddressLine2(userDetailsUpdateRequest.getAddressLine2());
+				user.setAddressLine3(userDetailsUpdateRequest.getAddressLine3());
 
-			response.setResponseBody("User details updated successfully!");
-			response.setResponseStatus(true);
+				userRepository.save(user);
 
-			return response;
+				response.setResponseBody("User details updated successfully!");
+				response.setResponseStatus(true);
+
+				return response;
+
+			} else {
+
+				response.setResponseBody(
+						"The mobile number is already using by another user, User details update is failed!");
+				response.setResponseStatus(false);
+
+				return response;
+			}
+
 		}
 
 		else {
 
-			response.setResponseBody("User validation failed!");
+			response.setResponseBody("User validation failed, User details update is failed!");
 			response.setResponseStatus(false);
 
 			return response;

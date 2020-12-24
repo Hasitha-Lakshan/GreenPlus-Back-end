@@ -4,8 +4,8 @@ public class UserDetailsUpdateRequest {
 
 	private String firstName;
 	private String lastName;
-	private String username;
 	private String password;
+	private int mobileNumber;
 	private String addressLine1;
 	private String addressLine2;
 	private String addressLine3;
@@ -26,20 +26,20 @@ public class UserDetailsUpdateRequest {
 		this.lastName = lastName;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public int getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(int mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
 	public String getAddressLine1() {
