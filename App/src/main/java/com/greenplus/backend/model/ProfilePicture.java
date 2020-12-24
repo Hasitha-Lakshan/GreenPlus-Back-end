@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -28,8 +29,9 @@ public class ProfilePicture {
 	@NotEmpty
 	@Column
 	private String type;
+	@Lob
 	@NotEmpty
-	@Column(name = "pictureBytes", length = 1000)
+	@Column(name = "pictureBytes")
 	private byte[] pictureBytes;
 
 	//////////////////// Relationships/////////////////////////

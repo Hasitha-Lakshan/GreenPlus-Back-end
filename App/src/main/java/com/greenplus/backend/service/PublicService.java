@@ -1,7 +1,11 @@
 package com.greenplus.backend.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.zip.DataFormatException;
+import java.util.zip.Inflater;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -142,7 +146,7 @@ public class PublicService {
 
 				profilePictureResponse.setName(profilePicture.getName());
 				profilePictureResponse.setType(profilePicture.getType());
-				profilePictureResponse.setPictureBytes(profilePicture.getPictureBytes());
+				profilePictureResponse.setPictureBytes(uncompressPictureBytes(profilePicture.getPictureBytes()));
 
 				return profilePictureResponse;
 
@@ -153,6 +157,31 @@ public class PublicService {
 		} else {
 			return null;
 		}
+	}
+
+	// Uncompress the picture bytes
+	private byte[] uncompressPictureBytes(byte[] pictureBytes) {
+
+		Inflater inflater = new Inflater();
+
+		inflater.setInput(pictureBytes);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(pictureBytes.length);
+
+		byte[] buffer = new byte[1048576];
+
+		try {
+			while (!inflater.finished()) {
+
+				int count = inflater.inflate(buffer);
+				outputStream.write(buffer, 0, count);
+			}
+			outputStream.close();
+
+		} catch (IOException ioe) {
+		} catch (DataFormatException e) {
+		}
+
+		return outputStream.toByteArray();
 	}
 
 }

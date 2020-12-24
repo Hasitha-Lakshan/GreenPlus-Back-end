@@ -1,20 +1,26 @@
 package com.greenplus.backend.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.zip.Deflater;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.greenplus.backend.dto.ResetPasswordByUserRequest;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.dto.UserDetailsResponse;
 import com.greenplus.backend.dto.UserDetailsUpdateRequest;
 import com.greenplus.backend.model.BuyerRequest;
+import com.greenplus.backend.model.ProfilePicture;
 import com.greenplus.backend.model.Shop;
 import com.greenplus.backend.model.User;
 import com.greenplus.backend.repository.BuyerRequestRepository;
+import com.greenplus.backend.repository.ProfilePictureRepository;
 import com.greenplus.backend.repository.ShopRepository;
 import com.greenplus.backend.repository.UserRepository;
 
@@ -35,6 +41,9 @@ public class UserManagementService {
 
 	@Autowired
 	private BuyerRequestRepository buyerRequestRepository;
+
+	@Autowired
+	private ProfilePictureRepository profilePictureRepository;
 
 	public UserDetailsResponse getUserDetails(String username) {
 
@@ -207,4 +216,79 @@ public class UserManagementService {
 		}
 
 	}
+
+	public Response setProfilePicture(String username, MultipartFile profilePictureByUser) throws IOException {
+
+		User user = userRepository.findByUsername(username);
+
+		if (user != null && !profilePictureByUser.isEmpty()) {
+
+			ProfilePicture profilePicture = profilePictureRepository.findByUser(user);
+
+			if (profilePicture != null) {
+
+				profilePicture.setName(profilePictureByUser.getOriginalFilename());
+				profilePicture.setType(profilePictureByUser.getContentType());
+				profilePicture.setPictureBytes(compressBytes(profilePictureByUser.getBytes()));
+				profilePicture.setUser(user);
+
+				profilePictureRepository.save(profilePicture);
+
+				response.setResponseBody("Profile picture updated successfully!");
+				response.setResponseStatus(true);
+
+				return response;
+
+			} else {
+
+				ProfilePicture newProfilePicture = new ProfilePicture();
+
+				newProfilePicture.setName(profilePictureByUser.getOriginalFilename());
+				newProfilePicture.setType(profilePictureByUser.getContentType());
+				newProfilePicture.setPictureBytes(compressBytes(profilePictureByUser.getBytes()));
+				newProfilePicture.setUser(user);
+
+				profilePictureRepository.save(newProfilePicture);
+
+				response.setResponseBody("New profile picture setting is successfull!");
+				response.setResponseStatus(true);
+
+				return response;
+			}
+
+		} else {
+
+			response.setResponseBody(
+					"User : " + username + " does not exist or invalid file, Profile picture setting is failed!");
+			response.setResponseStatus(false);
+
+			return response;
+		}
+	}
+
+	// Compress the picture bytes
+	private byte[] compressBytes(byte[] pictureBytes) {
+
+		Deflater deflater = new Deflater();
+
+		deflater.setInput(pictureBytes);
+		deflater.finish();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(pictureBytes.length);
+
+		byte[] buffer = new byte[1048576];
+
+		while (!deflater.finished()) {
+
+			int count = deflater.deflate(buffer);
+			outputStream.write(buffer, 0, count);
+		}
+		try {
+			outputStream.close();
+
+		} catch (IOException e) {
+		}
+
+		return outputStream.toByteArray();
+	}
+
 }
