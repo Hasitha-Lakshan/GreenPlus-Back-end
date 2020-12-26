@@ -217,6 +217,7 @@ public class UserManagementService {
 
 	}
 
+	// Save the images in database, Max file size is 1M
 	public Response setProfilePicture(String username, MultipartFile profilePictureByUser) throws IOException {
 
 		User user = userRepository.findByUsername(username);
@@ -225,35 +226,52 @@ public class UserManagementService {
 
 			ProfilePicture profilePicture = profilePictureRepository.findByUser(user);
 
-			if (profilePicture != null) {
+			if (profilePictureByUser.getSize() >= 1.5e+6) {
 
-				profilePicture.setName(profilePictureByUser.getOriginalFilename());
-				profilePicture.setType(profilePictureByUser.getContentType());
-				profilePicture.setPictureBytes(compressBytes(profilePictureByUser.getBytes()));
-				profilePicture.setUser(user);
+				response.setResponseBody("Exceeds the maximum size, profile picture setting is failed!");
+				response.setResponseStatus(false);
 
-				profilePictureRepository.save(profilePicture);
+				return response;
 
-				response.setResponseBody("Profile picture updated successfully!");
-				response.setResponseStatus(true);
+			} else if (!profilePictureByUser.getContentType().startsWith("image")) {
+
+				response.setResponseBody("Does not support the file format, profile picture setting is failed!");
+				response.setResponseStatus(false);
 
 				return response;
 
 			} else {
 
-				ProfilePicture newProfilePicture = new ProfilePicture();
+				if (profilePicture != null) {
 
-				newProfilePicture.setName(profilePictureByUser.getOriginalFilename());
-				newProfilePicture.setType(profilePictureByUser.getContentType());
-				newProfilePicture.setPictureBytes(compressBytes(profilePictureByUser.getBytes()));
-				newProfilePicture.setUser(user);
+					profilePicture.setName(profilePictureByUser.getOriginalFilename());
+					profilePicture.setType(profilePictureByUser.getContentType());
+					profilePicture.setPictureBytes(compressBytes(profilePictureByUser.getBytes()));
+					profilePicture.setUser(user);
 
-				profilePictureRepository.save(newProfilePicture);
+					profilePictureRepository.save(profilePicture);
 
-				response.setResponseBody("New profile picture setting is successfull!");
-				response.setResponseStatus(true);
+					response.setResponseBody("Profile picture updated successfully!");
+					response.setResponseStatus(true);
 
-				return response;
+					return response;
+
+				} else {
+
+					ProfilePicture newProfilePicture = new ProfilePicture();
+
+					newProfilePicture.setName(profilePictureByUser.getOriginalFilename());
+					newProfilePicture.setType(profilePictureByUser.getContentType());
+					newProfilePicture.setPictureBytes(compressBytes(profilePictureByUser.getBytes()));
+					newProfilePicture.setUser(user);
+
+					profilePictureRepository.save(newProfilePicture);
+
+					response.setResponseBody("New profile picture setting is successfull!");
+					response.setResponseStatus(true);
+
+					return response;
+				}
 			}
 
 		} else {
