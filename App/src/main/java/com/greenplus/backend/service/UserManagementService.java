@@ -222,7 +222,7 @@ public class UserManagementService {
 
 		User user = userRepository.findByUsername(username);
 
-		if (user != null && !profilePictureByUser.isEmpty()) {
+		if (user != null && profilePictureByUser != null) {
 
 			ProfilePicture profilePicture = profilePictureRepository.findByUser(user);
 

@@ -1,12 +1,16 @@
 package com.greenplus.backend.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.zip.Deflater;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.greenplus.backend.dto.BuyerRequestDetailsPublicResponse;
 import com.greenplus.backend.dto.Response;
@@ -16,8 +20,10 @@ import com.greenplus.backend.dto.ShopDetailsResponse;
 import com.greenplus.backend.dto.ShopUpdateRequest;
 import com.greenplus.backend.model.BuyerRequest;
 import com.greenplus.backend.model.Shop;
+import com.greenplus.backend.model.ShopPicture;
 import com.greenplus.backend.model.User;
 import com.greenplus.backend.repository.BuyerRequestRepository;
+import com.greenplus.backend.repository.ShopPictureRepository;
 import com.greenplus.backend.repository.ShopRepository;
 import com.greenplus.backend.repository.UserRepository;
 
@@ -36,7 +42,11 @@ public class FarmerService {
 	@Autowired
 	private BuyerRequestRepository buyerRequestRepository;
 
-	public Response shopCreating(ShopCreatingRequest shopCreatingRequest) {
+	@Autowired
+	private ShopPictureRepository shopPictureRepository;
+
+	public Response shopCreating(MultipartFile shopPicture, ShopCreatingRequest shopCreatingRequest)
+			throws IOException {
 
 		if (shopCreatingRequest != null) {
 
@@ -52,26 +62,63 @@ public class FarmerService {
 
 			else if (user != null && user.getRole().equals("FARMER")) {
 
-				Shop shop = new Shop();
+				if (shopPicture != null) {
 
-				shop.setTitle(shopCreatingRequest.getTitle());
-				shop.setCategory(shopCreatingRequest.getCategory());
-				shop.setSubCategory(shopCreatingRequest.getSubCategory());
-				shop.setDescription(shopCreatingRequest.getDescription());
-				shop.setUnit(shopCreatingRequest.getUnit());
-				shop.setPriceOfOneUnit(shopCreatingRequest.getPriceOfOneUnit());
-				shop.setLocation(shopCreatingRequest.getLocation());
-				shop.setCreatedDate(shopCreatingRequest.getCreatedDate());
-				shop.setDeliveryDays(shopCreatingRequest.getDeliveryDays());
-				shop.setShopStatus(true);
-				shop.setUser(user);
+					if (shopPicture.getSize() >= 1.5e+6) {
 
-				shopRepository.save(shop);
+						response.setResponseBody("Exceeds the maximum size of shop picture, Shop creating is failed!");
+						response.setResponseStatus(false);
 
-				response.setResponseBody("Shop created successfully!");
-				response.setResponseStatus(true);
+						return response;
 
-				return response;
+					} else if (!shopPicture.getContentType().startsWith("image")) {
+
+						response.setResponseBody(
+								"Does not support the file format of shop picture, Shop creating is failed!");
+						response.setResponseStatus(false);
+
+						return response;
+
+					} else {
+
+						Shop shop = new Shop();
+
+						shop.setTitle(shopCreatingRequest.getTitle());
+						shop.setCategory(shopCreatingRequest.getCategory());
+						shop.setSubCategory(shopCreatingRequest.getSubCategory());
+						shop.setDescription(shopCreatingRequest.getDescription());
+						shop.setUnit(shopCreatingRequest.getUnit());
+						shop.setPriceOfOneUnit(shopCreatingRequest.getPriceOfOneUnit());
+						shop.setLocation(shopCreatingRequest.getLocation());
+						shop.setCreatedDate(shopCreatingRequest.getCreatedDate());
+						shop.setDeliveryDays(shopCreatingRequest.getDeliveryDays());
+						shop.setShopStatus(true);
+						shop.setUser(user);
+
+						shopRepository.save(shop);
+
+						ShopPicture newProfilePicture = new ShopPicture();
+
+						newProfilePicture.setName(shopPicture.getOriginalFilename());
+						newProfilePicture.setType(shopPicture.getContentType());
+						newProfilePicture.setPictureBytes(compressBytes(shopPicture.getBytes()));
+						newProfilePicture.setShop(shop);
+
+						shopPictureRepository.save(newProfilePicture);
+
+						response.setResponseBody("Shop created successfully!");
+						response.setResponseStatus(true);
+
+						return response;
+					}
+
+				} else {
+					response.setResponseBody("Shop picture not found!");
+					response.setResponseStatus(false);
+
+					return response;
+				}
+
 			} else {
 				response.setResponseBody("Only farmers are allowed to create shops!");
 				response.setResponseStatus(false);
@@ -87,6 +134,31 @@ public class FarmerService {
 			return response;
 		}
 
+	}
+
+	// Compress the picture bytes
+	private byte[] compressBytes(byte[] pictureBytes) {
+
+		Deflater deflater = new Deflater();
+
+		deflater.setInput(pictureBytes);
+		deflater.finish();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(pictureBytes.length);
+
+		byte[] buffer = new byte[1048576];
+
+		while (!deflater.finished()) {
+
+			int count = deflater.deflate(buffer);
+			outputStream.write(buffer, 0, count);
+		}
+		try {
+			outputStream.close();
+
+		} catch (IOException e) {
+		}
+
+		return outputStream.toByteArray();
 	}
 
 	private ShopDetailsResponse mapFromShopToShopDetailsResponseDto(Shop shop) {

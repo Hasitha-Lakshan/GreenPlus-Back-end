@@ -1,5 +1,6 @@
 package com.greenplus.backend.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.greenplus.backend.dto.BuyerRequestDetailsPublicResponse;
 import com.greenplus.backend.dto.Response;
@@ -30,9 +33,10 @@ public class FarmerController {
 	private FarmerService farmerService;
 
 	@PostMapping("/shopcreating")
-	public Response shopcreating(@RequestBody ShopCreatingRequest shopCreatingRequest) {
+	public Response shopcreating(@RequestPart(value = "shopPicture", required = true) MultipartFile shopPicture,
+			@RequestPart(value = "shopDetails", required = true) ShopCreatingRequest shopCreatingRequest) throws IOException {
 
-		return farmerService.shopCreating(shopCreatingRequest);
+		return farmerService.shopCreating(shopPicture, shopCreatingRequest);
 	}
 
 	@GetMapping("/shopsbyshopid/{shopId}")

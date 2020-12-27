@@ -4,11 +4,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -59,6 +61,9 @@ public class Shop {
 	@JsonIgnore
 	private User user;
 
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "shop")
+	private ShopPicture shopPicture;
+	
 	//////////////////////////////////////////////////////////
 
 	public int getShopId() {
@@ -157,12 +162,20 @@ public class Shop {
 		this.user = user;
 	}
 
+	public ShopPicture getShopPicture() {
+		return shopPicture;
+	}
+
+	public void setShopPicture(ShopPicture shopPicture) {
+		this.shopPicture = shopPicture;
+	}
+
 	@Override
 	public String toString() {
 		return "Shop [shopId=" + shopId + ", title=" + title + ", description=" + description + ", category=" + category
 				+ ", subCategory=" + subCategory + ", unit=" + unit + ", priceOfOneUnit=" + priceOfOneUnit
 				+ ", location=" + location + ", createdDate=" + createdDate + ", shopStatus=" + shopStatus
-				+ ", deliveryDays=" + deliveryDays + ", user=" + user + "]";
+				+ ", deliveryDays=" + deliveryDays + ", user=" + user + ", shopPicture=" + shopPicture + "]";
 	}
 
 }
