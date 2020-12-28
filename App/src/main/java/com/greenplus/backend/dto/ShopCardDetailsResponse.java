@@ -13,6 +13,9 @@ public class ShopCardDetailsResponse {
 	private String location;
 	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
 	private Date createdDate;
+	private String pictureName;
+	private String pictureType;
+	private byte[] pictureBytes;
 
 	public int getShopId() {
 		return shopId;
@@ -60,6 +63,30 @@ public class ShopCardDetailsResponse {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public String getPictureName() {
+		return pictureName;
+	}
+
+	public void setPictureName(String pictureName) {
+		this.pictureName = pictureName;
+	}
+
+	public String getPictureType() {
+		return pictureType;
+	}
+
+	public void setPictureType(String pictureType) {
+		this.pictureType = pictureType;
+	}
+
+	public byte[] getPictureBytes() {
+		return pictureBytes;
+	}
+
+	public void setPictureBytes(byte[] pictureBytes) {
+		this.pictureBytes = pictureBytes;
 	}
 
 }

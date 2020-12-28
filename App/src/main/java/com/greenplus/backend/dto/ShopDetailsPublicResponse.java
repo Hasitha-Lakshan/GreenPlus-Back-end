@@ -17,6 +17,9 @@ public class ShopDetailsPublicResponse {
 	private Date createdDate;
 	private int deliveryDays;
 	private String username;
+	private String pictureName;
+	private String pictureType;
+	private byte[] pictureBytes;
 
 	public String getTitle() {
 		return title;
@@ -96,6 +99,30 @@ public class ShopDetailsPublicResponse {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getPictureName() {
+		return pictureName;
+	}
+
+	public void setPictureName(String pictureName) {
+		this.pictureName = pictureName;
+	}
+
+	public String getPictureType() {
+		return pictureType;
+	}
+
+	public void setPictureType(String pictureType) {
+		this.pictureType = pictureType;
+	}
+
+	public byte[] getPictureBytes() {
+		return pictureBytes;
+	}
+
+	public void setPictureBytes(byte[] pictureBytes) {
+		this.pictureBytes = pictureBytes;
 	}
 
 }
