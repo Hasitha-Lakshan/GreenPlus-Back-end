@@ -13,8 +13,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "ProfilePictures")
 public class ProfilePicture {
@@ -37,8 +35,7 @@ public class ProfilePicture {
 	//////////////////// Relationships/////////////////////////
 
 	@OneToOne
-	@JoinColumn(name = "userID")
-	@JsonIgnore
+	@JoinColumn(name = "user")
 	private User user;
 
 	//////////////////////////////////////////////////////////

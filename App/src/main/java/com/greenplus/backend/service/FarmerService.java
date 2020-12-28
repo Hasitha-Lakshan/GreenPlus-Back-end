@@ -233,19 +233,20 @@ public class FarmerService {
 
 		if (shop != null) {
 
-			shopRepository.deleteByShopId(shopId);
+			shopRepository.deleteByShopId(shop.getShopId());
 
 			response.setResponseBody("Shop successfully deleted!");
 			response.setResponseStatus(true);
 
 			return response;
+
+		} else {
+
+			response.setResponseBody("The shop does not exsit, Shop delete failed!");
+			response.setResponseStatus(false);
+
+			return response;
 		}
-
-		response.setResponseBody("The shop does not exsit, Shop delete failed!");
-		response.setResponseStatus(false);
-
-		return response;
-
 	}
 
 	private BuyerRequestDetailsPublicResponse mapFromBuyerRequestToBuyerRequestDetailsPublicResponseDto(

@@ -2,6 +2,7 @@ package com.greenplus.backend.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,8 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Shops")
@@ -57,13 +56,12 @@ public class Shop {
 	//////////////////// Relationships/////////////////////////
 
 	@ManyToOne
-	@JoinColumn(name = "userID")
-	@JsonIgnore
+	@JoinColumn(name = "user")
 	private User user;
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "shop")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
 	private ShopPicture shopPicture;
-	
+
 	//////////////////////////////////////////////////////////
 
 	public int getShopId() {

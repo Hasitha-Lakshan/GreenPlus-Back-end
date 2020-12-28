@@ -10,4 +10,5 @@ import com.greenplus.backend.model.ShopPicture;
 public interface ShopPictureRepository extends JpaRepository<ShopPicture, Integer> {
 
 	ShopPicture findByShop(Shop shop);
+
 }
