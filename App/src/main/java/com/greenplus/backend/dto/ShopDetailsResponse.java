@@ -18,6 +18,9 @@ public class ShopDetailsResponse {
 	private Date createdDate;
 	private int deliveryDays;
 	private boolean shopStatus;
+	private String pictureName;
+	private String pictureType;
+	private byte[] pictureBytes;
 
 	public int getShopId() {
 		return shopId;
@@ -105,6 +108,30 @@ public class ShopDetailsResponse {
 
 	public void setShopStatus(boolean shopStatus) {
 		this.shopStatus = shopStatus;
+	}
+
+	public String getPictureName() {
+		return pictureName;
+	}
+
+	public void setPictureName(String pictureName) {
+		this.pictureName = pictureName;
+	}
+
+	public String getPictureType() {
+		return pictureType;
+	}
+
+	public void setPictureType(String pictureType) {
+		this.pictureType = pictureType;
+	}
+
+	public byte[] getPictureBytes() {
+		return pictureBytes;
+	}
+
+	public void setPictureBytes(byte[] pictureBytes) {
+		this.pictureBytes = pictureBytes;
 	}
 
 }

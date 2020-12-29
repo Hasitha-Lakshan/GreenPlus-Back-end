@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +33,8 @@ public class FarmerController {
 
 	@PostMapping("/shopcreating")
 	public Response shopcreating(@RequestPart(value = "shopPicture", required = true) MultipartFile shopPicture,
-			@RequestPart(value = "shopDetails", required = true) ShopCreatingRequest shopCreatingRequest) throws IOException {
+			@RequestPart(value = "shopDetails", required = true) ShopCreatingRequest shopCreatingRequest)
+			throws IOException {
 
 		return farmerService.shopCreating(shopPicture, shopCreatingRequest);
 	}
@@ -52,9 +52,11 @@ public class FarmerController {
 	}
 
 	@PutMapping("/shopupdate/{shopId}")
-	public Response shopUpdate(@PathVariable int shopId, @RequestBody ShopUpdateRequest shopUpdateRequest) {
-
-		return farmerService.shopUpdate(shopId, shopUpdateRequest);
+	public Response shopUpdate(@PathVariable int shopId,
+			@RequestPart(value = "shopPicture", required = false) MultipartFile shopPicture,
+			@RequestPart(value = "shopDetails", required = true) ShopUpdateRequest shopUpdateRequest) throws IOException {
+		
+		return farmerService.shopUpdate(shopId, shopUpdateRequest, shopPicture);
 	}
 
 	@DeleteMapping("/shopdelete/{shopId}")

@@ -4,7 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 import javax.transaction.Transactional;
 
@@ -19,6 +21,7 @@ import com.greenplus.backend.dto.ShopDashboardResponse;
 import com.greenplus.backend.dto.ShopDetailsResponse;
 import com.greenplus.backend.dto.ShopUpdateRequest;
 import com.greenplus.backend.model.BuyerRequest;
+import com.greenplus.backend.model.ProfilePicture;
 import com.greenplus.backend.model.Shop;
 import com.greenplus.backend.model.ShopPicture;
 import com.greenplus.backend.model.User;
@@ -45,6 +48,7 @@ public class FarmerService {
 	@Autowired
 	private ShopPictureRepository shopPictureRepository;
 
+	///////////////////////////////////////////////////////////////////////
 	public Response shopCreating(MultipartFile shopPicture, ShopCreatingRequest shopCreatingRequest)
 			throws IOException {
 
@@ -176,8 +180,36 @@ public class FarmerService {
 		shopDetailsResponse.setCreatedDate(shop.getCreatedDate());
 		shopDetailsResponse.setDeliveryDays(shop.getDeliveryDays());
 		shopDetailsResponse.setShopStatus(shop.isShopStatus());
+		shopDetailsResponse.setPictureName(shop.getShopPicture().getName());
+		shopDetailsResponse.setPictureType(shop.getShopPicture().getType());
+		shopDetailsResponse.setPictureBytes(uncompressPictureBytes(shop.getShopPicture().getPictureBytes()));
 
 		return shopDetailsResponse;
+	}
+
+	// Uncompress the picture bytes
+	private byte[] uncompressPictureBytes(byte[] pictureBytes) {
+
+		Inflater inflater = new Inflater();
+
+		inflater.setInput(pictureBytes);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(pictureBytes.length);
+
+		byte[] buffer = new byte[1048576];
+
+		try {
+			while (!inflater.finished()) {
+
+				int count = inflater.inflate(buffer);
+				outputStream.write(buffer, 0, count);
+			}
+			outputStream.close();
+
+		} catch (IOException ioe) {
+		} catch (DataFormatException e) {
+		}
+
+		return outputStream.toByteArray();
 	}
 
 	public ShopDetailsResponse getShopsByShopId(int shopId) {
@@ -193,7 +225,8 @@ public class FarmerService {
 		}
 	}
 
-	public Response shopUpdate(int shopId, ShopUpdateRequest shopUpdateRequest) {
+	///////////////////////////////////////////////////////////////////////
+	public Response shopUpdate(int shopId, ShopUpdateRequest shopUpdateRequest, MultipartFile shopPicture) throws IOException {
 
 		Shop shop = shopRepository.findByShopId(shopId);
 
@@ -208,6 +241,59 @@ public class FarmerService {
 			shop.setLocation(shopUpdateRequest.getLocation());
 			shop.setDeliveryDays(shopUpdateRequest.getDeliveryDays());
 			shop.setShopStatus(shopUpdateRequest.isShopStatus());
+
+			if (shopPicture != null) {
+				
+				if (shopPicture.getSize() >= 1.5e+6) {
+
+					response.setResponseBody("Exceeds the maximum size of shop picture, Shop creating is failed!");
+					response.setResponseStatus(false);
+
+					return response;
+
+				} else if (!shopPicture.getContentType().startsWith("image")) {
+
+					response.setResponseBody(
+							"Does not support the file format of shop picture, Shop creating is failed!");
+					response.setResponseStatus(false);
+
+					return response;
+
+				} else {
+					ShopPicture shopPictureFromDatabse = shopPictureRepository.findByShop(shop);
+					
+					if (shopPictureFromDatabse != null) {
+
+						shopPictureFromDatabse.setName(shopPicture.getOriginalFilename());
+						shopPictureFromDatabse.setType(shopPicture.getContentType());
+						shopPictureFromDatabse.setPictureBytes(compressBytes(shopPicture.getBytes()));
+						shopPictureFromDatabse.setShop(shop);
+
+						shopPictureRepository.save(shopPictureFromDatabse);
+
+						response.setResponseBody("Profile picture updated successfully!");
+						response.setResponseStatus(true);
+
+						return response;
+
+					} else {
+
+						ShopPicture newShopPicture = new ShopPicture();
+
+						newShopPicture.setName(shopPicture.getOriginalFilename());
+						newShopPicture.setType(shopPicture.getContentType());
+						newShopPicture.setPictureBytes(compressBytes(shopPicture.getBytes()));
+						newShopPicture.setShop(shop);
+
+						shopPictureRepository.save(newShopPicture);
+
+						response.setResponseBody("New profile picture setting is successfull!");
+						response.setResponseStatus(true);
+
+						return response;
+					}
+				}
+			}
 
 			shopRepository.save(shop);
 
