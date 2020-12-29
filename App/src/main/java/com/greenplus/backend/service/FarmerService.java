@@ -21,7 +21,6 @@ import com.greenplus.backend.dto.ShopDashboardResponse;
 import com.greenplus.backend.dto.ShopDetailsResponse;
 import com.greenplus.backend.dto.ShopUpdateRequest;
 import com.greenplus.backend.model.BuyerRequest;
-import com.greenplus.backend.model.ProfilePicture;
 import com.greenplus.backend.model.Shop;
 import com.greenplus.backend.model.ShopPicture;
 import com.greenplus.backend.model.User;
@@ -48,7 +47,6 @@ public class FarmerService {
 	@Autowired
 	private ShopPictureRepository shopPictureRepository;
 
-	///////////////////////////////////////////////////////////////////////
 	public Response shopCreating(MultipartFile shopPicture, ShopCreatingRequest shopCreatingRequest)
 			throws IOException {
 
@@ -225,8 +223,8 @@ public class FarmerService {
 		}
 	}
 
-	///////////////////////////////////////////////////////////////////////
-	public Response shopUpdate(int shopId, ShopUpdateRequest shopUpdateRequest, MultipartFile shopPicture) throws IOException {
+	public Response shopUpdate(int shopId, ShopUpdateRequest shopUpdateRequest, MultipartFile shopPicture)
+			throws IOException {
 
 		Shop shop = shopRepository.findByShopId(shopId);
 
@@ -243,7 +241,7 @@ public class FarmerService {
 			shop.setShopStatus(shopUpdateRequest.isShopStatus());
 
 			if (shopPicture != null) {
-				
+
 				if (shopPicture.getSize() >= 1.5e+6) {
 
 					response.setResponseBody("Exceeds the maximum size of shop picture, Shop creating is failed!");
@@ -261,7 +259,7 @@ public class FarmerService {
 
 				} else {
 					ShopPicture shopPictureFromDatabse = shopPictureRepository.findByShop(shop);
-					
+
 					if (shopPictureFromDatabse != null) {
 
 						shopPictureFromDatabse.setName(shopPicture.getOriginalFilename());
