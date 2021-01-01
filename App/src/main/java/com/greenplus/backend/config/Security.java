@@ -45,6 +45,7 @@ public class Security extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/farmer/**").access("hasRole('FARMER') or hasRole('ADMIN')");
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/buyer/**").access("hasRole('BUYER') or hasRole('ADMIN')");
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/user/**").access("hasRole('FARMER') or hasRole('BUYER') or hasRole('ADMIN')");
+		httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/order/**").access("hasRole('FARMER') or hasRole('BUYER') or hasRole('ADMIN')");
 
 		httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

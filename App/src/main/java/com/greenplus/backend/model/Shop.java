@@ -1,6 +1,7 @@
 package com.greenplus.backend.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -61,6 +63,9 @@ public class Shop {
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
 	private ShopPicture shopPicture;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Order> orders;
 
 	//////////////////////////////////////////////////////////
 
@@ -168,12 +173,21 @@ public class Shop {
 		this.shopPicture = shopPicture;
 	}
 
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
 	@Override
 	public String toString() {
 		return "Shop [shopId=" + shopId + ", title=" + title + ", description=" + description + ", category=" + category
 				+ ", subCategory=" + subCategory + ", unit=" + unit + ", priceOfOneUnit=" + priceOfOneUnit
 				+ ", location=" + location + ", createdDate=" + createdDate + ", shopStatus=" + shopStatus
-				+ ", deliveryDays=" + deliveryDays + ", user=" + user + ", shopPicture=" + shopPicture + "]";
+				+ ", deliveryDays=" + deliveryDays + ", user=" + user + ", shopPicture=" + shopPicture + ", orders="
+				+ orders + "]";
 	}
 
 }

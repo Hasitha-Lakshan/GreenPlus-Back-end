@@ -65,6 +65,9 @@ public class User {
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
 	private ProfilePicture profilePicture;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private List<Order> orders;
+
 	//////////////////////////////////////////////////////////
 
 	public int getUserId() {
@@ -187,13 +190,21 @@ public class User {
 		this.profilePicture = profilePicture;
 	}
 
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", role=" + role + ", password=" + password + ", mobileNumber=" + mobileNumber + ", email="
 				+ email + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", addressLine3="
 				+ addressLine3 + ", accountStatus=" + accountStatus + ", shops=" + shops + ", buyerRquests="
-				+ buyerRquests + ", profilePicture=" + profilePicture + "]";
+				+ buyerRquests + ", profilePicture=" + profilePicture + ", orders=" + orders + "]";
 	}
 
 }
