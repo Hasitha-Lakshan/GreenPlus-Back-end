@@ -23,6 +23,9 @@ public class Order {
 	@Column
 	private String shopTitle;
 	@NotEmpty
+	@Column
+	private String farmerUsername;
+	@NotEmpty
 	@Column(length = 300)
 	private String note;
 	@NotEmpty
@@ -90,6 +93,14 @@ public class Order {
 		this.shopTitle = shopTitle;
 	}
 
+	public String getFarmerUsername() {
+		return farmerUsername;
+	}
+
+	public void setFarmerUsername(String farmerUsername) {
+		this.farmerUsername = farmerUsername;
+	}
+
 	public String getNote() {
 		return note;
 	}
@@ -136,6 +147,14 @@ public class Order {
 
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
+	}
+
+	public Date getCompletedDate() {
+		return completedDate;
+	}
+
+	public void setCompletedDate(Date completedDate) {
+		this.completedDate = completedDate;
 	}
 
 	public String getOrderStatus() {
@@ -202,22 +221,15 @@ public class Order {
 		this.shop = shop;
 	}
 
-	public Date getCompletedDate() {
-		return completedDate;
-	}
-
-	public void setCompletedDate(Date completedDate) {
-		this.completedDate = completedDate;
-	}
-
 	@Override
 	public String toString() {
-		return "Order [orderId=" + orderId + ", shopTitle=" + shopTitle + ", note=" + note + ", quantity=" + quantity
-				+ ", unit=" + unit + ", totalPrice=" + totalPrice + ", createdDate=" + createdDate + ", dueDate="
-				+ dueDate + ", completedDate=" + completedDate + ", orderStatus=" + orderStatus + ", deliveryDays="
-				+ deliveryDays + ", deliveryAddressLine1=" + deliveryAddressLine1 + ", deliveryAddressLine2="
-				+ deliveryAddressLine2 + ", deliveryAddressLine3=" + deliveryAddressLine3 + ", deliveryLocation="
-				+ deliveryLocation + ", user=" + user + ", shop=" + shop + "]";
+		return "Order [orderId=" + orderId + ", shopTitle=" + shopTitle + ", farmerUsername=" + farmerUsername
+				+ ", note=" + note + ", quantity=" + quantity + ", unit=" + unit + ", totalPrice=" + totalPrice
+				+ ", createdDate=" + createdDate + ", dueDate=" + dueDate + ", completedDate=" + completedDate
+				+ ", orderStatus=" + orderStatus + ", deliveryDays=" + deliveryDays + ", deliveryAddressLine1="
+				+ deliveryAddressLine1 + ", deliveryAddressLine2=" + deliveryAddressLine2 + ", deliveryAddressLine3="
+				+ deliveryAddressLine3 + ", deliveryLocation=" + deliveryLocation + ", user=" + user + ", shop=" + shop
+				+ "]";
 	}
 
 }

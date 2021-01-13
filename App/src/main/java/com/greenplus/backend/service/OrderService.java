@@ -1,9 +1,13 @@
 package com.greenplus.backend.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.greenplus.backend.dto.OrderCreatingRequest;
+import com.greenplus.backend.dto.OrderDashboardResponse;
 import com.greenplus.backend.dto.OrderRequirementResponse;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.model.Order;
@@ -65,13 +69,14 @@ public class OrderService {
 
 			if (shop != null && shop.isShopStatus()) {
 
-				if (buyer != null && buyer.getRole().equals("BUYER")) {
+				if (buyer != null && (buyer.getRole().equals("BUYER") || buyer.getRole().equals("FARMER"))) {
 
 					Order newOrder = new Order();
 
 					newOrder.setShop(shop);
 					newOrder.setUser(buyer);
 					newOrder.setShopTitle(shop.getTitle());
+					newOrder.setFarmerUsername(shop.getUser().getUsername());
 					newOrder.setDeliveryDays(shop.getDeliveryDays());
 					newOrder.setOrderStatus("INPROGRESS");
 					newOrder.setDeliveryAddressLine1(orderCreatingRequest.getDeliveryAddressLine1());
@@ -84,7 +89,7 @@ public class OrderService {
 					newOrder.setTotalPrice(orderCreatingRequest.getTotalPrice());
 					newOrder.setCreatedDate(orderCreatingRequest.getCreatedDate());
 					newOrder.setDueDate(orderCreatingRequest.getDueDate());
-					
+
 					orderRepository.save(newOrder);
 
 					response.setResponseBody("The order created successfully!");
@@ -112,6 +117,76 @@ public class OrderService {
 
 			return response;
 		}
+	}
+
+	public List<OrderDashboardResponse> getOrdersByUser(String username, String orderStatus) {
+
+		User user = userRepository.findByUsername(username);
+
+		if (user != null) {
+
+			if (user.getRole().equals("BUYER")) {
+
+				List<Order> inprogressOrdersByBuyer = orderRepository.findByUserAndOrderStatus(user, orderStatus);
+
+				return inprogressOrdersByBuyer.stream().map(this::mapFromOrdersByBuyerToOrderDashboardResponseDto)
+						.collect(Collectors.toList());
+
+			} else if (user.getRole().equals("FARMER")) {
+
+				List<Order> inprogressOrdersFromShops = orderRepository.findByFarmerUsernameAndOrderStatus(username,
+						orderStatus);
+
+				return inprogressOrdersFromShops.stream().map(this::mapFromOrdersForShopsToOrderDashboardResponseDto)
+						.collect(Collectors.toList());
+
+			} else {
+				return null;
+			}
+
+		} else {
+			return null;
+		}
+
+	}
+
+	public List<OrderDashboardResponse> getOrdersByFarmer(String username, String orderStatus) {
+
+		User user = userRepository.findByUsername(username);
+
+		if (user.getRole().equals("FARMER")) {
+
+			List<Order> inprogressOrdersByFarmer = orderRepository.findByUserAndOrderStatus(user, orderStatus);
+
+			return inprogressOrdersByFarmer.stream().map(this::mapFromOrdersByBuyerToOrderDashboardResponseDto)
+					.collect(Collectors.toList());
+
+		} else {
+			return null;
+		}
+
+	}
+
+	private OrderDashboardResponse mapFromOrdersByBuyerToOrderDashboardResponseDto(Order order) {
+
+		OrderDashboardResponse orderDashboardResponse = new OrderDashboardResponse();
+
+		orderDashboardResponse.setOrderId(order.getOrderId());
+		orderDashboardResponse.setShopTitle(order.getShopTitle());
+		orderDashboardResponse.setCreatedDate(order.getCreatedDate());
+
+		return orderDashboardResponse;
+	}
+
+	private OrderDashboardResponse mapFromOrdersForShopsToOrderDashboardResponseDto(Order order) {
+
+		OrderDashboardResponse orderDashboardResponse = new OrderDashboardResponse();
+
+		orderDashboardResponse.setOrderId(order.getOrderId());
+		orderDashboardResponse.setShopTitle(order.getShopTitle());
+		orderDashboardResponse.setCreatedDate(order.getCreatedDate());
+
+		return orderDashboardResponse;
 	}
 
 }

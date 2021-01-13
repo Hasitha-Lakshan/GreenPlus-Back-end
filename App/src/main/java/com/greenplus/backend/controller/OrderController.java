@@ -1,8 +1,11 @@
 package com.greenplus.backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.greenplus.backend.dto.OrderCreatingRequest;
+import com.greenplus.backend.dto.OrderDashboardResponse;
 import com.greenplus.backend.dto.OrderRequirementResponse;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.service.OrderService;
@@ -27,10 +31,24 @@ public class OrderController {
 
 		return new ResponseEntity<>(orderService.orderRequirementDetails(shopId, buyerUsername), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/ordercreationg/")
 	public ResponseEntity<Response> createOrder(@RequestBody OrderCreatingRequest orderCreatingRequest) {
 
 		return new ResponseEntity<>(orderService.createOrder(orderCreatingRequest), HttpStatus.OK);
+	}
+
+	@PostMapping("/orders/{username}")
+	public ResponseEntity<List<OrderDashboardResponse>> getOrdersByUser(@PathVariable String username,
+			@RequestBody String orderStatus) {
+
+		return new ResponseEntity<>(orderService.getOrdersByUser(username, orderStatus), HttpStatus.OK);
+	}
+
+	@PostMapping("/ordersbyfarmer/{username}")
+	public ResponseEntity<List<OrderDashboardResponse>> getOrdersByFarmer(@PathVariable String username,
+			@RequestBody String orderStatus) {
+
+		return new ResponseEntity<>(orderService.getOrdersByFarmer(username, orderStatus), HttpStatus.OK);
 	}
 }
