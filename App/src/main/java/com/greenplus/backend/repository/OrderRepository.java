@@ -11,6 +11,8 @@ import com.greenplus.backend.model.User;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
+	Order findByOrderId(int orderId);
+	
 	List<Order> findByUserAndOrderStatus(User buyer, String orderStatus);
 
 	List<Order> findByFarmerUsernameAndOrderStatus(String farmerUsername, String orderStatus);

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.greenplus.backend.dto.OrderCreatingRequest;
 import com.greenplus.backend.dto.OrderDashboardResponse;
+import com.greenplus.backend.dto.OrderDetailsResponse;
 import com.greenplus.backend.dto.OrderRequirementResponse;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.service.OrderService;
@@ -50,5 +52,11 @@ public class OrderController {
 			@RequestBody String orderStatus) {
 
 		return new ResponseEntity<>(orderService.getOrdersByFarmer(username, orderStatus), HttpStatus.OK);
+	}
+
+	@GetMapping("/orderdetails/{orderId}")
+	public ResponseEntity<OrderDetailsResponse> getOrderDetailsByOrderId(@PathVariable int orderId) {
+
+		return new ResponseEntity<>(orderService.getOrderDetailsByOrderId(orderId), HttpStatus.OK);
 	}
 }

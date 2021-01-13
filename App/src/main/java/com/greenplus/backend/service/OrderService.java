@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.greenplus.backend.dto.OrderCreatingRequest;
 import com.greenplus.backend.dto.OrderDashboardResponse;
+import com.greenplus.backend.dto.OrderDetailsResponse;
 import com.greenplus.backend.dto.OrderRequirementResponse;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.model.Order;
@@ -187,6 +188,38 @@ public class OrderService {
 		orderDashboardResponse.setCreatedDate(order.getCreatedDate());
 
 		return orderDashboardResponse;
+	}
+
+	public OrderDetailsResponse getOrderDetailsByOrderId(int orderId) {
+
+		Order order = orderRepository.findByOrderId(orderId);
+
+		if (order != null) {
+
+			OrderDetailsResponse orderDetailsResponse = new OrderDetailsResponse();
+
+			orderDetailsResponse.setShopTitle(order.getShopTitle());
+			orderDetailsResponse.setFarmerUsername(order.getFarmerUsername());
+			orderDetailsResponse.setBuyerUsername(order.getUser().getUsername());
+			orderDetailsResponse.setNote(order.getNote());
+			orderDetailsResponse.setQuantity(order.getQuantity());
+			orderDetailsResponse.setUnit(order.getUnit());
+			orderDetailsResponse.setTotalPrice(order.getTotalPrice());
+			orderDetailsResponse.setCreatedDate(order.getCreatedDate());
+			orderDetailsResponse.setDueDate(order.getDueDate());
+			orderDetailsResponse.setCompletedDate(order.getCompletedDate());
+			orderDetailsResponse.setDeliveryDays(order.getDeliveryDays());
+			orderDetailsResponse.setOrderStatus(order.getOrderStatus());
+			orderDetailsResponse.setDeliveryAddressLine1(order.getDeliveryAddressLine1());
+			orderDetailsResponse.setDeliveryAddressLine2(order.getDeliveryAddressLine2());
+			orderDetailsResponse.setDeliveryAddressLine3(order.getDeliveryAddressLine3());
+			orderDetailsResponse.setDeliveryLocation(order.getDeliveryLocation());
+
+			return orderDetailsResponse;
+
+		} else {
+			return null;
+		}
 	}
 
 }
