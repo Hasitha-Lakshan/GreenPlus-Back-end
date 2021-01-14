@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -279,6 +281,27 @@ public class OrderService {
 
 			return response;
 		}
+	}
+
+	@Transactional
+	public Response orderDelete(int orderId) {
+
+		Order order = orderRepository.findByOrderId(orderId);
+
+		if (order != null && order.getOrderStatus().equals("INPROGRESS")) {
+
+			orderRepository.deleteByOrderId(orderId);
+
+			response.setResponseBody("Order successfully deleted!");
+			response.setResponseStatus(true);
+
+			return response;
+		}
+
+		response.setResponseBody("The Order does not exsit, Order delete failed!");
+		response.setResponseStatus(false);
+
+		return response;
 	}
 
 }

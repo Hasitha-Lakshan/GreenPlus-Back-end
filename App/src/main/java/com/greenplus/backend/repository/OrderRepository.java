@@ -17,4 +17,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
 	List<Order> findByFarmerUsernameAndOrderStatus(String farmerUsername, String orderStatus);
 
+	void deleteByOrderId(int orderId);
+
 }

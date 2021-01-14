@@ -36,7 +36,7 @@ public class BuyerController {
 	}
 
 	@DeleteMapping("/buyerrequestdelete/{buyerRequestId}")
-	public Response shopDelete(@PathVariable int buyerRequestId) {
+	public Response buyerRequestDelete(@PathVariable int buyerRequestId) {
 
 		return buyerService.buyerRequestDelete(buyerRequestId);
 	}
