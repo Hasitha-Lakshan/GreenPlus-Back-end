@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,5 +59,15 @@ public class OrderController {
 	public ResponseEntity<OrderDetailsResponse> getOrderDetailsByOrderId(@PathVariable int orderId) {
 
 		return new ResponseEntity<>(orderService.getOrderDetailsByOrderId(orderId), HttpStatus.OK);
+	}
+
+	@PutMapping("/changeorderstatus/")
+	public ResponseEntity<Response> changeOrderStatusByOrderId(
+			@RequestParam(value = "orderId", required = true) int orderId,
+			@RequestParam(value = "username", required = true) String username,
+			@RequestParam(value = "orderStatus", required = true) String orderStatus) {
+
+		return new ResponseEntity<>(orderService.changeOrderStatusByOrderId(orderId, username, orderStatus),
+				HttpStatus.OK);
 	}
 }

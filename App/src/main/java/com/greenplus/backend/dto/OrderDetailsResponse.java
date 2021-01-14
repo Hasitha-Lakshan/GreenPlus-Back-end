@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class OrderDetailsResponse {
 
 	private String shopTitle;
+	private String category;
+	private String subCategory;
 	private String farmerUsername;
 	private String buyerUsername;
 	private String note;
@@ -17,7 +19,6 @@ public class OrderDetailsResponse {
 	private Date createdDate;
 	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
 	private Date dueDate;
-	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
 	private Date completedDate;
 	private String orderStatus;
 	private int deliveryDays;
@@ -32,6 +33,22 @@ public class OrderDetailsResponse {
 
 	public void setShopTitle(String shopTitle) {
 		this.shopTitle = shopTitle;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getSubCategory() {
+		return subCategory;
+	}
+
+	public void setSubCategory(String subCategory) {
+		this.subCategory = subCategory;
 	}
 
 	public String getFarmerUsername() {

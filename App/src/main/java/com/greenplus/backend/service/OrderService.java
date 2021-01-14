@@ -1,5 +1,6 @@
 package com.greenplus.backend.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -199,6 +200,8 @@ public class OrderService {
 			OrderDetailsResponse orderDetailsResponse = new OrderDetailsResponse();
 
 			orderDetailsResponse.setShopTitle(order.getShopTitle());
+			orderDetailsResponse.setCategory(order.getShop().getCategory());
+			orderDetailsResponse.setSubCategory(order.getShop().getSubCategory());
 			orderDetailsResponse.setFarmerUsername(order.getFarmerUsername());
 			orderDetailsResponse.setBuyerUsername(order.getUser().getUsername());
 			orderDetailsResponse.setNote(order.getNote());
@@ -219,6 +222,62 @@ public class OrderService {
 
 		} else {
 			return null;
+		}
+	}
+
+	public Response changeOrderStatusByOrderId(int orderId, String username, String orderStatus) {
+
+		Order updatingOrder = orderRepository.findByOrderId(orderId);
+		User user = userRepository.findByUsername(username);
+
+		if (updatingOrder != null && user != null) {
+
+			if (orderStatus.equals("ACTIVE") && user.getRole().equals("FARMER")
+					&& updatingOrder.getFarmerUsername().equals(username)
+					&& !(updatingOrder.getOrderStatus().equals("ACTIVE")
+							|| updatingOrder.getOrderStatus().equals("LATE")
+							|| updatingOrder.getOrderStatus().equals("COMPLETE"))) {
+
+				updatingOrder.setOrderStatus(orderStatus);
+				orderRepository.save(updatingOrder);
+
+				response.setResponseBody("Order status is successfully updated to ACTIVE!");
+				response.setResponseStatus(true);
+
+				return response;
+
+			} else if (orderStatus.equals("COMPLETE")
+					&& (user.getRole().equals("FARMER") || user.getRole().equals("BUYER"))
+					&& updatingOrder.getUser().getUsername().equals(username)
+					&& !(updatingOrder.getOrderStatus().equals("COMPLETE")
+							|| updatingOrder.getOrderStatus().equals("INPROGRESS"))) {
+
+				Date currentDate = new Date();
+
+				updatingOrder.setCompletedDate(currentDate);
+				updatingOrder.setOrderStatus(orderStatus);
+				orderRepository.save(updatingOrder);
+
+				response.setResponseBody("Order status is successfully updated to COMPLETE!");
+				response.setResponseStatus(true);
+
+				return response;
+			}
+
+			else {
+
+				response.setResponseBody("User validation failed,  order status updating is failed!");
+				response.setResponseStatus(false);
+
+				return response;
+			}
+
+		} else {
+
+			response.setResponseBody("User or order does not exsit, order status updating is failed!");
+			response.setResponseStatus(false);
+
+			return response;
 		}
 	}
 
