@@ -1,5 +1,6 @@
 package com.greenplus.backend.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -300,6 +301,40 @@ public class OrderService {
 		response.setResponseStatus(false);
 
 		return response;
+	}
+
+	public Response changeOrderStatusToLateByOrderId(int orderId) {
+
+		Order updatingOrder = orderRepository.findByOrderId(orderId);
+
+		if (updatingOrder != null) {
+
+			Date currentDate = new Date();
+			Long timeDifference = updatingOrder.getDueDate().getTime() - currentDate.getTime();
+
+			if (!updatingOrder.getOrderStatus().equals("LATE") && (timeDifference <= 0)) {
+
+				updatingOrder.setOrderStatus("LATE");
+				orderRepository.save(updatingOrder);
+
+				response.setResponseBody("Order status successfully set to LATE!");
+				response.setResponseStatus(true);
+
+				return response;
+
+			} else {
+				response.setResponseBody("Order status already set to LATE, order status updating is failed!");
+				response.setResponseStatus(false);
+
+				return response;
+			}
+
+		} else {
+			response.setResponseBody("Order does not exsit, order status updating to Late is failed!");
+			response.setResponseStatus(false);
+
+			return response;
+		}
 	}
 
 }

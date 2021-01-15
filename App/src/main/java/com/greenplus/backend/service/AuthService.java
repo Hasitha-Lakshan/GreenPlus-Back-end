@@ -132,10 +132,13 @@ public class AuthService {
 
 		User user = userRepository.findByUsername(username);
 
-		if (user.getRole().equals("FARMER") || user.getRole().equals("BUYER") && (user.isAccountStatus() == false)) {
-			user.setAccountStatus(true);
-			userRepository.save(user);
-		}
+		if (user != null) {
 
+			if (user.getRole().equals("FARMER")
+					|| user.getRole().equals("BUYER") && (user.isAccountStatus() == false)) {
+				user.setAccountStatus(true);
+				userRepository.save(user);
+			}
+		}
 	}
 }

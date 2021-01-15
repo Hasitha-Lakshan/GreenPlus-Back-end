@@ -21,10 +21,12 @@ import com.greenplus.backend.dto.ShopDashboardResponse;
 import com.greenplus.backend.dto.ShopDetailsResponse;
 import com.greenplus.backend.dto.ShopUpdateRequest;
 import com.greenplus.backend.model.BuyerRequest;
+import com.greenplus.backend.model.Order;
 import com.greenplus.backend.model.Shop;
 import com.greenplus.backend.model.ShopPicture;
 import com.greenplus.backend.model.User;
 import com.greenplus.backend.repository.BuyerRequestRepository;
+import com.greenplus.backend.repository.OrderRepository;
 import com.greenplus.backend.repository.ShopPictureRepository;
 import com.greenplus.backend.repository.ShopRepository;
 import com.greenplus.backend.repository.UserRepository;
@@ -46,6 +48,9 @@ public class FarmerService {
 
 	@Autowired
 	private ShopPictureRepository shopPictureRepository;
+
+	@Autowired
+	private OrderRepository orderRepository;
 
 	public Response shopCreating(MultipartFile shopPicture, ShopCreatingRequest shopCreatingRequest)
 			throws IOException {
@@ -317,12 +322,44 @@ public class FarmerService {
 
 		if (shop != null) {
 
-			shopRepository.deleteByShopId(shop.getShopId());
+			List<Order> orders = orderRepository.findByShop(shop);
 
-			response.setResponseBody("Shop successfully deleted!");
-			response.setResponseStatus(true);
+			if (orders.isEmpty()) {
 
-			return response;
+				shopRepository.deleteByShopId(shop.getShopId());
+
+				response.setResponseBody("Shop successfully deleted!");
+				response.setResponseStatus(true);
+
+				return response;
+
+			} else {
+
+				int countOfIncompleteOrders = 0;
+
+				for (Order checkOrder : orders) {
+
+					if (!checkOrder.getOrderStatus().equals("COMPLETE")) {
+						countOfIncompleteOrders++;
+					}
+				}
+
+				if (countOfIncompleteOrders == 0) {
+
+					shopRepository.deleteByShopId(shop.getShopId());
+
+					response.setResponseBody("Shop successfully deleted!");
+					response.setResponseStatus(true);
+
+					return response;
+
+				} else {
+					response.setResponseBody("The shop has incompleted orders, Shop delete failed!");
+					response.setResponseStatus(false);
+
+					return response;
+				}
+			}
 
 		} else {
 

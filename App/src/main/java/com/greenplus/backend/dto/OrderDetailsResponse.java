@@ -17,7 +17,6 @@ public class OrderDetailsResponse {
 	private float totalPrice;
 	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
 	private Date createdDate;
-	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
 	private Date dueDate;
 	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
 	private Date completedDate;

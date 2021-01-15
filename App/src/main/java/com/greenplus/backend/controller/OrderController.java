@@ -64,12 +64,18 @@ public class OrderController {
 	}
 
 	@PutMapping("/changeorderstatus/")
-	public ResponseEntity<Response> changeOrderStatusByOrderId(@RequestBody OrderStatusChangeRequest orderStatusChangeRequest) {
+	public ResponseEntity<Response> changeOrderStatusByOrderId(
+			@RequestBody OrderStatusChangeRequest orderStatusChangeRequest) {
 
-		return new ResponseEntity<>(orderService.changeOrderStatusByOrderId(orderStatusChangeRequest),
-				HttpStatus.OK);
+		return new ResponseEntity<>(orderService.changeOrderStatusByOrderId(orderStatusChangeRequest), HttpStatus.OK);
 	}
-	
+
+	@PutMapping("/changeorderstatustolate/{orderId}")
+	public ResponseEntity<Response> changeOrderStatusToLateByOrderId(@PathVariable int orderId) {
+
+		return new ResponseEntity<>(orderService.changeOrderStatusToLateByOrderId(orderId), HttpStatus.OK);
+	}
+
 	@DeleteMapping("/deleteorder/{orderId}")
 	public Response orderDelete(@PathVariable int orderId) {
 

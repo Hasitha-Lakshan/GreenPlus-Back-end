@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.greenplus.backend.model.Order;
+import com.greenplus.backend.model.Shop;
 import com.greenplus.backend.model.User;
 
 @Repository
@@ -18,5 +19,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	List<Order> findByFarmerUsernameAndOrderStatus(String farmerUsername, String orderStatus);
 
 	void deleteByOrderId(int orderId);
+
+	List<Order> findByShop(Shop shop);
 
 }
