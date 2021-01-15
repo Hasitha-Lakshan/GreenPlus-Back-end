@@ -1,6 +1,5 @@
 package com.greenplus.backend.service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +12,7 @@ import com.greenplus.backend.dto.OrderCreatingRequest;
 import com.greenplus.backend.dto.OrderDashboardResponse;
 import com.greenplus.backend.dto.OrderDetailsResponse;
 import com.greenplus.backend.dto.OrderRequirementResponse;
+import com.greenplus.backend.dto.OrderStatusChangeRequest;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.model.Order;
 import com.greenplus.backend.model.Shop;
@@ -227,20 +227,20 @@ public class OrderService {
 		}
 	}
 
-	public Response changeOrderStatusByOrderId(int orderId, String username, String orderStatus) {
+	public Response changeOrderStatusByOrderId(OrderStatusChangeRequest orderStatusChangeRequest) {
 
-		Order updatingOrder = orderRepository.findByOrderId(orderId);
-		User user = userRepository.findByUsername(username);
+		Order updatingOrder = orderRepository.findByOrderId(orderStatusChangeRequest.getOrderId());
+		User user = userRepository.findByUsername(orderStatusChangeRequest.getUsername());
 
 		if (updatingOrder != null && user != null) {
 
-			if (orderStatus.equals("ACTIVE") && user.getRole().equals("FARMER")
-					&& updatingOrder.getFarmerUsername().equals(username)
+			if (orderStatusChangeRequest.getOrderStatus().equals("ACTIVE") && user.getRole().equals("FARMER")
+					&& updatingOrder.getFarmerUsername().equals(orderStatusChangeRequest.getUsername())
 					&& !(updatingOrder.getOrderStatus().equals("ACTIVE")
 							|| updatingOrder.getOrderStatus().equals("LATE")
 							|| updatingOrder.getOrderStatus().equals("COMPLETE"))) {
 
-				updatingOrder.setOrderStatus(orderStatus);
+				updatingOrder.setOrderStatus(orderStatusChangeRequest.getOrderStatus());
 				orderRepository.save(updatingOrder);
 
 				response.setResponseBody("Order status is successfully updated to ACTIVE!");
@@ -248,16 +248,14 @@ public class OrderService {
 
 				return response;
 
-			} else if (orderStatus.equals("COMPLETE")
+			} else if (orderStatusChangeRequest.getOrderStatus().equals("COMPLETE")
 					&& (user.getRole().equals("FARMER") || user.getRole().equals("BUYER"))
-					&& updatingOrder.getUser().getUsername().equals(username)
+					&& updatingOrder.getUser().getUsername().equals(orderStatusChangeRequest.getUsername())
 					&& !(updatingOrder.getOrderStatus().equals("COMPLETE")
 							|| updatingOrder.getOrderStatus().equals("INPROGRESS"))) {
 
-				Date currentDate = new Date();
-
-				updatingOrder.setCompletedDate(currentDate);
-				updatingOrder.setOrderStatus(orderStatus);
+				updatingOrder.setCompletedDate(orderStatusChangeRequest.getCompletedDate());
+				updatingOrder.setOrderStatus(orderStatusChangeRequest.getOrderStatus());
 				orderRepository.save(updatingOrder);
 
 				response.setResponseBody("Order status is successfully updated to COMPLETE!");

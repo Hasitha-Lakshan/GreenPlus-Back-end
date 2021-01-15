@@ -19,6 +19,7 @@ import com.greenplus.backend.dto.OrderCreatingRequest;
 import com.greenplus.backend.dto.OrderDashboardResponse;
 import com.greenplus.backend.dto.OrderDetailsResponse;
 import com.greenplus.backend.dto.OrderRequirementResponse;
+import com.greenplus.backend.dto.OrderStatusChangeRequest;
 import com.greenplus.backend.dto.Response;
 import com.greenplus.backend.service.OrderService;
 
@@ -63,12 +64,9 @@ public class OrderController {
 	}
 
 	@PutMapping("/changeorderstatus/")
-	public ResponseEntity<Response> changeOrderStatusByOrderId(
-			@RequestParam(value = "orderId", required = true) int orderId,
-			@RequestParam(value = "username", required = true) String username,
-			@RequestParam(value = "orderStatus", required = true) String orderStatus) {
+	public ResponseEntity<Response> changeOrderStatusByOrderId(@RequestBody OrderStatusChangeRequest orderStatusChangeRequest) {
 
-		return new ResponseEntity<>(orderService.changeOrderStatusByOrderId(orderId, username, orderStatus),
+		return new ResponseEntity<>(orderService.changeOrderStatusByOrderId(orderStatusChangeRequest),
 				HttpStatus.OK);
 	}
 	

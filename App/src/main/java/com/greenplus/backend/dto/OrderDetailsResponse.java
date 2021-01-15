@@ -19,6 +19,7 @@ public class OrderDetailsResponse {
 	private Date createdDate;
 	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
 	private Date dueDate;
+	@JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss a")
 	private Date completedDate;
 	private String orderStatus;
 	private int deliveryDays;
