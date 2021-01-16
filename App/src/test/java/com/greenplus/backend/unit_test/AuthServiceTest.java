@@ -49,5 +49,4 @@ public class AuthServiceTest {
 
 		assertEquals(true, authService.signup(signupRequest).isResponseStatus());
 	}
-
 }
