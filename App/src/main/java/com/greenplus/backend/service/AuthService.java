@@ -42,14 +42,56 @@ public class AuthService {
 			User checkUserByEmail = userRepository.findByEmail(signupRequest.getEmail());
 			User checkUserByMobileNumber = userRepository.findByMobileNumber(signupRequest.getMobileNumber());
 
-			if (checkUserByUsername != null || checkUserByEmail != null || checkUserByMobileNumber != null) {
-				response.setResponseBody("Given username, email or mobile number maybe exist, Registration failed!");
+			if (checkUserByUsername != null && checkUserByEmail != null && checkUserByMobileNumber != null) {
+				response.setResponseBody("Given username, email and mobile number maybe exist, Registration failed!");
+				response.setResponseStatus(false);
+
+				return response;
+
+			} else if (checkUserByUsername != null && checkUserByEmail != null) {
+
+				response.setResponseBody("Given username and email maybe exist, Registration failed!");
+				response.setResponseStatus(false);
+
+				return response;
+
+			} else if (checkUserByUsername != null && checkUserByMobileNumber != null) {
+
+				response.setResponseBody("Given username and mobile number maybe exist, Registration failed!");
+				response.setResponseStatus(false);
+
+				return response;
+
+			} else if (checkUserByEmail != null && checkUserByMobileNumber != null) {
+
+				response.setResponseBody("Given email and mobile number maybe exist, Registration failed!");
 				response.setResponseStatus(false);
 
 				return response;
 			}
 
-			else {
+			else if (checkUserByUsername != null) {
+
+				response.setResponseBody("Given username maybe exist, Registration failed!");
+				response.setResponseStatus(false);
+
+				return response;
+
+			} else if (checkUserByEmail != null) {
+
+				response.setResponseBody("Given email maybe exist, Registration failed!");
+				response.setResponseStatus(false);
+
+				return response;
+
+			} else if (checkUserByMobileNumber != null) {
+
+				response.setResponseBody("Given mobile number maybe exist, Registration failed!");
+				response.setResponseStatus(false);
+
+				return response;
+
+			} else {
 
 				User user = new User();
 
