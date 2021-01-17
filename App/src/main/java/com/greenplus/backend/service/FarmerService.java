@@ -183,9 +183,12 @@ public class FarmerService {
 		shopDetailsResponse.setCreatedDate(shop.getCreatedDate());
 		shopDetailsResponse.setDeliveryDays(shop.getDeliveryDays());
 		shopDetailsResponse.setShopStatus(shop.isShopStatus());
-		shopDetailsResponse.setPictureName(shop.getShopPicture().getName());
-		shopDetailsResponse.setPictureType(shop.getShopPicture().getType());
-		shopDetailsResponse.setPictureBytes(uncompressPictureBytes(shop.getShopPicture().getPictureBytes()));
+
+		if (shop.getShopPicture() != null) {
+			shopDetailsResponse.setPictureName(shop.getShopPicture().getName());
+			shopDetailsResponse.setPictureType(shop.getShopPicture().getType());
+			shopDetailsResponse.setPictureBytes(uncompressPictureBytes(shop.getShopPicture().getPictureBytes()));
+		}
 
 		return shopDetailsResponse;
 	}
@@ -423,6 +426,5 @@ public class FarmerService {
 		} else {
 			return null;
 		}
-
 	}
 }
