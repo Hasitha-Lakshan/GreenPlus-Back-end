@@ -186,9 +186,12 @@ public class UserManagementService {
 
 				List<Shop> shops = shopRepository.findByShopStatus(true);
 
-				for (Shop shop : shops) {
-					shop.setShopStatus(false);
-					shopRepository.save(shop);
+				if (shops != null && !shops.isEmpty()) {
+
+					for (Shop shop : shops) {
+						shop.setShopStatus(false);
+						shopRepository.save(shop);
+					}
 				}
 			}
 
@@ -196,9 +199,12 @@ public class UserManagementService {
 
 				List<BuyerRequest> buyerRequests = buyerRequestRepository.findByBuyerRequestStatus(true);
 
-				for (BuyerRequest buyerRequest : buyerRequests) {
-					buyerRequest.setBuyerRequestStatus(false);
-					buyerRequestRepository.save(buyerRequest);
+				if (buyerRequests != null && !buyerRequests.isEmpty()) {
+
+					for (BuyerRequest buyerRequest : buyerRequests) {
+						buyerRequest.setBuyerRequestStatus(false);
+						buyerRequestRepository.save(buyerRequest);
+					}
 				}
 			}
 
