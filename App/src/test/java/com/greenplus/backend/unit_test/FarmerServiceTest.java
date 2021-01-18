@@ -54,7 +54,7 @@ public class FarmerServiceTest {
 	public void shopCreatingTest() throws IOException {
 
 		MultipartFile shopPicture = new MockMultipartFile("test_file_name", "test_original_file_name", "image/PNG",
-				new byte[] { (byte) 0xe0 });
+				new byte[1048576]);
 
 		ShopCreatingRequest shopCreatingRequest = new ShopCreatingRequest();
 

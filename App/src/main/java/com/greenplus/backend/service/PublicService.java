@@ -53,9 +53,13 @@ public class PublicService {
 		shopCardDetailsResponse.setPriceOfOneUnit(shop.getPriceOfOneUnit());
 		shopCardDetailsResponse.setLocation(shop.getLocation());
 		shopCardDetailsResponse.setCreatedDate(shop.getCreatedDate());
-		shopCardDetailsResponse.setPictureName(shop.getShopPicture().getName());
-		shopCardDetailsResponse.setPictureType(shop.getShopPicture().getType());
-		shopCardDetailsResponse.setPictureBytes(uncompressPictureBytes(shop.getShopPicture().getPictureBytes()));
+
+		if (shop.getShopPicture() != null) {
+
+			shopCardDetailsResponse.setPictureName(shop.getShopPicture().getName());
+			shopCardDetailsResponse.setPictureType(shop.getShopPicture().getType());
+			shopCardDetailsResponse.setPictureBytes(uncompressPictureBytes(shop.getShopPicture().getPictureBytes()));
+		}
 
 		return shopCardDetailsResponse;
 	}
@@ -85,9 +89,13 @@ public class PublicService {
 		shopDetailsPublicResponse.setDeliveryDays(shop.getDeliveryDays());
 		shopDetailsPublicResponse.setCreatedDate(shop.getCreatedDate());
 		shopDetailsPublicResponse.setUsername(shop.getUser().getUsername());
-		shopDetailsPublicResponse.setPictureName(shop.getShopPicture().getName());
-		shopDetailsPublicResponse.setPictureType(shop.getShopPicture().getType());
-		shopDetailsPublicResponse.setPictureBytes(uncompressPictureBytes(shop.getShopPicture().getPictureBytes()));
+
+		if (shop.getShopPicture() != null) {
+
+			shopDetailsPublicResponse.setPictureName(shop.getShopPicture().getName());
+			shopDetailsPublicResponse.setPictureType(shop.getShopPicture().getType());
+			shopDetailsPublicResponse.setPictureBytes(uncompressPictureBytes(shop.getShopPicture().getPictureBytes()));
+		}
 
 		return shopDetailsPublicResponse;
 	}
