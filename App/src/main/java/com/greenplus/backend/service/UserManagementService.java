@@ -137,7 +137,7 @@ public class UserManagementService {
 			Optional<User> optiobalUserByMobileNumber = userRepository
 					.findBymobileNumber(userDetailsUpdateRequest.getMobileNumber());
 
-			if (user.getUsername().equals(userByMobileNumber.getUsername()) || (optiobalUserByMobileNumber.isEmpty())) {
+			if ((userByMobileNumber != null && user.getUsername().equals(userByMobileNumber.getUsername())) || (optiobalUserByMobileNumber.isEmpty())) {
 
 				user.setFirstName(userDetailsUpdateRequest.getFirstName());
 				user.setLastName(userDetailsUpdateRequest.getLastName());
